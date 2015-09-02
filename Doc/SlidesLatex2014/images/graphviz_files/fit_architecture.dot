@@ -1,0 +1,41 @@
+digraph g {
+    graph [
+        rankdir = "LR"
+    ];
+    node [
+        fontsize = "16"
+        shape = "record"
+    ];
+
+
+    "Chercheur 1" [ shape = "ellipse"];
+    "Chercheur 2" [ shape = "ellipse"];
+    "Chercheur 3" [ shape = "ellipse"];
+    "Chercheur 4" [ shape = "ellipse"];
+    "Chercheur 1" -> "Interface Web" [minlen=4]
+    "Chercheur 2" -> "Interface Web" [minlen=4]
+    "Chercheur 3" -> "Interface Web" [minlen=4]
+    "Chercheur 4" -> "Interface Web" [minlen=4]
+
+    "EH Rennes" [ label = "Serveur en Java | Rennes" ];
+    "EH Grenoble" [ label = "Serveur en Java | Grenoble" ];
+    "EH Strasbourg" [ label = "Serveur en Java | Strasbourg" ];
+    "Interface Web" -> "EH Grenoble"
+    "Interface Web" -> "EH Rennes"
+    "Interface Web" -> "EH Strasbourg"
+
+    "Nœuds Rennes…" [shape=ellipse]
+    "Nœud 1" [shape=ellipse]
+    "Nœud 2" [shape=ellipse]
+    "Nœud 3" [shape=ellipse]
+    "Nœud…" [shape=ellipse]
+    "Nœuds Strasbourg…" [shape=ellipse]
+
+    "EH Rennes" -> "Nœuds Rennes…" [minlen=2]
+    "EH Grenoble" -> "Nœud 1" [minlen=2]
+    "EH Grenoble" -> "Nœud 2" [minlen=2]
+    "EH Grenoble" -> "Nœud 3" [minlen=2]
+    "EH Grenoble" -> "Nœud…" [minlen=2]
+    "EH Strasbourg" -> "Nœuds Strasbourg…" [minlen=2]
+
+}
