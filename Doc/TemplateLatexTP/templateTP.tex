@@ -259,11 +259,133 @@
 \tableofcontents
 %\newpage
 
+
 %----------------------------------------------------------------------------------------
 %	PROBLEM 1
 %----------------------------------------------------------------------------------------
 
 % To have just one problem per page, simply put a \clearpage after each problem
+\begin{homeworkProblem}
+
+\subsection{Setup}
+
+Clone the git repository from inria forge and create your own branch
+\begin{lstlisting}
+git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
+cd tpcisedra/java
+git checkout -b <yournamehere>
+\end{lstlisting}
+
+The project is made up of:
+\begin{itemize}
+\item A Maven ``Project Object Model'' file pom.xml
+\item A class Sphere and its test class SphereTest
+\end{itemize}
+
+Check that you can build the project
+\begin{lstlisting}
+mvn package
+\end{lstlisting}
+
+You should see these lines (among others):
+\begin{lstlisting}
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+\end{lstlisting}
+
+
+
+%--------------------------------------
+\subsection{Testing your code}
+
+Run the (single) test
+\begin{lstlisting}
+mvn test
+\end{lstlisting}
+
+You should see something like
+\begin{lstlisting}
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running fr.inria.sed.SphereTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+\end{lstlisting}
+
+Have a look at the code of Sphere::computeVolume()
+\begin{lstlisting}
+public double computeVolume1() {
+  return 4 * Math.PI * Math.pow(radius_, 3) / 3;
+}
+\end{lstlisting}
+We might want \verb?4 * Math.PI / 3? to be computed once and for all.
+
+Extract this value into a class data member and run the test again, it should fail:
+
+\begin{lstlisting}
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running fr.inria.sed.SphereTest
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.076 sec <<< FAILURE!
+
+Results :
+
+Failed tests:   testComputeVolume(fr.inria.sed.SphereTest):
+    expected:<14.137166941154069> but was:<14.137166941154067>
+
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+\end{lstlisting}
+This is because of floating point arithmetics \emph{rouding errors}.
+
+Our response to this issue strongly depends on what kind of application we are working on.
+In some cases, we want to be aware that something has changed, even when the change is the tiniest.
+In that case, the test we already have is just what we want.
+
+In other cases however, we need not worry about such a small difference and hence don't want to be bothered by our tests complaining.
+Find a way to deal with the latter case.
+
+
+
+%--------------------------------------
+\subsection{Test Coverage}
+Very well, all our tests pass, but what does that mean regarding our application ?
+Not much you may say, but can you quantify it and will you be able to tell on a real project ?
+
+This is when test coverage becomes handy.
+
+run the following maven command:
+\begin{lstlisting}
+mvn cobertura:cobertura
+\end{lstlisting}
+You can then visualize the results in the reporting local website
+\begin{lstlisting}
+iceweasel target/site/cobertura/index.html &
+\end{lstlisting}
+Populate your tests to achieve 100\% test coverage.
+
+
+\begin{lstlisting}
+\end{lstlisting}
+\end{homeworkProblem}
+
+\clearpage
+
+
+
 
 \begin{homeworkProblem}
 Listing \ref{homework_example} shows a Perl script.
