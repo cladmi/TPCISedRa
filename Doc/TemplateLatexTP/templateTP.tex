@@ -269,20 +269,20 @@
 
 \subsection{Setup}
 
-Clone the git repository from inria forge and create your own branch
+\subsubsection{Clone the git repository from inria forge and create your own branch}
 \begin{lstlisting}
 git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
 cd tpcisedra/java
 git checkout -b <yournamehere>
 \end{lstlisting}
-
+%\vspace{1em}
 The project is made up of:
 \begin{itemize}
 \item A Maven ``Project Object Model'' file pom.xml
 \item A class Sphere and its test class SphereTest
 \end{itemize}
 
-Check that you can build the project
+\subsubsection{Check that you can build the project}
 \begin{lstlisting}
 mvn package
 \end{lstlisting}
@@ -299,7 +299,7 @@ You should see these lines (among others):
 %--------------------------------------
 \subsection{Testing your code}
 
-Run the (single) test
+\subsubsection{Run the (single) test}
 \begin{lstlisting}
 mvn test
 \end{lstlisting}
@@ -321,7 +321,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 [INFO] ------------------------------------------------------------------------
 \end{lstlisting}
 
-Have a look at the code of Sphere::computeVolume()
+\subsubsection{Have a look at the code of Sphere::computeVolume()}
 \begin{lstlisting}
 public double computeVolume1() {
   return 4 * Math.PI * Math.pow(radius_, 3) / 3;
@@ -329,8 +329,7 @@ public double computeVolume1() {
 \end{lstlisting}
 We might want \verb?4 * Math.PI / 3? to be computed once and for all.
 
-Extract this value into a class data member and run the test again, it should fail:
-
+\subsubsection{Extract this value into a class data member and run the test again, it should fail:}
 \begin{lstlisting}
 -------------------------------------------------------
  T E S T S
@@ -363,22 +362,104 @@ Find a way to deal with the latter case.
 %--------------------------------------
 \subsection{Test Coverage}
 Very well, all our tests pass, but what does that mean regarding our application ?
-Not much you may say, but can you quantify it and will you be able to tell on a real project ?
+Not much you may say, since we only have one very simple test. But can you quantify it and how will you tell on a real project ?
 
 This is when test coverage becomes handy.
 
-run the following maven command:
+\subsubsection{Run the following maven command:}
 \begin{lstlisting}
 mvn cobertura:cobertura
 \end{lstlisting}
-You can then visualize the results in the reporting local website
+You can then visualize the results in an ad-hoc microsite
 \begin{lstlisting}
 iceweasel target/site/cobertura/index.html &
 \end{lstlisting}
-Populate your tests to achieve 100\% test coverage.
 
+\subsubsection{Populate your tests to achieve 100\% test coverage.}
 
+\subsubsection{[Optional] Integrate cobertura to your reporting local website}
+Add the following to your pom.xml
 \begin{lstlisting}
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+    </plugins>
+  </reporting>
+\end{lstlisting}
+The report generation is now included in the build lifecycle (``site'' phase). To generate and visualize it:
+\begin{lstlisting}
+mvn site
+iceweasel target/site/project-reports.html &
+\end{lstlisting}
+
+
+\subsubsection{Let's add a new class (Alphabet) and its test class AlphabetTest to our project}
+\begin{lstlisting}
+git merge alpha
+\end{lstlisting}
+
+\subsubsection{Generate and visualize the corresponding coverage report}
+
+\subsubsection{Make what changes are necessary to achieve 100\% test coverage}
+Hint: you may not need any additional tests ;)
+
+
+
+%--------------------------------------
+\subsection{Stylecheck}
+
+\subsubsection{Let's try and run a style checker:}
+\begin{lstlisting}
+mvn checkstyle:checkstyle
+\end{lstlisting}
+We get plenty of errors with the default style \verb?sun_checks.xml?.
+
+Our coding style is close to google style than it is to sun style.
+
+\subsubsection{Try running with google checks (provided by the plugin)}
+\begin{lstlisting}
+mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
+\end{lstlisting}
+NOTE: this can also be achieved by adding the following lines to your pom.xml:
+\begin{lstlisting}
+  <properties>
+    <checkstyle.config.location>checkstyle-test.xml</checkstyle.config.location>
+  </properties>
+\end{lstlisting}
+It's getting better but we might want to make a few changes to this default.
+
+\subsubsection{Retrieve a local copy of google checks}
+\begin{lstlisting}
+wget https://raw.githubusercontent.com/checkstyle/checkstyle/
+     18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
+mv google_checks.xml  accordingly
+\end{lstlisting}
+
+\subsubsection{Modify it so that it accepts single character parameter names}
+You may also consider removing trailing underscores from data members or amending checkstyle.xml
+
+
+\subsubsection{[Optional] Integrate checkstyle to your reporting local website}
+Add the following to your pom.xml
+\begin{lstlisting}
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.16</version>
+      </plugin>
+    </plugins>
+  </reporting>
+\end{lstlisting}
+The report generation is now included in the build lifecycle (``site'' phase). To generate and visualize it:
+\begin{lstlisting}
+mvn site
+iceweasel target/site/project-reports.html &
 \end{lstlisting}
 \end{homeworkProblem}
 
