@@ -276,7 +276,7 @@ So make sure you install \texttt{Maven} tool and that your \texttt{Java} environ
 
 \subsection{Setup}
 
-Clone the git repository from inria forge and create your own branch
+\subsubsection{Clone the git repository from inria forge and create your own branch}
 \begin{lstlisting}
 $ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
 $ cd tpcisedra/java
@@ -315,7 +315,7 @@ The project is made up of :
 \item A file \texttt{SphereTest.java} implementing its test class \texttt{SphereTest}.
 \end{itemize}
 
-Check that you can build the project
+\subsubsection{Check that you can build the project}
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
@@ -334,7 +334,7 @@ You should see these lines (among others):
 %--------------------------------------
 \subsection{Testing your code}
 
-Run the (single) test
+\subsubsection{Run the (single) test}
 \begin{lstlisting}
 $ mvn test
 \end{lstlisting}
@@ -371,7 +371,7 @@ public double computeVolume1() {
 
 We might want the value : \verb?4 * Math.PI / 3? to be computed once and for all.
 
-TODO :
+TODO : 
 \begin{itemize}
 \item Extract this value into a class data member
 \item Run the test again. It should fail.
@@ -424,7 +424,9 @@ At this stage, all our tests pass. But what does that mean regarding our applica
 Not much you may say, but can you quantify it and will you be able to tell on a real project ?
 
 This is when \textbf{test coverage} becomes handy.
-\\
+
+\subsubsection{Run test coverage}
+
 Run the following \texttt{maven} command :
 \begin{lstlisting}
 $ pwd 
@@ -435,22 +437,144 @@ $ mvn cobertura:cobertura
 Cobertura should have produced test coverage results in the following directory :\\
 \texttt{yourpath/tpcisedra/java/target/site/cobertura}
 
-\begin{itemize}
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated results of the test coverage
+
+Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated results of the test coverage
 \begin{lstlisting}
 $ firefox target/site/cobertura/index.html &
 \end{lstlisting}
-\end{itemize}
 
 \subsubsection{Exercice 3}
 
-TODO:
 \begin{itemize}
-\item Populate your tests to achieve 100\% test coverage.
+\item Populate your tests to achieve 100\% test coverage.\\
+Hint: you may not need any additional tests ;)
 \end{itemize}
 
+
+\subsubsection{[Optional] Integrate cobertura to your reporting local website}
+
+Add the following to the file  \texttt{pom.xml}
 \begin{lstlisting}
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+    </plugins>
+  </reporting>
 \end{lstlisting}
+
+The report generation is now included in the build lifecycle (``site'' phase).
+
+\subsubsection{Exercice 3bis}
+
+\begin{itemize}
+\item To generate the report :
+\begin{lstlisting}
+$ pwd
+yourpath/tpcisedra/java
+$ mvn site
+\end{lstlisting}
+
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report :
+\begin{lstlisting}
+iceweasel target/site/project-reports.html &
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{Add some new class to our project}
+
+Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project
+\begin{lstlisting}
+$ git merge alpha
+\end{lstlisting}
+
+
+\subsubsection{Exercice 4}
+\begin{itemize}
+\item Generate and visualize the corresponding coverage report
+\item Make what changes are necessary to achieve 100\% test coverage
+\end{itemize}
+
+%--------------------------------------
+\subsection{Stylecheck}
+
+\subsubsection{Run a style checker}
+
+Let's try and run a style checker :
+\begin{lstlisting}
+$ pwd 
+yourpath/tpcisedra/java
+$ mvn checkstyle:checkstyle
+\end{lstlisting}
+We get plenty of errors with the default style \verb?sun_checks.xml?.
+
+Our coding style is close to Google style than it is to Sun style.
+
+\subsubsection{Run Google style checker}
+
+Try running with Google checks (provided by the plugin)
+\begin{lstlisting}
+$ pwd 
+yourpath/tpcisedra/java
+$ mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
+\end{lstlisting}
+NOTE: this can also be achieved by adding the following lines to your pom.xml:
+\begin{lstlisting}
+  <properties>
+    <checkstyle.config.location>checkstyle-test.xml</checkstyle.config.location>
+  </properties>
+\end{lstlisting}
+
+It's getting better but we might want to make a few changes to this default behaviour.
+
+\subsubsection{Exercice 5}
+
+\begin{itemize}
+\item Retrieve a local copy of google checks
+\begin{lstlisting}
+$ wget https://raw.githubusercontent.com/checkstyle/checkstyle/
+     18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
+\end{lstlisting}
+\item  Modify the file \texttt{google\_checks.xml} so that it accepts single character
+parameter names.
+\item You may also consider removing trailing underscores from data members or amending checkstyle.xml
+\end{itemize}
+
+\subsubsection{[Optional] Integrate checkstyle to your reporting local website}
+
+Add the following to the file \texttt{pom.xml}
+\begin{lstlisting}
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.16</version>
+      </plugin>
+    </plugins>
+  </reporting>
+\end{lstlisting}
+
+The check style report is now included in the build lifecycle (``site'' phase).
+
+\subsubsection{Exercice 5bis}
+
+\begin {itemize}
+\item To generate the report :
+\begin{lstlisting}
+$ pwd
+yourpath/tpcisedra/java
+$ mvn site
+\end{lstlisting}
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report :
+\begin{lstlisting}
+$ firefox target/site/project-reports.html &
+\end{lstlisting}
+\end{itemize}
+
 \end{homeworkProblem}
 
 \clearpage
@@ -459,14 +583,14 @@ TODO:
 
 
 \begin{homeworkProblem}[Python Exercice]
-\lipsum[1]
+%%\lipsum[1]
 
-Listing \ref{Sphere} shows a Java program.
-\javascript{Sphere}{Sample Java program with Highlighting}
+%%Listing \ref{Sphere} shows a Java program.
+%%\javascript{Sphere}{Sample Java program with Highlighting}
 
-Another program example for Python
-Listing \ref{Python_example} shows a Python program.
-\pythonscript{Python_example}{Sample Python program with highlighting}
+%%Another program example for Python
+%%Listing \ref{Python_example} shows a Python program.
+%%\pythonscript{Python_example}{Sample Python program with highlighting}
 
 
 \end{homeworkProblem}
@@ -476,65 +600,65 @@ Listing \ref{Python_example} shows a Python program.
 %----------------------------------------------------------------------------------------
 
 \begin{homeworkProblem}[C++ Exercice]
-\lipsum[2]
-
-Extract from C++ program
-\begin{lstlisting}[name=Function Test, frame=trBL]
-#include <iostream>
-#include <basetsd.h>
-#include <iomanip>
-#include <cstdlib>
-using namespace std;
- 
-union FloatNum //Here the tag name (FloatNum) is redundant.
- {
-   float fx;//4 bytes variable
-   long  lx;//4 bytes variable
- }fn;
- 
-union DoubleNum
- {
-   double dx;  //8 bytes variable
-   LONG64 lx;  //8 bytes variable
- }dn;
- 
-union LongDoubleNum
- {
-   long double dx;  //12 bytes variable
-   long  lx[3]; // 3 * 4 bytes variable
- }ldn;
- 
-int main()
-{
-    fn.fx = -118.6253433; //variable assignment declaration statement
-    //show size of float
-    cout << "\nsize of float = " << dec << sizeof(fn.fx) << endl;
-    cout << setprecision(10) << fn.fx << " = 0x" << hex << fn.lx << endl;
- 
-    dn.dx =  112.6255678;  //assign value to a variable
-    //show size of double
-    cout << "\nsize of double = " << dec << sizeof(dn.dx) << endl;
-    cout << dn.dx <<"  = 0x" << hex << dn.lx << endl;
- 
-    ldn.dx = -12.61256125;  //assign value to a variable
-    //show size of long double
-    cout << "\nsize of long double = " << dec << sizeof(ldn.dx) << endl;
-    cout << setprecision(10) << ldn.dx << " = 0x" 
-         <<  hex << ldn.lx[2] << ldn.lx[1] << ldn.lx[0] << endl;
-    return 0;
-}
-\end{lstlisting}
 
 
-\problemAnswer{
+%%Extract from C++ program
+%%\begin{lstlisting}[name=Function Test, frame=trBL]
+%%#include <iostream>
+%%#include <basetsd.h>
+%%#include <iomanip>
+%%#include <cstdlib>
+%%using namespace std;
+%% 
+%%union FloatNum //Here the tag name (FloatNum) is redundant.
+%% {
+%%   float fx;//4 bytes variable
+%%   long  lx;//4 bytes variable
+%% }fn;
+%% 
+%%union DoubleNum
+%% {
+%%   double dx;  //8 bytes variable
+%%   LONG64 lx;  //8 bytes variable
+%% }dn;
+%% 
+%%union LongDoubleNum
+%% {
+%%   long double dx;  //12 bytes variable
+%%   long  lx[3]; // 3 * 4 bytes variable
+%% }ldn;
+%% 
+%%int main()
+%%{
+%%    fn.fx = -118.6253433; //variable assignment declaration statement
+%%   //show size of float
+%%    cout << "\nsize of float = " << dec << sizeof(fn.fx) << endl;
+%%    cout << setprecision(10) << fn.fx << " = 0x" << hex << fn.lx << endl;
+%%
+%%    dn.dx =  112.6255678;  //assign value to a variable
+%%    //show size of double
+%%    cout << "\nsize of double = " << dec << sizeof(dn.dx) << endl;
+%%    cout << dn.dx <<"  = 0x" << hex << dn.lx << endl;
+%%
+%%    ldn.dx = -12.61256125;  //assign value to a variable
+%%    //show size of long double
+%%    cout << "\nsize of long double = " << dec << sizeof(ldn.dx) << endl;
+%%    cout << setprecision(10) << ldn.dx << " = 0x" 
+%%         <<  hex << ldn.lx[2] << ldn.lx[1] << ldn.lx[0] << endl;
+%%    return 0;
+%%}
+%%\end{lstlisting}
 
-Answer
-\begin{center}
-\includegraphics[width=0.75\columnwidth]{example_figure} % Example image
-\end{center}
 
-\lipsum[3-5]
-}
+%\problemAnswer{
+
+%Answer
+%\begin{center}
+%\includegraphics[width=0.75\columnwidth]{example_figure} % Example image
+%\end{center}
+
+%\lipsum[3-5]
+%}
 \end{homeworkProblem}
 
 %----------------------------------------------------------------------------------------
