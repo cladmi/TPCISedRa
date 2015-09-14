@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+add_library(tpsed SHARED HelloWorld.cpp Sphere.cpp)
+set_target_properties(tpsed PROPERTIES SOVERSION 1)
+enable_testing()
+add_subdirectory(tests)

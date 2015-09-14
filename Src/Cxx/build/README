@@ -1,0 +1,5 @@
+mkdir <num>
+cd <num>
+cmake ../../src/step<num>
+make
+make test
