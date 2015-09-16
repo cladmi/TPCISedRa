@@ -1,0 +1,5 @@
+#! /usr/bin/env python
+# -*- coding:utf-8 -*-
+
+from abc_and_sphere import sphere
+sphere.main()
