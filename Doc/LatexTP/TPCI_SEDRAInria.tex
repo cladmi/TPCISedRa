@@ -10,11 +10,11 @@
 %
 % Note:
 % The \lipsum[#] commands throughout this template generate dummy text
-% to fill the template out. These commands should all be removed when 
+% to fill the template out. These commands should all be removed when
 % writing assignment content.
 %
 % This template uses a Perl script as an example snippet of code, most other
-% languages are also usable. Configure them in the "CODE INCLUSION 
+% languages are also usable. Configure them in the "CODE INCLUSION
 % CONFIGURATION" section.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,7 +72,7 @@
         keywordstyle=[1]\color{Blue}\bf, % functions bold and blue
         keywordstyle=[2]\color{Purple}, % function arguments purple
         keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
-        identifierstyle=, % Nothing special about identifiers                                         
+        identifierstyle=, % Nothing special about identifiers
         commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
         stringstyle=\color{Purple}, % Strings are purple
         showstringspaces=false, % Don't put marks in string spaces
@@ -90,7 +90,7 @@
         keywordstyle=[1]\color{Blue}\bf, % functions bold and blue
         keywordstyle=[2]\color{Purple}, %  function arguments purple
         keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
-        identifierstyle=, % Nothing special about identifiers                                         
+        identifierstyle=, % Nothing special about identifiers
         commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
         stringstyle=\color{Purple}, % Strings are purple
         showstringspaces=false, % Don't put marks in string spaces
@@ -108,7 +108,7 @@
         keywordstyle=[1]\color{Blue}\bf, % functions bold and blue
         keywordstyle=[2]\color{Purple}, % function arguments purple
         keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
-        identifierstyle=, % Nothing special about identifiers                                         
+        identifierstyle=, % Nothing special about identifiers
         commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
         stringstyle=\color{Purple}, % Strings are purple
         showstringspaces=false, % Don't put marks in string spaces
@@ -127,7 +127,7 @@
         keywordstyle=[1]\color{Blue}\bf, % Perl functions bold and blue
         keywordstyle=[2]\color{Purple}, % Perl function arguments purple
         keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
-        identifierstyle=, % Nothing special about identifiers                                         
+        identifierstyle=, % Nothing special about identifiers
         commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
         stringstyle=\color{Purple}, % Strings are purple
         showstringspaces=false, % Don't put marks in string spaces
@@ -280,7 +280,7 @@ So make sure you install \texttt{Maven} tool and that your \texttt{Java} environ
 
 \subsubsection{Clone the git repository from inria forge and create your own branch}
 \begin{lstlisting}
-$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
+$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git
 $ cd tpcisedra/java
 $ git checkout -b <yournamehere>
 \end{lstlisting}
@@ -373,11 +373,11 @@ public double computeVolume1() {
 
 We might want the value : \verb?4 * Math.PI / 3? to be computed once and for all.
 
-TODO : 
+TODO :
 \begin{itemize}
 \item Extract this value into a class data member
 \item Run the test again. It should fail.
-\end{itemize} 
+\end{itemize}
 
 Here is the output you should get :
 \begin{lstlisting}
@@ -431,7 +431,7 @@ This is when \textbf{test coverage} becomes handy.
 
 Run the following \texttt{maven} command :
 \begin{lstlisting}
-$ pwd 
+$ pwd
 yourpath/tpcisedra/java
 $ mvn cobertura:cobertura
 \end{lstlisting}
@@ -507,7 +507,7 @@ $ git merge alpha
 
 Let's try and run a style checker :
 \begin{lstlisting}
-$ pwd 
+$ pwd
 yourpath/tpcisedra/java
 $ mvn checkstyle:checkstyle
 \end{lstlisting}
@@ -519,7 +519,7 @@ Our coding style is close to Google style than it is to Sun style.
 
 Try running with Google checks (provided by the plugin)
 \begin{lstlisting}
-$ pwd 
+$ pwd
 yourpath/tpcisedra/java
 $ mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
 \end{lstlisting}
@@ -659,7 +659,7 @@ A big value of Jenkins is the ability to nicely present your tests results.
 The tools used to run tests and code quality where selected because they have output files compatible with Jenkins plugins.
 
 \begin{description}
-\item[Note] 
+\item[Note]
 This selection may look restrictive, but it also means that the tools are indeed used by many developers and that it is
 not only a one man written test script.
 \end{description}
@@ -692,14 +692,14 @@ These output parsing is managed in \texttt{Add post-build action}.
 \end{description}
 
 As source files are not based at root directory Cobertura fails to locate source
-files. 
+files.
 
 A solution is to create a symlink to the source directory :
 \begin{itemize}
   \item Add a build step \texttt{Execute shell} with:
 \begin{lstlisting}
 # Hack to help cobertura find source files
-ln  -nfs Src/python/abc\_and\_sphere  abc\_and\_sphere
+ln  -nfs Src/python/abc_and_sphere  abc_and_sphere
 \end{lstlisting}
 \end{itemize}
 
@@ -709,6 +709,7 @@ ln  -nfs Src/python/abc\_and\_sphere  abc\_and\_sphere
 \item[Step \texttt{Scan for compiler warnings}]
   \begin{itemize}
   \item Scan console log add two parsers, one for \texttt{pylint} and another for \texttt{pep8}.
+  \item In advanced configuration, select 'Resolve relative paths', either the plugin doesn't find the source files as they are not in the root folder.
   \end{itemize}
 \end{description}
 
@@ -717,7 +718,7 @@ ln  -nfs Src/python/abc\_and\_sphere  abc\_and\_sphere
 
 \begin{description}
 \item[Step \texttt{Activate Chuck Norris}]
-It displays you Chuck Norris facts and a picture of Chuck adapted to your build result (seems like the picture is not displayed ?)
+It displays you Chuck Norris facts and a picture of Chuck adapted to your build result (seems like the picture is not displayed why ?)
 \end{description}
 
 
@@ -742,7 +743,7 @@ multiple builds to create graphs.
 \subsection{Pylint/PEP8}
 
 \begin{itemize}
-\item The per file output didn't work ? Why ?
+\item Click on Pylint/PEP8 reports and see the errors in the source files.
 \end{itemize}
 
 
@@ -797,25 +798,25 @@ Send mails on build failure:
 %%#include <iomanip>
 %%#include <cstdlib>
 %%using namespace std;
-%% 
+%%
 %%union FloatNum //Here the tag name (FloatNum) is redundant.
 %% {
 %%   float fx;//4 bytes variable
 %%   long  lx;//4 bytes variable
 %% }fn;
-%% 
+%%
 %%union DoubleNum
 %% {
 %%   double dx;  //8 bytes variable
 %%   LONG64 lx;  //8 bytes variable
 %% }dn;
-%% 
+%%
 %%union LongDoubleNum
 %% {
 %%   long double dx;  //12 bytes variable
 %%   long  lx[3]; // 3 * 4 bytes variable
 %% }ldn;
-%% 
+%%
 %%int main()
 %%{
 %%    fn.fx = -118.6253433; //variable assignment declaration statement
@@ -831,7 +832,7 @@ Send mails on build failure:
 %%    ldn.dx = -12.61256125;  //assign value to a variable
 %%    //show size of long double
 %%    cout << "\nsize of long double = " << dec << sizeof(ldn.dx) << endl;
-%%    cout << setprecision(10) << ldn.dx << " = 0x" 
+%%    cout << setprecision(10) << ldn.dx << " = 0x"
 %%         <<  hex << ldn.lx[2] << ldn.lx[1] << ldn.lx[0] << endl;
 %%    return 0;
 %%}
