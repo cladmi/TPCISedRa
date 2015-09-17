@@ -268,6 +268,8 @@
 % To have just one problem per page, simply put a \clearpage after each problem
 \begin{homeworkProblem}[Java Exercice]
 
+\section{Local Test Part}
+
 \subsection{Preamble}
 
 For the Java exercice, we take advantage of Maven environment for building and testing.
@@ -575,6 +577,7 @@ $ firefox target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
+\section{Continuous Integration Part}
 \end{homeworkProblem}
 
 \clearpage
@@ -584,6 +587,8 @@ $ firefox target/site/project-reports.html &
 
 \begin{homeworkProblem}[Python Exercice]
 
+\section{Local Test Part}
+\section{Continuous Integration Part}
 \subsection{Validate on CI}
 
 At this point you have a your python project packaged with setup.py and tests
@@ -606,8 +611,7 @@ brings errors in scripts to have path with spaces.
 
 \begin{itemize}
 \item Go to \texttt{Source Code Management} and choose \texttt{Git}
-\item Put the anonymous git url of the repository `<ADD_URL_HERE>` and select your
-branch name `*/branch_name`.
+\item Put the anonymous git url of the repository \texttt{ADD\_URL\_HERE} and select your branch name \texttt{*/branch\_name}.
 \end{itemize}
 
 \subsubsection{Build Step}
@@ -654,9 +658,11 @@ A big value of Jenkins is the ability to nicely present your tests results.
 
 The tools used to run tests and code quality where selected because they have output files compatible with Jenkins plugins.
 
-\textbf{Note:}
+\begin{description}
+\item[Note] 
 This selection may look restrictive, but it also means that the tools are indeed used by many developers and that it is
 not only a one man written test script.
+\end{description}
 
 \begin{itemize}
 \item \texttt{nosetests} outputs as a JUnit compatible XML: \texttt{nosetests.xml}
@@ -664,89 +670,107 @@ not only a one man written test script.
 \item \texttt{pylint} and \texttt{pep8} output is recognized by 'warnings' and 'violations' plugins.
 \end{itemize}
 
-These output parsing is managed in 'Add post-build action'.
-
-> Maybe print the real plugins names here
-
+These output parsing is managed in \texttt{Add post-build action}.
+%% Maybe print the real plugins names here
 
 \subsection{Add tests results feedback}
 
-Step `Publish JUnit test result report`
-
-Test report xml: `**/*tests.xml` to scan for all files ending with 'tests.xml'
-
+\begin{description}
+\item[Step \texttt{Publish JUnit test result report}]
+\begin{itemize}
+\item Test report xml: `**/*tests.xml` to scan for all files ending with 'tests.xml'
+\end{itemize}
+\end{description}
 
 \subsubsection{Add coverage feedback}
 
-Step `Publish Cobertura Coverage Report`
-
-Cobertura xml report pattern: `**/coverage.xml` to scan for all 'coverage.xml' files.
-
+\begin{description}
+\item[Step \texttt{Publish Cobertura Coverage Report}]
+  \begin{itemize}
+  \item Cobertura xml report pattern:  \texttt{**/coverage.xml} to scan for all  \texttt{coverage.xml} files.
+  \end{itemize}
+\end{description}
 
 As source files are not based at root directory Cobertura fails to locate source
-files. A solution is to create a symlink to the source directory:
+files. 
 
-Add a build step 'Execute shell' with:
+A solution is to create a symlink to the source directory :
+\begin{itemize}
+  \item Add a build step \texttt{Execute shell} with:
+\begin{lstlisting}
+# Hack to help cobertura find source files
+ln  -nfs Src/python/abc\_and\_sphere  abc\_and\_sphere
+\end{lstlisting}
+\end{itemize}
 
-    # Hack to help cobertura find source files
-    ln  -nfs Src/python/abc_and_sphere  abc_and_sphere
+\subsubsection{Add code quality output}
 
-
-### Add code quality output ###
-
-Step `Scan for compiler warnings`
-
-Scan console log add two parsers, one for `pylint` and another for `pep8`.
-
-
-### Code review by ChuckNorris ###
-
-Step `Activate Chuck Norris` it displays you Chuck Norris facts and a picture of
-Chuck adapted to your build result (seems like the picture is not displayed?)
-
-
-Save configuration.
+\begin{description}
+\item[Step \texttt{Scan for compiler warnings}]
+  \begin{itemize}
+  \item Scan console log add two parsers, one for \texttt{pylint} and another for \texttt{pep8}.
+  \end{itemize}
+\end{description}
 
 
-Analyze build output
---------------------
+\subsubsection{Code review by ChuckNorris}
 
-Build the project two times to get a nice displayed output. Plugins need
+\begin{description}
+\item[Step \texttt{Activate Chuck Norris}]
+It displays you Chuck Norris facts and a picture of Chuck adapted to your build result (seems like the picture is not displayed ?)
+\end{description}
+
+
+Do not forget to save configuration.
+
+
+\subsection{Analyze build output}
+
+\begin{itemize}
+\item Build the project two times to get a nice displayed output. Plugins need
 multiple builds to create graphs.
+\end{itemize}
 
 
-### Coverage Report ###
+\subsection{Coverage Report}
 
-Click on Coverage Report, you can then see per file coverage output.
-
-
-### Pylint/PEP8 ###
-
-? The per file output didn't work? Why?
+\begin{itemize}
+\item Click on Coverage Report, you can then see per file coverage output.
+\end{itemize}
 
 
+\subsection{Pylint/PEP8}
 
-Further steps
--------------
+\begin{itemize}
+\item The per file output didn't work ? Why ?
+\end{itemize}
 
-# TODO
+
+
+\subsection{Further steps}
+
+%% TODO
 
 Automatically run the build:
-
- * Never: you only run it manually (not recommended)
- * Periodically: Every night at 3AM may be enough if your code moves slowly
- * At each commit: with repository polling/ with git hook (see how...)
+\begin{itemize}
+\item  Never: you only run it manually (not recommended)
+\item Periodically: Every night at 3AM may be enough if your code moves slowly
+\item At each commit: with repository polling/ with git hook (see how...)
+\end{itemize}
 
 Send mails on build failure:
+\begin{itemize}
+\item  Howto do that ?
+\end{itemize}
 
- * Howto do that?
 
+\subsection{Improvements}
 
-Improvements
-------------
+\begin{itemize}
+\item Try fixing all your code to get perfect results outputs;*
+\item Use tox to run tests on python3 also and make your code compatible with.
+\end{itemize}
 
-* Try fixing all your code to get perfect results outputs.
-* Use tox to run tests on python3 also and make your code compatible with.
 %%\lipsum[1]
 
 %%Listing \ref{Sphere} shows a Java program.
