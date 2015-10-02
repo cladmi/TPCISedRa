@@ -278,11 +278,17 @@ So make sure you install \texttt{Maven} tool and that your \texttt{Java} environ
 
 \subsection{Setup}
 
-\subsubsection{Clone the git repository from inria forge and create your own branch}
+\subsubsection{Create a personal copy of the git repository from inria forge and clone it}
+Go to https://gforge.inria.fr/projects/tpcisedra/ \\
+Click on the ``SOURCE CODE'' tab \\
+Click on ``create a personal repository'' \\
+Back to the ``SOURCE CODE'' tab, look for the command to access your personal repository. \\
+WARNING: do not use the anonymous access (containing ``anonscm'') \\
+The correct command should look like this:
 \begin{lstlisting}
-$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git
-$ cd tpcisedra/java
-$ git checkout -b <yournamehere>
+$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/
+    users/<yourloginhere>.git 
+$ cd <yourloginhere>/java
 \end{lstlisting}
 
 \
