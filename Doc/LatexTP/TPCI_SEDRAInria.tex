@@ -619,6 +619,19 @@ Click ``Build Now'' in the menu on the left
 In the ``Build History'' on the left, click on the last build (hopefully \#1), then select ``Console Output'' \\
 You can also check the ``Test Result''
 
+\subsection{Adding feedback to your build}
+One of the good things with Jenkins is its ability to nicely present your test results. \\
+The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding Jenkins plugins.
+
+\subsubsection{Add coverage report}
+\begin{itemize}
+\item Go back to your item's configuration page (use the menu on the left)
+\item Replace your build's ``Goals and options'' with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
+\item Click on ``Add post-build action'' and select ``Publish Cobertura Coverage Report'' from the drop-down menu, your ``Cobertura xml report pattern'' is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
+\item Save and Run the test
+\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
+\end{itemize}
+
 \clearpage
 
 
