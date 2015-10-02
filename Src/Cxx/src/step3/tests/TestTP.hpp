@@ -12,11 +12,21 @@ private:
 
   CPPUNIT_TEST(testVolume);
 
+  CPPUNIT_TEST(testIsVowel);
+  CPPUNIT_TEST(testCountVowels);
+  CPPUNIT_TEST(testCountConsonants);
+
   CPPUNIT_TEST_SUITE_END();
 
   std::stringstream _buffer;
 
   void testVolume();
+
+  void testIsVowel();
+  void testCountVowels();
+  void testCountConsonants();
+
+  std::string ascii_table;
 
 public:
   void setUp();

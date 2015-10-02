@@ -10,13 +10,12 @@ private:
 
   CPPUNIT_TEST_SUITE(TestTP);
 
-  CPPUNIT_TEST(testPrint);
   CPPUNIT_TEST(testVolume);
 
   CPPUNIT_TEST_SUITE_END();
 
   std::stringstream _buffer;
-  void testPrint();
+
   void testVolume();
 
 public:
