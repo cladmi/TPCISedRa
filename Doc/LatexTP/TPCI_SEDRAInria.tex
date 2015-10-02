@@ -632,6 +632,15 @@ The tools we used to run tests and code quality checks have been selected based 
 \item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
 \end{itemize}
 
+\subsubsection{Add checkstyle report}
+\begin{itemize}
+\item Go back to your item's configuration page and add \\
+\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's ``Goals and options''
+\item Check the ``Publish Checkstyle analysis results'' box in ``Build Settings''
+\item Save and Run the test
+\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Checkstyle Warnings'', have a look at it
+\end{itemize}
+
 \clearpage
 
 
