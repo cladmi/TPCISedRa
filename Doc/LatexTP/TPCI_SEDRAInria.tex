@@ -596,7 +596,15 @@ Log in and click ``Dashboard''in the top menu \\
 You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button \\
 You may be prompted to log into jenkins, use the same login/passwd as for the ci portal
 
+\subsection{Running your first test on CI}
+From our Jenkins dashboard page (https://ci.inria.fr/tpcisedra/), click ``New Item'' in the menu on the left
+Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select ``Maven project''
 
+\subsubsection{Git configuration}
+In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field:
+\begin{lstlisting}
+https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/dparsons.git
+\end{lstlisting}
 \end{homeworkProblem}
 
 \clearpage
