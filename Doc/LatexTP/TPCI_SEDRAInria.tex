@@ -659,7 +659,7 @@ A big value of Jenkins is the ability to nicely present your tests results.
 The tools used to run tests and code quality where selected because they have output files compatible with Jenkins plugins.
 
 \begin{description}
-\item[Note]
+\item[Note :]
 This selection may look restrictive, but it also means that the tools are indeed used by many developers and that it is
 not only a one man written test script.
 \end{description}
@@ -676,7 +676,7 @@ These output parsing is managed in \texttt{Add post-build action}.
 \subsection{Add tests results feedback}
 
 \begin{description}
-\item[Step \texttt{Publish JUnit test result report}]
+\item[Step \texttt{Publish JUnit test result report}] \hfill \\
 \begin{itemize}
 \item Test report xml: `**/*tests.xml` to scan for all files ending with 'tests.xml'
 \end{itemize}
@@ -685,7 +685,7 @@ These output parsing is managed in \texttt{Add post-build action}.
 \subsubsection{Add coverage feedback}
 
 \begin{description}
-\item[Step \texttt{Publish Cobertura Coverage Report}]
+\item[Step \texttt{Publish Cobertura Coverage Report}] \hfill \\
   \begin{itemize}
   \item Cobertura xml report pattern:  \texttt{**/coverage.xml} to scan for all  \texttt{coverage.xml} files.
   \end{itemize}
@@ -706,7 +706,7 @@ ln  -nfs python/abc_and_sphere  abc_and_sphere
 \subsubsection{Add code quality output}
 
 \begin{description}
-\item[Step \texttt{Scan for compiler warnings}]
+\item[Step \texttt{Scan for compiler warnings}] \hfill \\
   \begin{itemize}
   \item Scan console log add two parsers, one for \texttt{pylint} and another for \texttt{pep8}.
   \item In advanced configuration, select 'Resolve relative paths', either the plugin doesn't find the source files as they are not in the root folder.
@@ -717,7 +717,7 @@ ln  -nfs python/abc_and_sphere  abc_and_sphere
 \subsubsection{Code review by ChuckNorris}
 
 \begin{description}
-\item[Step \texttt{Activate Chuck Norris}]
+\item[Step \texttt{Activate Chuck Norris}] \hfill \\
 It displays you Chuck Norris facts and a picture of Chuck adapted to your build result (seems like the picture is not displayed why ?)
 \end{description}
 
