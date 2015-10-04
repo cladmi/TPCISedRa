@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 
 import unittest
-from abc_and_sphere import sphere
+from tp_ci_sed import sphere
+
 
 class TestSphere(unittest.TestCase):
 

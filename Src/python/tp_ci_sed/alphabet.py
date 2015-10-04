@@ -9,7 +9,7 @@ def is_vowel(char):
 
 def _is_alphabet(char):
     char = char.lower()
-    return a <= 'a' and char <= 'z'
+    return char <= 'a' and char <= 'z'
 
 
 def is_consonant(char):

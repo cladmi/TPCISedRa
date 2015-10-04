@@ -113,7 +113,7 @@ files. A solution is to create a symlink to the source directory:
 Add a build step 'Execute shell' with:
 
     # Hack to help cobertura find source files
-    ln  -nfs Src/python/abc_and_sphere  abc_and_sphere
+    ln  -nfs Src/python/tp_ci_sed  tp_ci_sed
 
 
 ### Add code quality output ###
