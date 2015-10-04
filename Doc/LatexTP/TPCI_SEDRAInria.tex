@@ -228,6 +228,7 @@
 \newcommand{\hmwkClassInstructor}{} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Maurice Bremond, Gaetan Harter, David Parsons -- SED Inria Rhone-Alpes} % Your name
 
+
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -287,12 +288,12 @@ WARNING: do not use the anonymous access (containing ``anonscm'') \\
 The correct command should look like this:
 \begin{lstlisting}
 $ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/
-    users/<yourloginhere>.git 
+    users/<yourloginhere>.git
 $ cd <yourloginhere>/java
 \end{lstlisting}
 
 \
-You should have retrieved the following file tree :\\
+You should have retrieved the following file tree:\\
 {\centering\small
             \begin{minipage}[t]{0.3\linewidth}
 \dirtree{%
@@ -316,7 +317,7 @@ You should have retrieved the following file tree :\\
 }
 
 
-The project is made up of :
+The project is made up of:
 \begin{itemize}
 \item A Maven ``Project Object Model'' file named \texttt{pom.xml};
 \item A file \texttt{Sphere.java} implementing the class \texttt{Sphere};
@@ -369,7 +370,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 Have a look at the code of the method \texttt{Sphere::computeVolume()}.\\
 To do so, edit \texttt{tpcisedra/java/src/main/java/fr/inria/sed/Sphere.java}.
 
-The code should be like that :
+The code should be like that:
 \begin{lstlisting}
 public double computeVolume1() {
   return 4 * Math.PI * Math.pow(radius_, 3) / 3;
@@ -377,15 +378,15 @@ public double computeVolume1() {
 \end{lstlisting}
 
 
-We might want the value : \verb?4 * Math.PI / 3? to be computed once and for all.
+We might want the value: \verb?4 * Math.PI / 3? to be computed once and for all.
 
-TODO :
+TODO:
 \begin{itemize}
 \item Extract this value into a class data member
 \item Run the test again. It should fail.
 \end{itemize}
 
-Here is the output you should get :
+Here is the output you should get:
 \begin{lstlisting}
 -------------------------------------------------------
  T E S T S
@@ -411,13 +412,13 @@ Why does the test in \texttt{SphereTest.java} fail ?
 
 This is because of floating point arithmetics \emph{rouding errors}.
 
-Our response to this issue strongly depends on what kind of application we are working on :
+Our response to this issue strongly depends on what kind of application we are working on:
 \begin{itemize}
 \item In some cases, we want to be aware that something has changed, even when the change is the tiniest. In that case, the test we already have is just what we want.
 \item In other cases, we need not worry about such a small difference and hence do not want to be bothered by tests complaining.
 \end{itemize}
 
-TODO :
+TODO:
 \begin{itemize}
 \item Find a way to modify the appropiate test in \texttt{SphereTest.java}
 so small rounding differences do not cause errors.
@@ -435,14 +436,14 @@ This is when \textbf{test coverage} becomes handy.
 
 \subsubsection{Run test coverage}
 
-Run the following \texttt{maven} command :
+Run the following \texttt{maven} command:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn cobertura:cobertura
 \end{lstlisting}
 
-Cobertura should have produced test coverage results in the following directory :\\
+Cobertura should have produced test coverage results in the following directory:\\
 \texttt{yourpath/tpcisedra/java/target/site/cobertura}
 
 
@@ -479,14 +480,14 @@ The report generation is now included in the build lifecycle (``site'' phase).
 \subsubsection{Exercice 3bis}
 
 \begin{itemize}
-\item To generate the report :
+\item To generate the report:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn site
 \end{lstlisting}
 
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report :
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report:
 \begin{lstlisting}
 iceweasel target/site/project-reports.html &
 \end{lstlisting}
@@ -511,7 +512,7 @@ $ git merge alpha
 
 \subsubsection{Run a style checker}
 
-Let's try and run a style checker :
+Let's try and run a style checker:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
@@ -571,13 +572,13 @@ The check style report is now included in the build lifecycle (``site'' phase).
 \subsubsection{Exercice 5bis}
 
 \begin {itemize}
-\item To generate the report :
+\item To generate the report:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn site
 \end{lstlisting}
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report :
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report:
 \begin{lstlisting}
 $ firefox target/site/project-reports.html &
 \end{lstlisting}
@@ -680,7 +681,7 @@ brings errors in scripts to have path with spaces.
 \subsubsection{Build Step}
 
 \begin{itemize}
-\item Add build step : \texttt{Execute Shell} and execute :
+\item Add build step: \texttt{Execute Shell} and execute:
 \begin{lstlisting}
 cd python/
 tox
@@ -757,7 +758,7 @@ These output parsing is managed in \texttt{Add post-build action}.
 As source files are not based at root directory Cobertura fails to locate source
 files.
 
-A solution is to create a symlink to the source directory :
+A solution is to create a symlink to the source directory:
 \begin{itemize}
   \item Add a build step \texttt{Execute shell} with:
 \begin{lstlisting}
@@ -857,7 +858,7 @@ Send mails on build failure:
 
 \subsection{Preamble}
 
-For the C++ exercice, we use the following building and testing tools :
+For the C++ exercice, we use the following building and testing tools:
 \begin{itemize}
 \item \texttt{g++} compiler
 \item \texttt{CMake} building tool
