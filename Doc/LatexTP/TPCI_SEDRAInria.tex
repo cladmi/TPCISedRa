@@ -979,6 +979,8 @@ Send mails on build failure:
 %----------------------------------------------------------------------------------------
 %   C++
 %----------------------------------------------------------------------------------------
+%"${)
+
 \begin{homeworkProblem}[C++ Exercice]
 \section{Local Test Part}
 
@@ -1020,6 +1022,7 @@ A minimal cmake project is present under the file tree :\\
   .3 CMakeLists.txt.
   .3 Sphere.hpp.
   .3 Sphere.cpp.
+  .3 bench.cpp
   .3 tests.
   .4 CMakeLists.txt.
   .4 TestTP.hpp.
@@ -1038,7 +1041,12 @@ Sphere class offers one object constructor with the radius as parameter and a
 volume method.
 
 A tests directory contains an infrastructure based on cppunit that may be
-reused for larger project. 
+reused for larger project. Inside this infrastructure a test compare the
+computed volume with a known value.
+
+A benchmark program named bench.cpp is also built and linked with the
+library. Although the computation is very simple, this benchmark program may
+be used to compare the influence of some compiler optimization flags.
 
 \subsubsection{Check that you can build the project and run the test}
 
@@ -1050,16 +1058,116 @@ On a unix system:
 \item run the test
 \end{itemize}
 
+
 \begin{lstlisting}
 mkdir build
 cd build
-cmake tpcisedra/c++
+cmake ../cxx
 make
 make test
 \end{lstlisting}
 
+\subsubsection{Run the benchmark}
+
+\texttt{CMake} provides pre-defined build configuration that may be choosen
+with the \texttt{CMAKE\_BUILD\_TYPE} variable. Among them we are going to
+consider:
+
+\begin{itemize}
+\item the \texttt{Debug} build type which sets the debug flags (\texttt{-g} with gcc) 
+\item the \texttt{Release} build type which sets some optimization flags (\texttt{-O3 -DNDEBUG} with gcc)
+\end{itemize} 
+
+Once a directory has been given as argument to \texttt{CMake} it remains in a
+cache, the \texttt{CMakeCache.txt} file in your build directory. This cache
+file is a text file and may be edited by hand.
+
+So for next calls to \texttt{CMake}, we can use the dot directory as argument :
+
+\begin{lstlisting}
+cmake .
+\end{lstlisting}
+
+\texttt{CMake} variables may be set on the command line with \texttt{-D}
+arguments : \texttt{cmake . -D<VARIABLE_NAME>=<VALUE>}. The value remains in
+the cache file, so when a variable has been modified once with a call to cmake, it
+is not necessary to define its value anymore on the command line.
+
+Let's configure our build to a debug build
+
+\begin{lstlisting}
+cmake . -DCMAKE_BUILD_TYPE=Debug
+make
+./bench
+\end{lstlisting}
+
+For an optimized build, we do
+
+\begin{lstlisting}
+cmake . -DCMAKE_BUILD_TYPE=Release
+make
+./bench
+\end{lstlisting}
+
+On this very simple computation, the benchmark difference between Debug and
+Release is not dramatic.
+
+With gcc compiler, we can go beyond \texttt{-O3} optimization flag with the
+\texttt{fast-math} option, which implies \texttt{-funsafe-math-optimizations}
+and may break some of the requirements of \texttt{IEEE} and \texttt{ANSI}
+standards.
+
+To pass a specific argument to the c++ compiler we use the variable
+\texttt{CMAKE\_CXX\_FLAGS}. The arguments passed on the command line to this
+variable are added to the other compiler arguments. In doubt with the
+generated specification, on can use the argument \texttt{VERBOSE=1} to make,
+in order to see the flags passed to compiler.
+
+\begin{lstlisting}
+cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-ffast-math
+make VERBOSE=1
+./bench
+\end{lstlisting}
+
+Now, let's keep this configuration in our build directory.
+
+\subsubsection{Jenkins setup}
+
+Log into the project's Jenkins instance
+Connect to the INRIA Continuous Integration web portal: https://ci.inria.fr/ \\
+Log in and click ``Dashboard''in the top menu \\
+You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button \\
+You may be prompted to log into jenkins, use the same login/passwd as for the ci portal
+
+Running your first test on CI:
+
+From our Jenkins dashboard page (https://ci.inria.fr/tpcisedra/), click ``New Item'' in the menu on the left
+Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select ``Freestyle project''
+
+
+Git configuration:
+
+In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field:
+
+\begin{lstlisting}
+https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your login>.git
+\end{lstlisting}
 
 \subsubsection{Exercice 1}
+Add a new build step : ``Execute shell'', where you tell Jenkins how to build
+and test the project. Choose the \texttt{Debug} configuration for this build.
+
+The shell working directory (the result of the command \texttt{/bin/pwd} in
+this shell) is the directory where Jenkins has clone your source directory.
+
+Then save the project and verify the configuration with a click on ``Build
+Now'' in the menu on the left.
+
+In the ``Build History'' on the left, click on the last build (hopefully \#1), then select ``Console Output'' \\
+You can also check the ``Test Result''
+
+
+\subsubsection{Exercice 2}
 
 Edit the implementation of the \texttt{Sphere} class :
 \texttt{tpcisedra/c++/src/Sphere.cpp} and have a look at the code of the method \texttt{Sphere::volume()}.\\
@@ -1076,56 +1184,86 @@ implemented in the file:
 
 \texttt{tpcisedra/c++/src/tests/testTP.cpp}
 
-We might want the value : \verb?4 * Math.PI / 3? to be computed once and for all.
+Let's imagine we want to improve the efficiency of the \texttt{volume()}
+method by pre-computing the value \verb?4 * Math.PI / 3?
+
 
 TODO :
 \begin{itemize}
-\item Extract this value into a class data member
-\item Run the test again. It should fail.
+\item Extract this value into a class data member.
+\item Run the benchmark. This may shows only a very, very minimal improvement.
+\item Run the test.
 \end{itemize}
 
-Here is the output you should get :
+On a core i7 laptop and with the previous settings for cmake
+the test should still be successfull.
+
+Commit your modifications.
+
 \begin{lstlisting}
-make test
+git commit -m "precomputation of 4pi/3"
+git push -a
+\end{lstlisting}
+
+The test should now fail on Jenkins.
+
+Here is the output you can see on Jenkins console:
+\begin{lstlisting}
++ make test
 Running tests...
-Test project /home/maurice/src/TPCISedRa/Src/Cxx/build/2
+Test project /builds/workspace/mb-cxx/build
     Start 1: TestVolume
 1/1 Test #1: TestVolume .......................***Failed    0.00 sec
 
 0% tests passed, 1 tests failed out of 1
 
-Total Test time (real) =   0.01 sec
+Total Test time (real) =   0.00 sec
 
 The following tests FAILED:
 	  1 - TestVolume (Failed)
-Errors while running CTest
 \end{lstlisting}
+
 
 \subsubsection{Exercice 2}
 
-Why does the test in \texttt{TestTP.cpp} fail ?
+The \texttt{-funsafe-math-optimizations} implied by \texttt{-ffast-math}
+allows for reordering of floating points operations and this may lead to
+differents results.
 
-This is because of floating point arithmetics \emph{rouding errors}.
+The strict comparison of double should be avoided, we first add a warning
+(only if understood by the compiler) in order not to reproduce this kind of
+error.
 
-Our response to this issue strongly depends on what kind of application we are
-working on :
+With \texttt{CMake} a correct way to add a compiler flag is:
 
+\begin{lstlisting}
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag(-Wfloat-equal CXX_WFLOAT_EQUAL)
+if(CXX_WFLOAT_EQUAL)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfloat-equal")
+endif()
+\end{lstlisting}
+
+%"${)
+
+On Jenkins side, compiler warnings can be checked in the ``Post build
+Actions'' step of your build project. 
+
+
+TODO
 \begin{itemize}
-
-\item In some cases, we want to be aware that something has changed, even when
-  the change is the tiniest. In that case, the test we already have is just
-  what we want.
-
-\item In other cases, we need not worry about such a small difference and
-  hence do not want to be bothered by tests complaining.
+\item Add the compiler warning to the cmake configuration.
+\item Verify that the warning is printed during compilation.
+\item Add the scan for compiler warnings in the ``Post build Action''
+\item Commit the code in order to check the parsing done by Jenkins.
+\item Modify the appropiate test in \texttt{TestTP.cpp} so small rounding
+  differences do not cause errors, cppunit provides a macro for this : 
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(expected, actual, delta).
+\item Once it is ok and the warning has gone, commit.
 \end{itemize}
 
-TODO :
-[C++] draft doc + cmake cobertura coverage (step4)
-\begin{itemize}
-\item Find a way to modify the appropiate test in \texttt{TestTP.cpp}
-so small rounding differences do not cause errors.
-\end{itemize}
+%"${)
+
 
 
 %--------------------------------------
@@ -1154,6 +1292,8 @@ Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize th
 \begin{lstlisting}
 $ firefox target/site/cobertura/index.html &
 \end{lstlisting}
+
+%"${)
 
 \subsubsection{Exercice 3}
 
@@ -1294,33 +1434,7 @@ $ firefox target/site/project-reports.html &
 %----------------------------------------------------------------------------------------
 \section{Continuous Integration Part}
 
-\subsection{Log into the project's Jenkins instance}
-Connect to the INRIA Continuous Integration web portal: https://ci.inria.fr/ \\
-Log in and click ``Dashboard''in the top menu \\
-You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button \\
-You may be prompted to log into jenkins, use the same login/passwd as for the ci portal
 
-\subsection{Running your first test on CI}
-From our Jenkins dashboard page (https://ci.inria.fr/tpcisedra/), click ``New Item'' in the menu on the left
-Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select ``Maven project''
-
-\subsubsection{Git configuration}
-In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field:
-\begin{lstlisting}
-https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/dparsons.git
-\end{lstlisting}
-
-\subsubsection{Build configuration}
-In the ``Build'' section, change the root POM path to \texttt{java/pom.xml} and type \texttt{test} in ``Goals and options''
-
-\subsubsection{Save}
-
-\subsubsection{Run the test}
-Click ``Build Now'' in the menu on the left
-
-\subsubsection{Check the output}
-In the ``Build History'' on the left, click on the last build (hopefully \#1), then select ``Console Output'' \\
-You can also check the ``Test Result''
 
 \subsection{Adding feedback to your build}
 One of the good things with Jenkins is its ability to nicely present your test results. \\

@@ -12,7 +12,10 @@
 
 #include <math.h>
 
+static  double a = (4 * M_PI /3.);
+
+
 double Sphere::volume() const
 {
-  return 4 * M_PI * pow (this->_radius, 3.) / 3.;
+  return 4 * M_PI * pow(this->_radius, 3)/3;
 }
