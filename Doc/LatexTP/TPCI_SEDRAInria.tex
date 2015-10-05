@@ -33,6 +33,7 @@
 \usepackage{listings} % Required for insertion of code
 \usepackage{courier} % Required for the courier font
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage{hyperref} % For urls
 \usepackage{dirtree}
 
 % Margins
@@ -228,6 +229,7 @@
 \newcommand{\hmwkClassInstructor}{} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Maurice Bremond, Gaetan Harter, David Parsons -- SED Inria Rhone-Alpes} % Your name
 
+
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -262,7 +264,7 @@
 
 
 %----------------------------------------------------------------------------------------
-%	PROBLEM 1
+%	JAVA
 %----------------------------------------------------------------------------------------
 
 % To have just one problem per page, simply put a \clearpage after each problem
@@ -278,15 +280,21 @@ So make sure you install \texttt{Maven} tool and that your \texttt{Java} environ
 
 \subsection{Setup}
 
-\subsubsection{Clone the git repository from inria forge and create your own branch}
+\subsubsection{Create a personal copy of the git repository from inria forge and clone it}
+Go to https://gforge.inria.fr/projects/tpcisedra/ \\
+Click on the ``SOURCE CODE'' tab \\
+Click on ``create a personal repository'' \\
+Back to the ``SOURCE CODE'' tab, look for the command to access your personal repository. \\
+WARNING: do not use the anonymous access (containing ``anonscm'') \\
+The correct command should look like this:
 \begin{lstlisting}
-$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git
-$ cd tpcisedra/java
-$ git checkout -b <yournamehere>
+$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/
+    users/<yourloginhere>.git
+$ cd <yourloginhere>/java
 \end{lstlisting}
 
 \
-You should have retrieved the following file tree :\\
+You should have retrieved the following file tree:\\
 {\centering\small
             \begin{minipage}[t]{0.3\linewidth}
 \dirtree{%
@@ -310,7 +318,7 @@ You should have retrieved the following file tree :\\
 }
 
 
-The project is made up of :
+The project is made up of:
 \begin{itemize}
 \item A Maven ``Project Object Model'' file named \texttt{pom.xml};
 \item A file \texttt{Sphere.java} implementing the class \texttt{Sphere};
@@ -363,7 +371,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 Have a look at the code of the method \texttt{Sphere::computeVolume()}.\\
 To do so, edit \texttt{tpcisedra/java/src/main/java/fr/inria/sed/Sphere.java}.
 
-The code should be like that :
+The code should be like that:
 \begin{lstlisting}
 public double computeVolume1() {
   return 4 * Math.PI * Math.pow(radius_, 3) / 3;
@@ -371,15 +379,15 @@ public double computeVolume1() {
 \end{lstlisting}
 
 
-We might want the value : \verb?4 * Math.PI / 3? to be computed once and for all.
+We might want the value: \verb?4 * Math.PI / 3? to be computed once and for all.
 
-TODO :
+TODO:
 \begin{itemize}
 \item Extract this value into a class data member
 \item Run the test again. It should fail.
 \end{itemize}
 
-Here is the output you should get :
+Here is the output you should get:
 \begin{lstlisting}
 -------------------------------------------------------
  T E S T S
@@ -405,13 +413,13 @@ Why does the test in \texttt{SphereTest.java} fail ?
 
 This is because of floating point arithmetics \emph{rouding errors}.
 
-Our response to this issue strongly depends on what kind of application we are working on :
+Our response to this issue strongly depends on what kind of application we are working on:
 \begin{itemize}
 \item In some cases, we want to be aware that something has changed, even when the change is the tiniest. In that case, the test we already have is just what we want.
 \item In other cases, we need not worry about such a small difference and hence do not want to be bothered by tests complaining.
 \end{itemize}
 
-TODO :
+TODO:
 \begin{itemize}
 \item Find a way to modify the appropiate test in \texttt{SphereTest.java}
 so small rounding differences do not cause errors.
@@ -429,14 +437,14 @@ This is when \textbf{test coverage} becomes handy.
 
 \subsubsection{Run test coverage}
 
-Run the following \texttt{maven} command :
+Run the following \texttt{maven} command:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn cobertura:cobertura
 \end{lstlisting}
 
-Cobertura should have produced test coverage results in the following directory :\\
+Cobertura should have produced test coverage results in the following directory:\\
 \texttt{yourpath/tpcisedra/java/target/site/cobertura}
 
 
@@ -473,14 +481,14 @@ The report generation is now included in the build lifecycle (``site'' phase).
 \subsubsection{Exercice 3bis}
 
 \begin{itemize}
-\item To generate the report :
+\item To generate the report:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn site
 \end{lstlisting}
 
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report :
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report:
 \begin{lstlisting}
 iceweasel target/site/project-reports.html &
 \end{lstlisting}
@@ -505,7 +513,7 @@ $ git merge alpha
 
 \subsubsection{Run a style checker}
 
-Let's try and run a style checker :
+Let's try and run a style checker:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
@@ -565,38 +573,220 @@ The check style report is now included in the build lifecycle (``site'' phase).
 \subsubsection{Exercice 5bis}
 
 \begin {itemize}
-\item To generate the report :
+\item To generate the report:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn site
 \end{lstlisting}
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report :
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report:
 \begin{lstlisting}
 $ firefox target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
+
+
+%----------------------------------------------------------------------------------------
+%   Java CI
+%----------------------------------------------------------------------------------------
 \section{Continuous Integration Part}
+
+\subsection{Log into the project's Jenkins instance}
+Connect to the INRIA Continuous Integration web portal: \url{https://ci.inria.fr/} \\
+Log in and click ``Dashboard''in the top menu \\
+You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button \\
+You may be prompted to log into jenkins, use the same login/passwd as for the ci portal
+
+\subsection{Running your first test on CI}
+From our Jenkins dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click ``New Item'' in the menu on the left
+Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select ``Maven project''
+
+\subsubsection{Git configuration}
+In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field:
+\begin{lstlisting}
+https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/dparsons.git
+\end{lstlisting}
 \end{homeworkProblem}
+
+\subsubsection{Build configuration}
+In the ``Build'' section, change the root POM path to \texttt{java/pom.xml} and type \texttt{test} in ``Goals and options''
+
+\subsubsection{Save}
+
+\subsubsection{Run the test}
+Click ``Build Now'' in the menu on the left
+
+\subsubsection{Check the output}
+In the ``Build History'' on the left, click on the last build (hopefully \#1), then select ``Console Output'' \\
+You can also check the ``Test Result''
+
+\subsection{Adding feedback to your build}
+One of the good things with Jenkins is its ability to nicely present your test results. \\
+The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding Jenkins plugins.
+
+\subsubsection{Add coverage report}
+\begin{itemize}
+\item Go back to your item's configuration page (use the menu on the left)
+\item Replace your build's ``Goals and options'' with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
+\item Click on ``Add post-build action'' and select ``Publish Cobertura Coverage Report'' from the drop-down menu, your ``Cobertura xml report pattern'' is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
+\item Save and Run the test
+\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
+\end{itemize}
+
+\subsubsection{Add checkstyle report}
+\begin{itemize}
+\item Go back to your item's configuration page and add \\
+\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's ``Goals and options''
+\item Check the ``Publish Checkstyle analysis results'' box in ``Build Settings''
+\item Save and Run the test
+\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Checkstyle Warnings'', have a look at it
+\end{itemize}
 
 \clearpage
 
 
 
-
+%----------------------------------------------------------------------------------------
+%   PYTHON
+%----------------------------------------------------------------------------------------
 \begin{homeworkProblem}[Python Exercice]
 
 \section{Local Test Part}
+
+\subsection{Preamble}
+
+In this Python exercice, you will learn how to setup a python package with
+packaging tools, tests, tests code coverage, and static code analysis.
+At the end you will run the project validations in one command, and know how to
+setup it on your personnal projects.
+
+
+\subsubsection{Tools presentation}
+
+In the exercices you will use different tools, each one having its specific
+goal.
+
+\texttt{setuptools} packages your project,
+\texttt{unittest} to write tests (standard library),
+\texttt{nose} tools run tests and format the results,
+\texttt{mock} allow replacing function or objects during tests,
+\texttt{pylint} provide static code analysis and style checking,
+\texttt{pep8} verifies code compliancy to python PEP8 style convention
+and \texttt{tox} is a virtualenv based test automation tool which runs all
+testing steps.
+
+
+\subsection{Setup}
+
+\subsubsection{Python requirements}
+
+For the exercices you need to install the following dependencies.
+
+\begin{lstlisting}
+sudo aptitude install  python2 python-pip
+
+# Install directly from Python Package Index
+sudo -H pip install --upgrade  nosetests nose-xcover
+sudo -H pip install --upgrade  mock
+sudo -H pip install --upgrade  pylint pep8 setuptools-lint setuptools-pep8
+sudo -H pip install --upgrade  tox
+\end{lstlisting}
+
+
+\subsubsection{Create and clone your personal copy of the repository}
+
+\textbf{TODO}, copy the java version or put it in a shared section \textbf{TODO}
+
+
+
+You should have retrieved the following file tree:
+
+
+\textbf{TODO} FileTree with each files described \textbf{TODO}
+
+
+\subsection{Packaging your code}
+
+First step of an integration process is to be able of simply installing your
+project with its dependencies. In the Python world its done with the
+\texttt{setup.py} script. In the exercices we are using \texttt{setuptools}
+which is more features than the default \texttt{distutils}, for example
+dependencies installation.
+
+Writing this script is just filling some fields in the correct way so it is
+provided. However, some details matters and will be explained.
+See \texttt{tpicisedra/python/setup.py} file.
+
+\subsubsection{Package dependencies}
+
+Package dependencies can be automatically installed with your program.
+They are listed in the \texttt{install\_requires} here \texttt{argparse} will
+be installed with the package.
+
+\begin{lstlisting}
+setup(
+    ...,
+    install_requires=['argparse'],
+)
+\end{lstlisting}
+
+The selected version can be specified with \texttt{==, <, !=} operators.
+
+
+\subsubsection{Package version}
+
+In a python package, version is usually accessible with
+\texttt{package\_name.\_\_version\_\_}. When packaging the project,
+the version should be the same.
+
+The simplest way would be to import \texttt{package\_name} and access it from
+here. However, this may import non installed dependencies and when running tests
+using \texttt{setup.py} you would get 0\% coverage on imported files imported.
+
+To prevent that, the file is manually read and parsed to find the version.
+
+\subsubsection{Exercice 1}
+
+Find how version is retrieved and how it works.
+
+
+\subsubsection{Usage}
+
+This \texttt{setup.py} script is the entry point for installing and releasing
+your code. It will also be used later as an entry point for tests scripts.
+
+\begin{lstlisting}
+python setup.py <command> [opts]
+
+# Install the package
+python setup.py install
+
+# Install the package in development mode
+python setup.py develop
+
+# Upload your last revision to PyPi repository
+python setup.py upload
+\end{lstlisting}
+
+
+\subsubsection{Setuptools Documentation}
+\url{https://pythonhosted.org/setuptools/setuptools.html}
+
+
+
+
+
+
 \section{Continuous Integration Part}
 \subsection{Validate on CI}
 
 At this point you have a your python project packaged with setup.py and tests
 running managed by tox. This means that running your tests only need to run:
 
-\texttt{tox}
-
-All the dependencies will be installed automatically.
+\begin{lstlisting}
+tox
+\end{lstlisting}
 
 \subsection{Running your first test on CI}
 
@@ -617,7 +807,7 @@ brings errors in scripts to have path with spaces.
 \subsubsection{Build Step}
 
 \begin{itemize}
-\item Add build step : \texttt{Execute Shell} and execute :
+\item Add build step: \texttt{Execute Shell} and execute:
 \begin{lstlisting}
 cd python/
 tox
@@ -694,12 +884,12 @@ These output parsing is managed in \texttt{Add post-build action}.
 As source files are not based at root directory Cobertura fails to locate source
 files.
 
-A solution is to create a symlink to the source directory :
+A solution is to create a symlink to the source directory:
 \begin{itemize}
   \item Add a build step \texttt{Execute shell} with:
 \begin{lstlisting}
 # Hack to help cobertura find source files
-ln  -nfs python/abc_and_sphere  abc_and_sphere
+ln  -nfs python/tp_ci_sed  tp_ci_sed
 \end{lstlisting}
 \end{itemize}
 
@@ -784,16 +974,17 @@ Send mails on build failure:
 
 \end{homeworkProblem}
 
-%----------------------------------------------------------------------------------------
-%	PROBLEM 2
-%----------------------------------------------------------------------------------------
 
+
+%----------------------------------------------------------------------------------------
+%   C++
+%----------------------------------------------------------------------------------------
 \begin{homeworkProblem}[C++ Exercice]
 \section{Local Test Part}
 
 \subsection{Preamble}
 
-For the C++ exercice, we use the following building and testing tools :
+For the C++ exercice, we use the following building and testing tools:
 \begin{itemize}
 \item \texttt{g++} compiler
 \item \texttt{CMake} building tool

@@ -33,5 +33,4 @@ def main():
 
 
 if __name__ == '__main__':
-    sphere = Sphere(1.5)
-    print "%r" % sphere.volume()
+    main()

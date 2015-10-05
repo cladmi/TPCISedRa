@@ -4,7 +4,7 @@
 import os
 from setuptools import setup, find_packages
 
-PACKAGE = 'abc_and_sphere'
+PACKAGE = 'tp_ci_sed'
 # GPL compatible http://www.gnu.org/licenses/license-list.html#CeCILL
 LICENSE = 'CeCILL v2.1'
 
@@ -38,5 +38,5 @@ setup(
     scripts=SCRIPTS,
     classifiers=['Development Status :: 2 - Pre-Alpha',
                  'Programming Language :: Python :: 2'],
-    install_required=['argparse'],
+    install_requires=['argparse'],
 )
