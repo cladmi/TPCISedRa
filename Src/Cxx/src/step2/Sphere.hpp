@@ -10,6 +10,9 @@
  */
 #ifndef Sphere_hpp
 #define Sphere_hpp
+
+#include <math.h>
+
 class Sphere
 {
 public:
@@ -18,6 +21,7 @@ public:
   double volume () const;
 
 private:
+  static const double four_thirds_of_pi = 4. * M_PI / 3.;
   double _radius;
 };
 #endif
