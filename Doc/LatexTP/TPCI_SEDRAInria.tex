@@ -689,7 +689,7 @@ testing steps.
 For the exercices you need to install the following dependencies.
 
 \begin{lstlisting}
-sudo aptitude install  python2 python-pip
+sudo aptitude install  python2 python2-pip python2-argparse
 
 # Install directly from Python Package Index
 sudo -H pip install --upgrade  nosetests nose-xcover
@@ -710,50 +710,42 @@ You should have retrieved the following file tree~:
 
 \textbf{TODO} FileTree with each files described \textbf{TODO}
 
+\subsection{Code overview}
 
-\subsection{Packaging your code}
+This code is the wonderfull implementation of a package that will calculate the
+volume of spheres. And the whole world will want it, so it should be perfect.
 
-First step of an integration process is to be able of simply installing your
-project with its dependencies. In the Python world its done with the
-\texttt{setup.py} script. In the exercices we are using \texttt{setuptools}
-which is more features than the default \texttt{distutils}, for example
-dependencies installation.
-
-Writing this script is just filling some fields in the correct way so it is
-provided. However, some details matters and will be explained.
-See \texttt{tpicisedra/python/setup.py} file.
-
-\subsubsection{Package dependencies}
-
-Package dependencies can be automatically installed with your program.
-They are listed in the \texttt{install\_requires} here \texttt{argparse} will
-be installed with the package.
-
-\begin{lstlisting}
-setup(
-    ...,
-    install_requires=['argparse'],
-)
-\end{lstlisting}
-
-The selected version can be specified with \texttt{==, <, !=} operators.
-
-
-\subsubsection{Package version}
-
-In a python package, version is usually accessible with
-\texttt{package\_name.\_\_version\_\_}. When packaging the project,
-the version should be the same.
-
-The simplest way would be to import \texttt{package\_name} and access it from
-here. However, this may import non installed dependencies and when running tests
-using \texttt{setup.py} you would get 0\% coverage on imported files imported.
-
-To prevent that, the file is manually read and parsed to find the version.
+It has a package, named \texttt{tp\_ci\_sed}, with a \texttt{sphere} submodule
+and even a cli script to run it.
 
 \subsubsection{Exercice 1}
 
-Find how version is retrieved and how it works.
+Try the \texttt{sphere} script.
+
+\subsubsection{Exercice 2}
+
+Write the \texttt{Sphere.volume} method.
+For that use the \texttt{math} module and remember the volume formula
+$ 4 * \Pi * R^3 / 3 $ you learned in school
+\footnote{Volume of a $1.5$ radius sphere is around $14.137$}.
+
+\subsubsection{Releasing your code}
+
+After committing your changes, your package is now ready to use by everyone.
+But can users install it in this state?
+
+
+\subsection{Packaging your code}
+
+First step of an integration process is to be able to install your project with
+its dependencies. In Python it's done using a \texttt{setup.py} script
+written with \texttt{setuptools}
+\footnote{Default is \texttt{setup.py} package is \texttt{distutils} but it
+does not manage automatic dependency installation}.
+
+The script consist of calling the \texttt{setuptools.setup} function with infos
+describing your package\~: name, description, author, license, version,
+dependencies, supported python versions, \dots
 
 
 \subsubsection{Usage}
@@ -767,7 +759,7 @@ python setup.py <command> [opts]
 # Install the package
 python setup.py install
 
-# Install the package in development mode
+# Install the package in a way that lets you edit the sources
 python setup.py develop
 
 # Upload your last revision to PyPi repository
@@ -775,9 +767,314 @@ python setup.py upload
 \end{lstlisting}
 
 
-\subsubsection{Setuptools Documentation}
+\paragraph{Setuptools Documentation}
 \url{https://pythonhosted.org/setuptools/setuptools.html}
 
+
+\subsubsection{Writing the \texttt{setup.py} script}
+
+Writing the script is basically just giving the right informations in the right
+format. Usually adapting an existing one is simple enough so it is provided in
+this exercise.
+
+Copy the \texttt{first} script from the \texttt{raw} folder as \texttt{setup.py}.
+\begin{lstlisting}
+$ cp raw/first setup.py
+$ cat setup.py
+\end{lstlisting}
+
+Open the \texttt{setup.py} script and look at the \texttt{setup} function
+arguments.
+
+
+\paragraph{Package dependency}
+Instead of writing in a README what packages are required by your project,
+they can be automatically at package installation with \texttt{setuptools}.
+Dependencies should be listed in the \texttt{install\_requires} here
+\texttt{argparse} will be installed with the package.
+
+\begin{lstlisting}
+setup(
+    ...,
+    install_requires=['argparse'],
+)
+\end{lstlisting}
+
+Depending on your needs, you can specify the version with \texttt{==, <, !=} operators.
+
+\begin{description}
+\item[Note]
+By default \texttt{setuptools} uses PyPi to find packages but can be configured
+to install from many places, like an existing git repository or an http url
+\footnote{\url{https://pythonhosted.org/setuptools/setuptools.html\#dependencies-that-aren-t-in-pypi}}.
+\end{description}
+
+
+\paragraph{Package version} In a python package, version is usually accessible
+using \texttt{package\_name.\_\_version\_\_} and should be consistent with the
+version in \texttt{setup.py}.
+
+Importing the package in the \texttt{setup.py} script is a source of import
+errors and code coverage problems
+\footnote{Don't import your package in \texttt{setup.py}
+\url{https://stackoverflow.com/q/11279096/395687}}.
+
+To prevent that, the \texttt{\_\_init\_\_.py} file should be read and parsed
+manually to find the version.
+
+\paragraph{}
+The package version can be queried with:
+\begin{lstlisting}
+python setup.py --version
+\end{lstlisting}
+
+
+\subsubsection{Exercice 3}
+
+Find where the version is stored and how it is retrieved in the
+\texttt{setup.py} script.
+
+
+\subsubsection{Semantic Versioning}
+
+SemVer intro? \url{http://semver.org/}
+
+\subsection{Tests}
+
+\textbf{TODO} Intro
+
+
+In this section you will write tests using \texttt{unittest} and execute them
+with \texttt{nosetests}.
+
+One test has already been written as an example. Run it with \texttt{nosetests}
+\begin{lstlisting}
+nosetests -v
+test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+OK
+\end{lstlisting}
+
+Now go in \texttt{tp\_ci\_sed/test/sphere\_test.py} to see the implementation.
+
+\paragraph{unittest}
+framework\footnote{\url{https://docs.python.org/2/library/unittest.html}}
+is the Python implementation of \texttt{JUnit}.
+
+It provides a \texttt{TestCase} base class to help writing tests.
+This class implements several assert functions and also runs \texttt{setUp} and
+\texttt{tearDown} methods before and after each tests if implemented.
+This helps configuring a test environment.
+
+
+\subsubsection{Exercice 4}
+
+As you can see, \texttt{test\_volume\_0} is not enough to validate your code.
+Add another test to validate the volume computation with
+$radius=1.5$ where $volume=14.137166941154069$.
+
+\subsubsection{Refactoring}
+
+Now that your code is tested, you can safely start refactoring it.
+In our formula, the $ 4 * \Pi / 3 $ part can be computed only once instead of
+at each \texttt{volume} call.
+Move it in a class variable and use it in the \texttt{volume} method.
+
+\subsubsection{Exercice 5}
+
+Run the tests again. It should fail:
+
+\begin{description}
+\item[Note] If it does not fail, ask for help, magic numbers technique failed.
+\end{description}
+
+\begin{lstlisting}
+nosetests -v
+test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
+test_volume_1_5 (tp_ci_sed.test.sphere_test.TestSphere) ... FAIL
+
+======================================================================
+FAIL: test_volume_1_5 (tp_ci_sed.test.sphere_test.TestSphere)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File ".../tp_ci_sed/test/sphere_test.py", line 19, in test_volume_1_5
+    self.assertEqual(14.137166941154069, vol)
+AssertionError: 14.137166941154069 != 14.137166941154067
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.007s
+
+FAILED (failures=1)
+\end{lstlisting}
+
+Why does the test fail?
+
+Because of floating point arithmetics \emph{rounding errors}.
+
+Our response to this issue strongly depends on what kind of application we are
+working on:
+\begin{itemize}
+\item In some cases, we want to be aware that something has changed, even when
+    the change is the tiniest. In that case, the test we already have is just what we want.
+\item In other cases, we need not worry about such a small difference and hence
+    do not want to be bothered by tests complaining.
+\end{itemize}
+
+TODO:
+\begin{itemize}
+\item Find a way to modify the test so small rounding differences do not cause errors.
+
+List of \texttt{unittest} assert functions:\\
+\url{https://docs.python.org/2/library/unittest.html\#unittest.FunctionTestCase}
+\end{itemize}
+
+
+\subsection{Code coverage}
+
+When running tests, the information of what part of the code has been tested is
+also meaningful. It is often refered as "code coverage".
+
+With Python it can be generated with the \texttt{coverage} package, but also
+directly with \texttt{nosetests} and \texttt{nose-xcover}.
+
+To get the coverage output, run
+\begin{lstlisting}
+$ nosetests -v --with-xcoverage --cover-erase  --cover-inclusive \
+    --cover-branches --cover-html --cover-package  tp_ci_sed
+
+test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
+test_volume_1_5 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
+
+Name                  Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------
+tp_ci_sed.py              1      0      0      0   100%
+tp_ci_sed/sphere.py      19      6      2      1    67%   19, 28-32, 36, 35->36
+-----------------------------------------------------------------
+TOTAL                    20      6      2      1    68%
+----------------------------------------------------------------------
+Ran 2 tests in 0.012s
+
+OK
+\end{lstlisting}
+
+You can read the coverage output directly in the \texttt{nosetests} output.
+But a human readable html report and an xml report for jenkins are also generated.
+
+
+\begin{lstlisting}
+$  ls
+cover coverage.xml  raw  sphere  tp_ci_sed
+$ file coverage.xml
+coverage.xml: XML document text
+\end{lstlisting}
+
+See the html report
+
+\begin{lstlisting}
+$ firefox cover/index.html &
+\end{lstlisting}
+
+
+\subsection{\texttt{setup.py} subcommands}
+
+As running \texttt{nosetests} with all the options is quite a pain, you will use
+\texttt{setuptools} to configure the \texttt{nosetests} command.
+
+Calling \texttt{nosetests} can be done using
+\begin{lstlisting}
+$ python setup.py nosetests
+
+...
+
+reading manifest file 'tp_ci_sed.egg-info/SOURCES.txt'
+writing manifest file 'tp_ci_sed.egg-info/SOURCES.txt'
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.006s
+
+OK
+\end{lstlisting}
+
+Configuring \texttt{setup.py} commands requires adding options in a
+\texttt{setup.cfg} file.
+
+Copy the \texttt{second} script from the \texttt{raw} folder as \texttt{setup.cfg}.
+\begin{lstlisting}
+$ cp raw/second setup.cfg
+$ cat setup.cfg
+\end{lstlisting}
+
+The first part is \texttt{nosetests} configuration and allow coverage and also
+searching for all type of tests.
+
+Re run the command:
+
+\begin{lstlisting}
+$ python setup.py nosetests
+
+...
+
+----------------------------------------------------------------------
+XML: /home/harter/work/tpcisedra/python/nosetests.xml
+Name                  Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------
+tp_ci_sed.py              1      0      0      0   100%
+tp_ci_sed/sphere.py      19      6      2      1    67%   19, 28-32, 36, 35->36
+-----------------------------------------------------------------
+TOTAL                    20      6      2      1    68%
+----------------------------------------------------------------------
+Ran 2 tests in 0.012s
+
+OK
+\end{lstlisting}
+
+
+Now running the tests with \texttt{python setup.py nosetests} also generates the
+coverage report. You will use this command in the upcoming steps.
+
+
+\subsection{Code static analysis and style}
+
+\textbf{TODO}
+Pylint - PEP8
+
+\textbf{TODO}
+
+
+
+
+\subsection{Mocking in tests}
+
+\textbf{TODO}
+Advanced!! So I will mainly copy paste code
+Only do if finished everything else!
+
+Testing 'main' with sys.argv and printf/sys.stdout mocking.
+\textbf{TODO}
+
+
+\begin{description}
+    \item[mock] \url{http://www.voidspace.org.uk/python/mock/index.html}
+\end{description}
+
+When testing, it is useful to replace some part of your application to give it
+a special behaviour, like raising an exception, or to prevent its side effect,
+like connection to an external service. It is also easier to be able to know how
+an object has been used or a function been called.
+
+In this section you will see \texttt{mock} to test the \texttt{main} function
+and verify the printed output.
+
+\texttt{mock} class provides mainly two important things:
+\begin{itemize}
+    \item \texttt{Mock} class which is an object whose behaviour can be
+        configured and that records all action on it.
+    \item \texttt{patch} function that dynamically replaces one
+        function/method/object with a Mock object.
+\end{itemize}
 
 
 

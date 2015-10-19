@@ -10,5 +10,5 @@
 # This project is headed by SED Rhone-Alpes service at INRIA.
 #
 
-from abc_and_sphere import sphere
+from tp_ci_sed import sphere
 sphere.main()
