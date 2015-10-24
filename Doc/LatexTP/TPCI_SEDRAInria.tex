@@ -843,7 +843,27 @@ Find where the version is stored and how it is retrieved in the
 
 \subsubsection{Semantic Versioning}
 
-SemVer intro? \url{http://semver.org/}
+Versioning should help users follow features addition and know when incompatible
+changes have been introduced.
+Semantic Versioning
+gives you simple rules
+to know how to change your version numbers.
+
+\begin{quote}
+\begin{center}Summary \url{http://semver.org/}\end{center}
+
+Given a version number MAJOR.MINOR.PATCH, increment the:
+
+\begin{itemize}
+	\item MAJOR version when you make incompatible API changes,
+	\item MINOR version when you add functionality in a backwards-compatible manner, and
+	\item PATCH version when you make backwards-compatible bug fixes.
+\end{itemize}
+Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
+\end{quote}
+
+For the following parts, remember to increment the version when you change the
+API.
 
 \subsection{Tests}
 
