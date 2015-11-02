@@ -1,3 +1,13 @@
+#
+# This file is a part of TPCI_SEDRA project
+# Copyright (c) INRIA 2015
+#
+# Contributor (s) : Gaetan Harter
+# Contacts : gaetan.harter@inria.fr
+# 
+# This project is headed by SED Rhone-Alpes service at INRIA.
+#
+#
 # Not using '2to3' anymore, pylint 1.4 breaks python 2.6 compatibility
 pylint<1.4.0
 logilab-common<0.63
