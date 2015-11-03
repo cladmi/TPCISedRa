@@ -865,13 +865,20 @@ Additional labels for pre-release and build metadata are available as extensions
 For the following parts, remember to increment the version when you change the
 API.
 
+
 \subsection{Tests}
 
-\textbf{TODO} Intro
+Testing your code is simply executing it and expecting some result.
+Like executing a script it in command line and checking the printed output.
+
+However to some parts of the code may be hard to reach from the cli, and may be
+easier to test by calling directly the functions.
+
+But to simplify the organization we will use existing tools to write them.
 
 
-In this section you will write tests using \texttt{unittest} and execute them
-with \texttt{nosetests}.
+\paragraph{}In this section you will write tests using \texttt{unittest} and
+execute them with \texttt{nosetests}.
 
 One test has already been written as an example. Run it with \texttt{nosetests}
 \begin{lstlisting}
