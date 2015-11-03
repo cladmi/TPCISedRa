@@ -699,6 +699,12 @@ sudo -H pip install --upgrade  tox
 \end{lstlisting}
 
 
+
+\textbf{TODO}
+install dependencies along the exercises to present them when used.
+\textbf{TODO}
+
+
 \subsubsection{Create and clone your personal copy of the repository}
 
 \textbf{TODO}, copy the java version or put it in a shared section \textbf{TODO}
@@ -779,8 +785,8 @@ this exercise.
 
 Copy the \texttt{first} script from the \texttt{raw} folder as \texttt{setup.py}.
 \begin{lstlisting}
-$ cp raw/first setup.py
-$ cat setup.py
+ cp raw/first setup.py
+ cat setup.py
 \end{lstlisting}
 
 Open the \texttt{setup.py} script and look at the \texttt{setup} function
@@ -942,7 +948,7 @@ directly with \texttt{nosetests} and \texttt{nose-xcover}.
 
 To get the coverage output, run
 \begin{lstlisting}
-$ nosetests -v --with-xcoverage --cover-erase  --cover-inclusive \
+ nosetests -v --with-xcoverage --cover-erase  --cover-inclusive \
     --cover-branches --cover-html --cover-package  tp_ci_sed
 
 test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
@@ -965,16 +971,16 @@ But a human readable html report and an xml report for jenkins are also generate
 
 
 \begin{lstlisting}
-$  ls
+ ls
 cover coverage.xml  raw  sphere  tp_ci_sed
-$ file coverage.xml
+ file coverage.xml
 coverage.xml: XML document text
 \end{lstlisting}
 
 See the html report
 
 \begin{lstlisting}
-$ firefox cover/index.html &
+ firefox cover/index.html &
 \end{lstlisting}
 
 
@@ -985,7 +991,7 @@ As running \texttt{nosetests} with all the options is quite a pain, you will use
 
 Calling \texttt{nosetests} can be done using
 \begin{lstlisting}
-$ python setup.py nosetests
+ python setup.py nosetests
 
 ...
 
@@ -1003,8 +1009,8 @@ Configuring \texttt{setup.py} commands requires adding options in a
 
 Copy the \texttt{second} script from the \texttt{raw} folder as \texttt{setup.cfg}.
 \begin{lstlisting}
-$ cp raw/second setup.cfg
-$ cat setup.cfg
+ cp raw/second setup.cfg
+ cat setup.cfg
 \end{lstlisting}
 
 The first part is \texttt{nosetests} configuration and allow coverage and also
@@ -1013,7 +1019,7 @@ searching for all type of tests.
 Re run the command:
 
 \begin{lstlisting}
-$ python setup.py nosetests
+ python setup.py nosetests
 
 ...
 
@@ -1033,16 +1039,52 @@ OK
 
 
 Now running the tests with \texttt{python setup.py nosetests} also generates the
-coverage report. You will use this command in the upcoming steps.
+coverage report.
 
 
 \subsection{Code static analysis and style}
 
-\textbf{TODO}
-Pylint - PEP8
+Python is a dynamic language where many things are evaluated dynamically,
+more than compiled languages. It means that if you do typos errors may only
+occur when running the program. Using a static analysis program can detect
+errors without executing your program.
+
+With the same goal, using coding standards for formatting your code can increase
+readability. It make all your code look the same and ease readability.
+For python there is even an official coding style guide defined in the
+Python Enhancement Proposal 8 (PEP8\footnote{\url{https://www.python.org/dev/peps/pep-0008/}}).
+
+
+\paragraph{}In this section you will use two tools:
+\texttt{Pylint} and \texttt{PEP8} to perform the static analysis and code style
+checking. They will be run using the \texttt{setup.py} script and so there
+configuration is in \texttt{setup.cfg}.
+
+Run the two commands:
+
+\begin{lstlisting}
+ python setup.py lint
+ python setup.py pep8
+\end{lstlisting}
+
+You may, I think, get a lot of errors, warnings, got and fix them.
+However, putting an empty docstring to get rid of the message is evil, it is
+your code documentation!
+
+\begin{description}
+  \item[Note] The tool may return some false-positive.
+    In this case it is possible do disable the error message.
+    Refer to the documentation when needed:
+    \url{http://docs.pylint.org/message-control}
+\end{description}
+
+
+\subsection{All tests in one command}
 
 \textbf{TODO}
+tox
 
+\textbf{TODO}
 
 
 
