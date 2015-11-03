@@ -10,8 +10,7 @@
  */
 #include "TestTP.hpp"
 #include "Sphere.hpp"
-
-#include <sstream>
+#include <math.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestTP);
 
@@ -25,6 +24,8 @@ void TestTP::testVolume()
 {
   Sphere sphere(1.5);
 
-  CPPUNIT_ASSERT(14.137166941154069 == sphere.volume());
+  //  CPPUNIT_ASSERT(14.137166941154069 == sphere.volume());
+  CPPUNIT_ASSERT(fabs(14.137166941154069 - sphere.volume()) < sqrt(DBL_EPSILON));
+
 
 }
