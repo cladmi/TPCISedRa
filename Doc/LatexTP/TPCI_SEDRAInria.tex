@@ -1100,7 +1100,7 @@ your code documentation!
 
 \begin{description}
   \item[Note] The tool may return some false-positive.
-    In this case it is possible do disable the error message.
+    In this case it is possible to disable the error message.
     Refer to the documentation when needed:
     \url{http://docs.pylint.org/message-control}
 \end{description}
@@ -1108,21 +1108,80 @@ your code documentation!
 
 \subsection{All tests in one command}
 
-\textbf{TODO}
-tox
+Now that we sum up what we have, testing all your application with the previous
+tools is simply running the three following commands:
 
-\textbf{TODO}
+\begin{lstlisting}
+ python setup.py nosetests
+ python setup.py lint
+ python setup.py pep8
+\end{lstlisting}
+
+You can write that in your documentation and let other users to do it.
+Is it enough?
+
+Do you remember to tell to install the tests dependencies?
+And if you want to add another test tool? You must inform all developpers to
+run the new command.
+And if you want to test with Python3?
+
+Adding a bash script to do it would work but as we are working with Python,
+let's use the right tool.
+
+
+\paragraph{tox}\footnote{\url{https://tox.readthedocs.org/en/latest/}}
+Is a generic \texttt{virtualenv} based automation tool.
+It lets you test that your package installs with different interpreters and runs
+tests in each environment.
+
+First thing, copy the \texttt{tests\_utils} from \texttt{raw} directory:
+\begin{lstlisting}
+ cp -r raw/tests_utils .
+ ls tests_utils/
+coverage-python-3.2.txt  pylint-python-2.6_3.2.txt  test-requirements.txt
+\end{lstlisting}
+
+Look into these files.
+
+All tests dependencies are described in the \texttt{test-requirements.txt} file.
+The two other files are specific versions for python 2.6 and 3.2.
+
+
+Now copy the \texttt{tox.ini} file from \texttt{raw/third} file.
+\begin{lstlisting}
+ cp -r raw/third tox.ini
+\end{lstlisting}
+
+The file content is the following:
+
+\lstinputlisting[caption=tox.ini,label=tox.ini]{../../Src/Python/tox.ini}
+
+The different part of the file are:
+\begin{itemize}
+\item envlist: is the list of python version you want to run on. Here only Python2.7 for the moment.
+\item deps: the test dependencies. With specific packages versions for \texttt{python2.6 python3.2}.
+\item commands: the list of test commands. The front dash \texttt{-} means don't fail on execution error.
+\end{itemize}
+
+Now executing your tests simply means running \texttt{tox} and the only required
+dependency installed is \texttt{tox} itself.
+
+\paragraph{Other versions}
+If everything succeeds, and you have python3 installed add it to the environment
+to see the result (py32 for python3.2). Re-run tox.
+I think it will fail, at least with the 'print' statement.
+
+However, you see how easy it is to test your code on different python versions.
+Making a code working for python2 and python3 requires some time, but at least
+it's easy to test!
+
+\paragraph{Conclusion} Now all you learned was how a test environment is created,
+how it is problematic, but how it can, at the end be summed up in one command
+with \texttt{tox}.
 
 
 
-\subsection{Mocking in tests}
-
-\textbf{TODO}
-Advanced!! So I will mainly copy paste code
-Only do if finished everything else!
-
-Testing 'main' with sys.argv and printf/sys.stdout mocking.
-\textbf{TODO}
+\subsection{Advances tests writing: mocking}
 
 
 \begin{description}
@@ -1145,7 +1204,51 @@ and verify the printed output.
         function/method/object with a Mock object.
 \end{itemize}
 
+\paragraph{sorry}Explaining mocks and applying is a task itself,
+in this section I will mainly make you copy paste the code, try it and read
+afterwards to give you an example.
 
+Copy the \texttt{fourth} file as \texttt{tp\_ci\_sed/test/sphere\_test\_main.py}
+and re-run tests.
+\begin{lstlisting}
+ cp -r raw/fourth tp_ci_sed/test/sphere_test_main.py
+ tox
+\end{lstlisting}
+
+You can see that we now have 100\% coverage.
+
+Now open the \texttt{sphere\_test\_main.py} in your editor and I will detail
+some parts.
+
+\paragraph{Main function} In order to test the main function, the program
+arguments \texttt{'sys.argv'} should be replaced with different values.
+Here for mocking them the \texttt{context\_manager} is used \texttt{with} keyword.
+It automatically applies and cleans up the patch.
+
+\paragraph{Mocking outputs} Two methods are presented:
+
+The first one is mockng \texttt{sys.stdout} with a StringIO object and get the written string.
+Here it is also done using the \texttt{with} keyword.
+
+Another, presented here by configuring the patch in \texttt{setUp} is to use a
+mock object verify the \texttt{write} call arguments.
+
+Both method are valid, it's just for presenting alternatives.
+
+\textbf{TODO} Mock the Sphere class just to show how it works and also the decorator.
+
+
+Some advices I want to give on patch:
+
+\begin{itemize}
+\item When 'patching' always verify that the mock has been called by your
+ program, there are so many cases where you can just fail to patch correctly.
+\item When patching a class, you should use MockClass.return\_value to get the instance mock.
+\item The patching path can depend on how the module is imported \url{http://www.voidspace.org.uk/python/mock/patch.html#where-to-patch}
+\end{itemize}
+
+For every other problems, look at the documentation which is quite complete and
+on stackoverflow.
 
 
 
