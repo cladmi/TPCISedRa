@@ -1009,7 +1009,7 @@ and on recent debian or ubuntu systems:
 \subsubsection{Clone the git repository from inria forge and create your own branch}
 \begin{lstlisting}
 git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
-cd tpcisedra/Cxx
+cd tpcisedra/cxx
 git checkout -b <yournamehere>
 \end{lstlisting}
 
@@ -1020,9 +1020,11 @@ A minimal cmake project is present under the file tree :\\
   .1 tpcisedra/c++.
   .2 src.
   .3 CMakeLists.txt.
+  .3 cmake.
+  .4 TP.cmake.
   .3 Sphere.hpp.
   .3 Sphere.cpp.
-  .3 bench.cpp
+  .3 bench.cpp.
   .3 tests.
   .4 CMakeLists.txt.
   .4 TestTP.hpp.
@@ -1032,19 +1034,17 @@ A minimal cmake project is present under the file tree :\\
 \end{minipage}
 }
 
-This \texttt{CMake} project aims at providing everything needed to build and
-test a dynamic shared and versioned ``TP'' \footnote{``TP'' for ``Travaux
-  Pratiques'' in french} library. 
+This \texttt{CMake} project provides the framework needed to build and test a
+dynamic shared and versioned ``TP'' \footnote{``TP'' for ``Travaux Pratiques''
+  in french} library. The \texttt{CMake} configuration is specified in two
+files \texttt{CMakeLists.txt} : one under the src directory (the
+main \texttt{CMakeLists.txt}) and one under the tests directory. 
 
 The API provided by this library is here constitued by a single Sphere class. The
 Sphere class offers one object constructor with the radius as parameter and a
 volume method.
 
-A tests directory contains an infrastructure based on cppunit that may be
-reused for larger project. Inside this infrastructure a test compare the
-computed volume with a known value.
-
-A benchmark program named bench.cpp is also built and linked with the
+A benchmark program named \texttt{bench.cpp} is also built and linked with the
 library. Although the computation is very simple, this benchmark program may
 be used to compare the influence of some compiler optimization flags.
 
@@ -1121,7 +1121,7 @@ To pass a specific argument to the c++ compiler we use the variable
 \texttt{CMAKE\_CXX\_FLAGS}. The arguments passed on the command line to this
 variable are added to the other compiler arguments. In doubt with the
 generated specification, on can use the argument \texttt{VERBOSE=1} to make,
-in order to see the flags passed to compiler.
+in order to see the flags passed to the compiler.
 
 \begin{lstlisting}
 cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-ffast-math
@@ -1153,12 +1153,16 @@ In the new item's configuration page (which you will be redirected to after clic
 https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your login>.git
 \end{lstlisting}
 
-\subsubsection{Exercice 1}
-Add a new build step : ``Execute shell'', where you tell Jenkins how to build
-and test the project. Choose the \texttt{Debug} configuration for this build.
+FIX: add build trigger.
 
-The shell working directory (the result of the command \texttt{/bin/pwd} in
-this shell) is the directory where Jenkins has clone your source directory.
+
+\subsubsection{Exercice 1}
+Add a new build step : ``Execute shell'', where you inform Jenkins how to
+build and test the project. Choose the \texttt{Debug} configuration for this
+build, this will be needed for coverage as we will see later.
+
+In the shell working directory (the result of the command \texttt{/bin/pwd} in
+this shell) Jenkins has clone your source directory.
 
 Then save the project and verify the configuration with a click on ``Build
 Now'' in the menu on the left.
@@ -1191,7 +1195,7 @@ method by pre-computing the value \verb?4 * Math.PI / 3?
 TODO :
 \begin{itemize}
 \item Extract this value into a class data member.
-\item Run the benchmark. This may shows only a very, very minimal improvement.
+\item Run the benchmark. This may shows only a very, very minimal improvement!
 \item Run the test.
 \end{itemize}
 
@@ -1230,39 +1234,63 @@ The \texttt{-funsafe-math-optimizations} implied by \texttt{-ffast-math}
 allows for reordering of floating points operations and this may lead to
 differents results.
 
-The strict comparison of double should be avoided, we first add a warning
-(only if understood by the compiler) in order not to reproduce this kind of
-error.
+The direct check of equality of floating point numbers with the \texttt{==}
+operator should be avoided, we first add a warning (only if understood by the
+compiler) in order not to reproduce this kind of error.
 
-With \texttt{CMake} a correct way to add a compiler flag is:
+Since version 4.6 \texttt{gcc} gcc provides this warning \texttt{-Wfloat-equal}: 
+
+With portability in mind, before adding the flag to the compiler command, we
+check that the compiler accepts it.
+
+With \texttt{CMake}, there is no builtin function for this operation, but that
+can be achieved with a simple macro:
 
 \begin{lstlisting}
-include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag(-Wfloat-equal CXX_WFLOAT_EQUAL)
-if(CXX_WFLOAT_EQUAL)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfloat-equal")
-endif()
+include(TestCXXAcceptsFlag)
+macro(add_cxx_compiler_flag _flag)
+  string(REPLACE "-" "_" _flag_var ${_flag})
+  check_cxx_accepts_flag("${_flag}" CXX_COMPILER_${_flag_var}_OK)
+  if(CXX_COMPILER_${_flag_var}_OK)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${_flag}")
+  endif()
+endmacro()
 \end{lstlisting}
 
-%"${)
+This macro is provided in the TP.cmake module under cmake directory.
+
+To load this TP module, one have to set the cmake module path to this directory:
+\begin{lstlisting}
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+\end{lstlisting}
+
+%$
+
+And then load the module:
+
+\begin{lstlisting}
+include(TP)
+\end{lstlisting}
+
+This should be done before using the macro.
 
 On Jenkins side, compiler warnings can be checked in the ``Post build
 Actions'' step of your build project. 
 
-
 TODO
 \begin{itemize}
-\item Add the compiler warning to the cmake configuration.
+\item In the cmake configuration file, the top \texttt{CMakeLists.txt}, include the TP module.
+\item With the provided \texttt{CMake} macro, add the compiler warning to the cmake configuration.
 \item Verify that the warning is printed during compilation.
 \item Add the scan for compiler warnings in the ``Post build Action''
 \item Commit the code in order to check the parsing done by Jenkins.
 \item Modify the appropiate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors, cppunit provides a macro for this : 
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(expected, actual, delta).
+  \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
 \item Once it is ok and the warning has gone, commit.
 \end{itemize}
 
-%"${)
+%$
 
 
 
@@ -1275,66 +1303,28 @@ Not much you may say, but can you quantify it and will you be able to tell on a 
 
 This is when \textbf{test coverage} becomes handy.
 
-\subsubsection{Run test coverage}
+\subsubsection{Installation}
 
-Run the following \texttt{maven} command :
-\begin{lstlisting}
-$ pwd
-yourpath/tpcisedra/java
-$ mvn cobertura:cobertura
-\end{lstlisting}
+Coverage with gcov needs a compilation with gcc and the
+\texttt{-fprofile-arcs} and \texttt{-ftest-coverage} options.  gcov generates
+raw output that need a post-processing. We are going to use the lcov
+utility for the generation of html pages and the gcovr utility in order to present parsable results to Jenkins.
 
-Cobertura should have produced test coverage results in the following directory :\\
-\texttt{yourpath/tpcisedra/java/target/site/cobertura}
+A \texttt{CMake} function \texttt{add_test_with_coverage} is provided in the
+\texttt{TP} module to simplify the whole setup.
 
-
-Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated results of the test coverage
-\begin{lstlisting}
-$ firefox target/site/cobertura/index.html &
-\end{lstlisting}
-
-%"${)
+This function add coverage support when the \texttt{coverage} target (\texttt{make coverage}) is built .
+%$
 
 \subsubsection{Exercice 3}
 
 \begin{itemize}
-\item Populate your tests to achieve 100\% test coverage.\\
-Hint: you may not need any additional tests ;)
+\item Install coverage for the test TestVolume.
+\item With a web browser open the file \texttt{index.html} under \texttt{TestTP__testVolume} directory
+\item In ``Post-Build Actions'' add ``Publish Cobertura Report'' with the cobertura xml report pattern set to \texttt{<to be fixed>.xml}
+\item Commit
 \end{itemize}
 
-
-\subsubsection{[Optional] Integrate cobertura to your reporting local website}
-
-Add the following to the file  \texttt{pom.xml}
-\begin{lstlisting}
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.7</version>
-      </plugin>
-    </plugins>
-  </reporting>
-\end{lstlisting}
-
-The report generation is now included in the build lifecycle (``site'' phase).
-
-\subsubsection{Exercice 3bis}
-
-\begin{itemize}
-\item To generate the report :
-\begin{lstlisting}
-$ pwd
-yourpath/tpcisedra/java
-$ mvn site
-\end{lstlisting}
-
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report :
-\begin{lstlisting}
-iceweasel target/site/project-reports.html &
-\end{lstlisting}
-\end{itemize}
 
 \subsubsection{Add some new class to our project}
 
@@ -1343,6 +1333,7 @@ Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest}
 $ git merge alpha
 \end{lstlisting}
 
+%$
 
 \subsubsection{Exercice 4}
 \begin{itemize}
