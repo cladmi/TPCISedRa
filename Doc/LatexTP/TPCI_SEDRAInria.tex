@@ -1046,7 +1046,7 @@ files \texttt{CMakeLists.txt} : one under the src directory (the
 main \texttt{CMakeLists.txt}) and one under the tests directory. 
 
 The API provided by this library is here constitued by a single Sphere class. The
-Sphere class offers one object constructor with the radius as parameter and a
+Sphere class offers an object constructor with the radius as parameter and a
 volume method.
 
 A benchmark program named \texttt{bench.cpp} is also built and linked with the
@@ -1098,7 +1098,7 @@ arguments : \texttt{cmake . -D<VARIABLE_NAME>=<VALUE>}. The value remains in
 the cache file, so when a variable has been modified once with a call to cmake, it
 is not necessary to define its value anymore on the command line.
 
-Let's configure our build to a debug build
+Let's configure our build to a debug build:
 
 \begin{lstlisting}
 cmake . -DCMAKE_BUILD_TYPE=Debug
@@ -1106,7 +1106,7 @@ make
 ./bench
 \end{lstlisting}
 
-For an optimized build, we do
+For an optimized build, we do:
 
 \begin{lstlisting}
 cmake . -DCMAKE_BUILD_TYPE=Release
@@ -1125,7 +1125,7 @@ standards.
 To pass a specific argument to the c++ compiler we use the variable
 \texttt{CMAKE\_CXX\_FLAGS}. The arguments passed on the command line to this
 variable are added to the other compiler arguments. In doubt with the
-generated specification, on can use the argument \texttt{VERBOSE=1} to make,
+generated specification, one can use the argument \texttt{VERBOSE=1} to make,
 in order to see the flags passed to the compiler.
 
 \begin{lstlisting}
@@ -1138,11 +1138,16 @@ Now, let's keep this configuration in our build directory.
 
 \subsubsection{Jenkins setup}
 
-Log into the project's Jenkins instance
-Connect to the INRIA Continuous Integration web portal: https://ci.inria.fr/ \\
-Log in and click ``Dashboard''in the top menu \\
-You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button \\
-You may be prompted to log into jenkins, use the same login/passwd as for the ci portal
+Log into the project's Jenkins instance:
+
+\begin{enumerate}
+\item Connect to the INRIA Continuous Integration web portal: https://ci.inria.fr/.
+
+\item Log in and click ``Dashboard''in the top menu
+
+\item You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button
+You may be prompted to log into jenkins, use the same login/passwd as for the ci portal.
+\end{enumerate}
 
 Running your first test on CI:
 
@@ -1204,10 +1209,9 @@ TODO :
 \item Run the test.
 \end{itemize}
 
-On a core i7 laptop and with the previous settings for cmake
-the test should still be successfull.
+The test may still be successfull (this may depends on your hardware and compiler).
 
-Commit your modifications.
+Let's assume it is successfull and commit your modifications.
 
 \begin{lstlisting}
 git commit -m "precomputation of 4pi/3"
@@ -1287,7 +1291,7 @@ TODO
 \item In the cmake configuration file, the top \texttt{CMakeLists.txt}, include the TP module.
 \item With the provided \texttt{CMake} macro, add the compiler warning to the cmake configuration.
 \item Verify that the warning is printed during compilation.
-\item Add the scan for compiler warnings in the ``Post build Action''
+\item In Jenkins, add the scan for compiler warnings in the ``Post build Action'' of your project
 \item Commit the code in order to check the parsing done by Jenkins.
 \item Modify the appropiate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors, cppunit provides a macro for this : 
@@ -1318,7 +1322,7 @@ utility for the generation of html pages and the gcovr utility in order to prese
 A \texttt{CMake} function \texttt{add_test_with_coverage} is provided in the
 \texttt{TP} module to simplify the whole setup.
 
-This function add coverage support when the \texttt{coverage} target (\texttt{make coverage}) is built .
+This function provides coverage support through a new \texttt{make} target. You can see all \texttt{make} targets with the help target : \texttt{make help}
 %$
 
 \subsubsection{Exercice 3}
