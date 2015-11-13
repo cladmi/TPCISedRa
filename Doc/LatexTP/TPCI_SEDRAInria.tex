@@ -1314,32 +1314,36 @@ This is when \textbf{test coverage} becomes handy.
 
 \subsubsection{Installation}
 
-Coverage with gcov needs a compilation with gcc and the
-\texttt{-fprofile-arcs} and \texttt{-ftest-coverage} options.  gcov generates
-raw output that need a post-processing. We are going to use the lcov
-utility for the generation of html pages and the gcovr utility in order to present parsable results to Jenkins.
+Coverage with \texttt{gcov} needs the \texttt{gcc} compiler and the
+\texttt{-fprofile-arcs} and \texttt{-ftest-coverage} options.  \texttt{gcov}
+generates raw output. We are going to use the lcov utility for the
+post-processing and the generation of html pages and the gcovr utility in
+order to present parsable results to Jenkins.
 
 A \texttt{CMake} function \texttt{add_test_with_coverage} is provided in the
 \texttt{TP} module to simplify the whole setup.
 
-This function provides coverage support through a new \texttt{make} target. You can see all \texttt{make} targets with the help target : \texttt{make help}
+This function when used in place of the standard \texttt{CMake} function
+\texttt{add_test} function provides coverage support through a new
+\texttt{make} target (You can see all \texttt{make} targets with the help
+target : \texttt{make help})
 %$
 
 \subsubsection{Exercice 3}
 
 \begin{itemize}
-\item Install coverage for the test TestVolume.
-\item With a web browser open the file \texttt{index.html} under \texttt{TestTP__testVolume} directory
-\item In ``Post-Build Actions'' add ``Publish Cobertura Report'' with the cobertura xml report pattern set to \texttt{<to be fixed>.xml}
+\item Install coverage for the test TestVolume, you need to set the coveraged flags for the build of the library and the test with the add_cxx_compiler_flags and to use the 
+\item With a web browser open the file \texttt{index.html} under \texttt{TestTP__testVolume} directory.
+\item On the Jenkins side, in ``Post-Build Actions'' add ``Publish Cobertura Report'' with the cobertura xml report pattern set to \texttt{<to be fixed>.xml}
 \item Commit
 \end{itemize}
 
 
 \subsubsection{Add some new class to our project}
 
-Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project
+Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project:
 \begin{lstlisting}
-$ git merge alpha
+> git merge alpha-cxx
 \end{lstlisting}
 
 %$
@@ -1427,17 +1431,6 @@ $ firefox target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
-
-
-%----------------------------------------------------------------------------------------
-%   Java CI
-%----------------------------------------------------------------------------------------
-\section{Continuous Integration Part}
-
-
-
-\subsection{Adding feedback to your build}
-One of the good things with Jenkins is its ability to nicely present your test results. \\
 The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding Jenkins plugins.
 
 \subsubsection{Add coverage report}
