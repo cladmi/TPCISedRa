@@ -274,9 +274,14 @@
 
 \subsection{Preamble}
 
-For the Java exercice, we take advantage of Maven environment for building and testing.
+To go through this exercise, you will need to install
+\begin{itemize}
+\item Git (apt-get install git | yum install git)
+\item A JDK (apt-get install openjdk-7-jdk | yum install java-1.7.0-openjdk)
+\item Maven (apt-get install maven | yum install apache-maven)
+\end{itemize}
 
-So make sure you install \texttt{Maven} tool and that your \texttt{Java} environment is well setup (\texttt{JAVA\_HOME} variable is correctly set, ...).
+You will also need an account on both gforge.inria.fr and ci.inria.fr and be a member of the tpcisedra project.
 
 \subsection{Setup}
 
@@ -979,19 +984,472 @@ Send mails on build failure:
 %----------------------------------------------------------------------------------------
 %   C++
 %----------------------------------------------------------------------------------------
+%"${)
+
 \begin{homeworkProblem}[C++ Exercice]
 \section{Local Test Part}
 
 \subsection{Preamble}
 
-For the C++ exercice, we use the following building and testing tools:
+To perform this C++ exercice, we rely on three main development tools:
+
 \begin{itemize}
-\item \texttt{g++} compiler
-\item \texttt{CMake} building tool
-\item \texttt{cppunit} testing framework
+\item A \texttt{C++} compiler, for example \texttt{gcc} or \texttt{clang}.
+\item A build process manager : \texttt{CMake} 
+\item A testing framework : \texttt{cppunit}.
 \end{itemize}
 
-So make sure you install all these tools an that you \texttt{PATH} environment is well setup accordingly.
+On linux, bsd, mac os X systems suitables versions may simply be installed with the package manager.
+for example on fedora systems, one may use the command:
+
+\dots
+
+and on recent debian or ubuntu systems:
+
+\dots
+
+
+\subsection{Setup}
+
+\subsubsection{Clone the git repository from inria forge and create your own branch}
+\begin{lstlisting}
+git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
+cd tpcisedra/cxx
+git checkout -b <yournamehere>
+\end{lstlisting}
+
+A minimal cmake project is present under the file tree :\\
+{\centering\small
+            \begin{minipage}[t]{0.3\linewidth}
+\dirtree{%
+  .1 tpcisedra/c++.
+  .2 src.
+  .3 CMakeLists.txt.
+  .3 cmake.
+  .4 TP.cmake.
+  .3 Sphere.hpp.
+  .3 Sphere.cpp.
+  .3 bench.cpp.
+  .3 tests.
+  .4 CMakeLists.txt.
+  .4 TestTP.hpp.
+  .4 TestTP.cpp.
+  .4 TestMain.cpp.
+}
+\end{minipage}
+}
+
+This \texttt{CMake} project provides the framework needed to build and test a
+dynamic shared and versioned ``TP'' \footnote{``TP'' for ``Travaux Pratiques''
+  in french} library. The \texttt{CMake} configuration is specified in two
+files \texttt{CMakeLists.txt} : one under the src directory (the
+main \texttt{CMakeLists.txt}) and one under the tests directory. 
+
+The API provided by this library is here constitued by a single Sphere class. The
+Sphere class offers an object constructor with the radius as parameter and a
+volume method.
+
+A benchmark program named \texttt{bench.cpp} is also built and linked with the
+library. Although the computation is very simple, this benchmark program may
+be used to compare the influence of some compiler optimization flags.
+
+\subsubsection{Check that you can build the project and run the test}
+
+On a unix system:
+\begin{itemize}
+\item create a build directory, 
+\item create the build environment with cmake,
+\item build the project,
+\item run the test
+\end{itemize}
+
+
+\begin{lstlisting}
+mkdir build
+cd build
+cmake ../cxx
+make
+make test
+\end{lstlisting}
+
+\subsubsection{Run the benchmark}
+
+\texttt{CMake} provides pre-defined build configuration that may be choosen
+with the \texttt{CMAKE\_BUILD\_TYPE} variable. Among them we are going to
+consider:
+
+\begin{itemize}
+\item the \texttt{Debug} build type which sets the debug flags (\texttt{-g} with gcc) 
+\item the \texttt{Release} build type which sets some optimization flags (\texttt{-O3 -DNDEBUG} with gcc)
+\end{itemize} 
+
+Once a directory has been given as argument to \texttt{CMake} it remains in a
+cache, the \texttt{CMakeCache.txt} file in your build directory. This cache
+file is a text file and may be edited by hand.
+
+So for next calls to \texttt{CMake}, we can use the dot directory as argument :
+
+\begin{lstlisting}
+cmake .
+\end{lstlisting}
+
+\texttt{CMake} variables may be set on the command line with \texttt{-D}
+arguments : \texttt{cmake . -D<VARIABLE_NAME>=<VALUE>}. The value remains in
+the cache file, so when a variable has been modified once with a call to cmake, it
+is not necessary to define its value anymore on the command line.
+
+Let's configure our build to a debug build:
+
+\begin{lstlisting}
+cmake . -DCMAKE_BUILD_TYPE=Debug
+make
+./bench
+\end{lstlisting}
+
+For an optimized build, we do:
+
+\begin{lstlisting}
+cmake . -DCMAKE_BUILD_TYPE=Release
+make
+./bench
+\end{lstlisting}
+
+On this very simple computation, the benchmark difference between Debug and
+Release is not dramatic.
+
+With gcc compiler, we can go beyond \texttt{-O3} optimization flag with the
+\texttt{fast-math} option, which implies \texttt{-funsafe-math-optimizations}
+and may break some of the requirements of \texttt{IEEE} and \texttt{ANSI}
+standards.
+
+To pass a specific argument to the c++ compiler we use the variable
+\texttt{CMAKE\_CXX\_FLAGS}. The arguments passed on the command line to this
+variable are added to the other compiler arguments. In doubt with the
+generated specification, one can use the argument \texttt{VERBOSE=1} to make,
+in order to see the flags passed to the compiler.
+
+\begin{lstlisting}
+cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-ffast-math
+make VERBOSE=1
+./bench
+\end{lstlisting}
+
+Now, let's keep this configuration in our build directory.
+
+\subsubsection{Jenkins setup}
+
+Log into the project's Jenkins instance:
+
+\begin{enumerate}
+\item Connect to the INRIA Continuous Integration web portal: https://ci.inria.fr/.
+
+\item Log in and click ``Dashboard''in the top menu
+
+\item You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button
+You may be prompted to log into jenkins, use the same login/passwd as for the ci portal.
+\end{enumerate}
+
+Running your first test on CI:
+
+From our Jenkins dashboard page (https://ci.inria.fr/tpcisedra/), click ``New Item'' in the menu on the left
+Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select ``Freestyle project''
+
+
+Git configuration:
+
+In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field:
+
+\begin{lstlisting}
+https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your login>.git
+\end{lstlisting}
+
+FIX: add build trigger.
+
+
+\subsubsection{Exercice 1}
+Add a new build step : ``Execute shell'', where you inform Jenkins how to
+build and test the project. Choose the \texttt{Debug} configuration for this
+build, this will be needed for coverage as we will see later.
+
+In the shell working directory (the result of the command \texttt{/bin/pwd} in
+this shell) Jenkins has clone your source directory.
+
+Then save the project and verify the configuration with a click on ``Build
+Now'' in the menu on the left.
+
+In the ``Build History'' on the left, click on the last build (hopefully \#1), then select ``Console Output'' \\
+You can also check the ``Test Result''
+
+
+\subsubsection{Exercice 2}
+
+Edit the implementation of the \texttt{Sphere} class :
+\texttt{tpcisedra/c++/src/Sphere.cpp} and have a look at the code of the method \texttt{Sphere::volume()}.\\
+
+\begin{lstlisting}
+double Sphere::volume() const
+{
+  return 4 * M_PI * pow (this->_radius, 3.) / 3.;
+}
+\end{lstlisting}
+
+This is the method which is tested in the unique test of the library, and the test is
+implemented in the file:
+
+\texttt{tpcisedra/c++/src/tests/testTP.cpp}
+
+Let's imagine we want to improve the efficiency of the \texttt{volume()}
+method by pre-computing the value \verb?4 * Math.PI / 3?
+
+
+TODO :
+\begin{itemize}
+\item Extract this value into a class data member.
+\item Run the benchmark. This may shows only a very, very minimal improvement!
+\item Run the test.
+\end{itemize}
+
+The test may still be successfull (this may depends on your hardware and compiler).
+
+Let's assume it is successfull and commit your modifications.
+
+\begin{lstlisting}
+git commit -m "precomputation of 4pi/3"
+git push -a
+\end{lstlisting}
+
+The test should now fail on Jenkins.
+
+Here is the output you can see on Jenkins console:
+\begin{lstlisting}
++ make test
+Running tests...
+Test project /builds/workspace/mb-cxx/build
+    Start 1: TestVolume
+1/1 Test #1: TestVolume .......................***Failed    0.00 sec
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+
+The following tests FAILED:
+	  1 - TestVolume (Failed)
+\end{lstlisting}
+
+
+\subsubsection{Exercice 2}
+
+The \texttt{-funsafe-math-optimizations} implied by \texttt{-ffast-math}
+allows for reordering of floating points operations and this may lead to
+differents results.
+
+The direct check of equality of floating point numbers with the \texttt{==}
+operator should be avoided, we first add a warning (only if understood by the
+compiler) in order not to reproduce this kind of error.
+
+Since version 4.6 \texttt{gcc} gcc provides this warning \texttt{-Wfloat-equal}: 
+
+With portability in mind, before adding the flag to the compiler command, we
+check that the compiler accepts it.
+
+With \texttt{CMake}, there is no builtin function for this operation, but that
+can be achieved with a simple macro:
+
+\begin{lstlisting}
+include(TestCXXAcceptsFlag)
+macro(add_cxx_compiler_flag _flag)
+  string(REPLACE "-" "_" _flag_var ${_flag})
+  check_cxx_accepts_flag("${_flag}" CXX_COMPILER_${_flag_var}_OK)
+  if(CXX_COMPILER_${_flag_var}_OK)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${_flag}")
+  endif()
+endmacro()
+\end{lstlisting}
+
+This macro is provided in the TP.cmake module under cmake directory.
+
+To load this TP module, one have to set the cmake module path to this directory:
+\begin{lstlisting}
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+\end{lstlisting}
+
+%$
+
+And then load the module:
+
+\begin{lstlisting}
+include(TP)
+\end{lstlisting}
+
+This should be done before using the macro.
+
+On Jenkins side, compiler warnings can be checked in the ``Post build
+Actions'' step of your build project. 
+
+TODO
+\begin{itemize}
+\item In the cmake configuration file, the top \texttt{CMakeLists.txt}, include the TP module.
+\item With the provided \texttt{CMake} macro, add the compiler warning to the cmake configuration.
+\item Verify that the warning is printed during compilation.
+\item In Jenkins, add the scan for compiler warnings in the ``Post build Action'' of your project
+\item Commit the code in order to check the parsing done by Jenkins.
+\item Modify the appropiate test in \texttt{TestTP.cpp} so small rounding
+  differences do not cause errors, cppunit provides a macro for this : 
+  \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
+\item Once it is ok and the warning has gone, commit.
+\end{itemize}
+
+%$
+
+
+
+%--------------------------------------
+\subsection{Test Coverage}
+
+At this stage, all our tests pass. But what does that mean regarding our application ?
+
+Not much you may say, but can you quantify it and will you be able to tell on a real project ?
+
+This is when \textbf{test coverage} becomes handy.
+
+\subsubsection{Installation}
+
+Coverage with \texttt{gcov} needs the \texttt{gcc} compiler and the
+\texttt{-fprofile-arcs} and \texttt{-ftest-coverage} options.  \texttt{gcov}
+generates raw output. We are going to use the lcov utility for the
+post-processing and the generation of html pages and the gcovr utility in
+order to present parsable results to Jenkins.
+
+A \texttt{CMake} function \texttt{add_test_with_coverage} is provided in the
+\texttt{TP} module to simplify the whole setup.
+
+This function when used in place of the standard \texttt{CMake} function
+\texttt{add_test} function provides coverage support through a new
+\texttt{make} target (You can see all \texttt{make} targets with the help
+target : \texttt{make help})
+%$
+
+\subsubsection{Exercice 3}
+
+\begin{itemize}
+\item Install coverage for the test TestVolume, you need to set the coveraged flags for the build of the library and the test with the add_cxx_compiler_flags and to use the 
+\item With a web browser open the file \texttt{index.html} under \texttt{TestTP__testVolume} directory.
+\item On the Jenkins side, in ``Post-Build Actions'' add ``Publish Cobertura Report'' with the cobertura xml report pattern set to \texttt{<to be fixed>.xml}
+\item Commit
+\end{itemize}
+
+
+\subsubsection{Add some new class to our project}
+
+Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project:
+\begin{lstlisting}
+> git merge alpha-cxx
+\end{lstlisting}
+
+%$
+
+\subsubsection{Exercice 4}
+\begin{itemize}
+\item Generate and visualize the corresponding coverage report
+\item Make what changes are necessary to achieve 100\% test coverage
+\end{itemize}
+
+%--------------------------------------
+\subsection{Stylecheck}
+
+\subsubsection{Run a style checker}
+
+Let's try and run a style checker :
+\begin{lstlisting}
+$ pwd
+yourpath/tpcisedra/java
+$ mvn checkstyle:checkstyle
+\end{lstlisting}
+We get plenty of errors with the default style \verb?sun_checks.xml?.
+
+Our coding style is close to Google style than it is to Sun style.
+
+\subsubsection{Run Google style checker}
+
+Try running with Google checks (provided by the plugin)
+\begin{lstlisting}
+$ pwd
+yourpath/tpcisedra/java
+$ mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
+\end{lstlisting}
+NOTE: this can also be achieved by adding the following lines to your pom.xml:
+\begin{lstlisting}
+  <properties>
+    <checkstyle.config.location>checkstyle-test.xml</checkstyle.config.location>
+  </properties>
+\end{lstlisting}
+
+It's getting better but we might want to make a few changes to this default behaviour.
+
+\subsubsection{Exercice 5}
+
+\begin{itemize}
+\item Retrieve a local copy of google checks
+\begin{lstlisting}
+$ wget https://raw.githubusercontent.com/checkstyle/checkstyle/
+     18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
+\end{lstlisting}
+\item  Modify the file \texttt{google\_checks.xml} so that it accepts single character
+parameter names.
+\item You may also consider removing trailing underscores from data members or amending checkstyle.xml
+\end{itemize}
+
+\subsubsection{[Optional] Integrate checkstyle to your reporting local website}
+
+Add the following to the file \texttt{pom.xml}
+\begin{lstlisting}
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.16</version>
+      </plugin>
+    </plugins>
+  </reporting>
+\end{lstlisting}
+
+The check style report is now included in the build lifecycle (``site'' phase).
+
+\subsubsection{Exercice 5bis}
+
+\begin {itemize}
+\item To generate the report :
+\begin{lstlisting}
+$ pwd
+yourpath/tpcisedra/java
+$ mvn site
+\end{lstlisting}
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report :
+\begin{lstlisting}
+$ firefox target/site/project-reports.html &
+\end{lstlisting}
+\end{itemize}
+
+The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding Jenkins plugins.
+
+\subsubsection{Add coverage report}
+\begin{itemize}
+\item Go back to your item's configuration page (use the menu on the left)
+\item Replace your build's ``Goals and options'' with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
+\item Click on ``Add post-build action'' and select ``Publish Cobertura Coverage Report'' from the drop-down menu, your ``Cobertura xml report pattern'' is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
+\item Save and Run the test
+\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
+\end{itemize}
+
+\subsubsection{Add checkstyle report}
+\begin{itemize}
+\item Go back to your item's configuration page and add \\
+\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's ``Goals and options''
+\item Check the ``Publish Checkstyle analysis results'' box in ``Build Settings''
+\item Save and Run the test
+\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Checkstyle Warnings'', have a look at it
+\end{itemize}
 
 
 %%Extract from C++ program
