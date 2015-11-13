@@ -39,7 +39,3 @@ def main():
     my_sphere = Sphere(opts.radius)
     volume = my_sphere.volume()
     print "%s volume is %f" % (my_sphere, volume)
-
-
-if __name__ == '__main__':
-    main()
