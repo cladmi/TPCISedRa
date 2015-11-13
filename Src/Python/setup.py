@@ -37,7 +37,8 @@ def get_version(package):
 
 setup(
     name=PACKAGE,
-    description='Alphabet and Sphere package',
+    version=get_version(PACKAGE),
+    description='Sphere package',
     author='Inria SED - Rhones-Alpes',
     # author_email='',
     # url='',

@@ -416,7 +416,7 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 
 Why does the test in \texttt{SphereTest.java} fail ?
 
-This is because of floating point arithmetics \emph{rouding errors}.
+This is because of floating point arithmetics \emph{rounding errors}.
 
 Our response to this issue strongly depends on what kind of application we are working on~:
 \begin{itemize}
@@ -426,7 +426,7 @@ Our response to this issue strongly depends on what kind of application we are w
 
 TODO~:
 \begin{itemize}
-\item Find a way to modify the appropiate test in \texttt{SphereTest.java}
+\item Find a way to modify the appropriate test in \texttt{SphereTest.java}
 so small rounding differences do not cause errors.
 \end{itemize}
 
@@ -661,16 +661,15 @@ The tools we used to run tests and code quality checks have been selected based 
 
 \subsection{Preamble}
 
-In this Python exercice, you will learn how to setup a python package with
-packaging tools, tests, tests code coverage, and static code analysis.
-At the end you will run the project validations in one command, and know how to
-setup it on your personnal projects.
+In this exercice, you will learn how to install your python program with
+packaging tools, test it, measure the tests code coverage, and perform some
+static code analysis. And finally do this in a single command for multiple
+python versions and environments.
 
 
 \subsubsection{Tools presentation}
 
-In the exercices you will use different tools, each one having its specific
-goal.
+For this you will use the following tools:
 
 \texttt{setuptools} packages your project,
 \texttt{unittest} to write tests (standard library),
@@ -678,82 +677,85 @@ goal.
 \texttt{mock} allow replacing function or objects during tests,
 \texttt{pylint} provide static code analysis and style checking,
 \texttt{pep8} verifies code compliancy to python PEP8 style convention
-and \texttt{tox} is a virtualenv based test automation tool which runs all
-testing steps.
+and \texttt{tox} is a virtualenv based test automation tool.
 
 
 \subsection{Setup}
 
 \subsubsection{Python requirements}
 
-For the exercices you need to install the following dependencies.
-
-\begin{lstlisting}
-$ sudo aptitude install  python2 python-pip
-
-# Install directly from Python Package Index
-$ sudo -H pip install --upgrade  nosetests nose-xcover
-$ sudo -H pip install --upgrade  mock
-$ sudo -H pip install --upgrade  pylint pep8 setuptools-lint setuptools-pep8
-$ sudo -H pip install --upgrade  tox
-\end{lstlisting}
+For the exercices you need to install first the following dependencies.
+The other test dependencies will be installed during the exercices.
 
 
 \subsubsection{Create and clone your personal copy of the repository}
 
-\textbf{TODO}, copy the java version or put it in a shared section \textbf{TODO}
+Go to https://gforge.inria.fr/projects/tpcisedra/ \\
+Click on the ``SOURCE CODE'' tab \\
+Click on ``create a personal repository'' \\
+Back to the ``SOURCE CODE'' tab, look for the command to access your personal repository. \\
+WARNING: do not use the anonymous access (containing ``anonscm'') \\
+The correct command should look like this:
+\begin{lstlisting}
+$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/
+    users/<yourloginhere>.git
+$ cd <yourloginhere>/python
+\end{lstlisting}
 
+You should have retrieved the following file tree:\\
+\begin{minipage}[t]{0.3\linewidth} \small
+    \dirtree{%
+        .1 tpcisedra/python.
+        .2 sphere.
+        .2 tp\_ci\_sed.
+        .3 \_\_init\_\_.py.
+        .3 sphere.py.
+        .3 test.
+        .4 \_\_init\_\_.py.
+        .4 sphere\_test.py.
+        .2 raw.
+        .3 \#file used later.
+    }
+\end{minipage}
 
+\subsection{Project presentation}
 
-You should have retrieved the following file tree~:
+This project should be the best package providing sphere volume computation.
+As simple as it can be, we want it packaged, tested, and we want to have this
+nice \verb=build|passing= icon on github: \includegraphics[height=10pt]{build_passing}.
 
+It has a package, named \texttt{tp\_ci\_sed}, with a \texttt{sphere} submodule
+and even a cli script to run it.
 
-\textbf{TODO} FileTree with each files described \textbf{TODO}
+\subsubsection{Exercice 1}
+
+Try the \texttt{sphere} script.
+
+\subsubsection{Exercice 2}
+
+Write the \texttt{Sphere.volume} method.
+For that, use \texttt{math} module and remember volume formula
+$ 4 * \Pi * R^3 / 3 $ you learned in school
+\footnote{Volume of a $1.5$ radius sphere is around $14.137$}.
+
+\paragraph{} Commit your code with a meaningfull message an push.
+
+\subsubsection{Releasing your code}
+
+Now, is your package ready to use by everyone? Can it be installed by users?
 
 
 \subsection{Packaging your code}
 
-First step of an integration process is to be able of simply installing your
-project with its dependencies. In the Python world its done with the
-\texttt{setup.py} script. In the exercices we are using \texttt{setuptools}
-which is more features than the default \texttt{distutils}, for example
-dependencies installation.
+First step of an integration process is being able to install the project with
+its dependencies. In Python it's done using a \texttt{setup.py} script
+written with \texttt{setuptools}
+\footnote{Default \texttt{setup.py} package is \texttt{distutils} but it
+does not manage automatic dependency installation}.
 
-Writing this script is just filling some fields in the correct way so it is
-provided. However, some details matters and will be explained.
-See \texttt{tpicisedra/python/setup.py} file.
-
-\subsubsection{Package dependencies}
-
-Package dependencies can be automatically installed with your program.
-They are listed in the \texttt{install\_requires} here \texttt{argparse} will
-be installed with the package.
-
-\begin{lstlisting}
-setup(
-    ...,
-    install_requires=['argparse'],
-)
-\end{lstlisting}
-
-The selected version can be specified with \texttt{==, <, !=} operators.
-
-
-\subsubsection{Package version}
-
-In a python package, version is usually accessible with
-\texttt{package\_name.\_\_version\_\_}. When packaging the project,
-the version should be the same.
-
-The simplest way would be to import \texttt{package\_name} and access it from
-here. However, this may import non installed dependencies and when running tests
-using \texttt{setup.py} you would get 0\% coverage on imported files imported.
-
-To prevent that, the file is manually read and parsed to find the version.
-
-\subsubsection{Exercice 1}
-
-Find how version is retrieved and how it works.
+The script simply calls \texttt{setuptools.setup} function with the package
+description: package diretory, name, description, author, license, version,
+dependencies, supported python versions, \dots
 
 
 \subsubsection{Usage}
@@ -767,20 +769,532 @@ python setup.py <command> [opts]
 # Install the package
 python setup.py install
 
-# Install the package in development mode
+# Install the package in a way that lets you edit the sources
 python setup.py develop
 
 # Upload your last revision to PyPi repository
 python setup.py upload
 \end{lstlisting}
 
-
-\subsubsection{Setuptools Documentation}
+\paragraph{Setuptools Documentation}
 \url{https://pythonhosted.org/setuptools/setuptools.html}
 
+\subsubsection{Writing the \texttt{setup.py} script}
+
+Writing the script is basically just giving the right informations in the right
+format. Usually adapting an existing one is simple enough so it is provided in
+this exercise.
+
+Copy the \texttt{first} script from the \texttt{raw} folder as \texttt{setup.py}.
+\begin{lstlisting}
+ cp raw/first setup.py
+ cat setup.py
+#! /usr/bin/env python
+# -*- coding:utf-8 -*-
+
+import os
+from setuptools import setup, find_packages
+...
+\end{lstlisting}
+
+\subsubsection{Exercice 3}
+Open the \texttt{setup.py} script and look at the \texttt{setup} function
+arguments.
+
+
+\paragraph{Package dependency}
+Instead of writing in a README what packages are required by your project,
+they can be automatically at package installation with \texttt{setuptools}.
+Dependencies should be listed in the \texttt{install\_requires} here
+\texttt{argparse} will be installed with the package.
+
+\begin{lstlisting}
+setup(
+    ...,
+    install_requires=['argparse'],
+)
+\end{lstlisting}
+
+Depending on your needs, you can specify the version with \texttt{==, <, !=} operators.
+
+\begin{description}
+\item[Note]
+By default \texttt{setuptools} uses PyPi to find packages but can be configured
+to install from many places, like an existing git repository or an http url
+\footnote{\url{https://pythonhosted.org/setuptools/setuptools.html\#dependencies-that-aren-t-in-pypi}}.
+\end{description}
+
+
+\paragraph{Package version} Python package version is usually accessible
+at \texttt{package\_name.\_\_version\_\_} and should be consistent with the
+version in \texttt{setup.py} .
+
+Importing the package in \texttt{setup.py} script is a source of import
+and code coverage errors
+\footnote{Don't import your package in \texttt{setup.py}
+\url{https://stackoverflow.com/q/11279096/395687}}.
+
+To prevent that, package \texttt{\_\_init\_\_.py} file can be read and parsed
+manually to find the version.
+
+\paragraph{}
+Package version can be queried with:
+\begin{lstlisting}
+python setup.py --version
+\end{lstlisting}
+
+
+\subsubsection{Exercice 4}
+
+Find where the version is stored and how it is retrieved in the
+\texttt{setup.py} script.
+
+\subsection{Semantic Versioning}
+
+Versioning should help users follow features addition and know when incompatible
+changes have been introduced.
+Semantic Versioning gives you simple rules for changing your version numbers.
+
+\begin{quote}
+\begin{center}Summary \url{http://semver.org/}\end{center}
+
+Given a version number MAJOR.MINOR.PATCH, increment the:
+
+\begin{itemize}
+	\item MAJOR version when you make incompatible API changes,
+	\item MINOR version when you add functionality in a backwards-compatible manner, and
+	\item PATCH version when you make backwards-compatible bug fixes.
+\end{itemize}
+Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
+\end{quote}
+
+For the following parts, remember to increment the version when you change the
+API. However, as the code is still in \texttt{alpha} no need to increment the
+\texttt{MAJOR} the \texttt{MINOR} is enough.
+
+
+\subsection{Tests}
+
+Executing your code in command line and visually verifying the result is testing.
+However some parts of the code may be hard to reach from the cli, and are hard to
+test this way. Also, we want to automate this step and make it repeatable.
+
+So basically, we will write code to execute our code and verify the output.
+And to simplify the organization we will use existing tools to write them.
+
+\paragraph{}In this section you will write tests using \texttt{unittest} and
+execute them with \texttt{nosetests}.
+
+Install the \texttt{nose} tools dependencies:
+\begin{lstlisting}
+sudo -H pip install --upgrade  nosetests nose-xcover
+\end{lstlisting}
+
+One test has already been written as an example. Run it with \texttt{nosetests}
+\begin{lstlisting}
+nosetests -v
+test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+OK
+\end{lstlisting}
+
+Now go in \texttt{tp\_ci\_sed/test/sphere\_test.py} to see the implementation.
+
+\paragraph{unittest}
+framework\footnote{\url{https://docs.python.org/2/library/unittest.html}}
+is the Python implementation of \texttt{JUnit}.
+
+It provides a \texttt{TestCase} base class to help writing tests.
+This class implements several assert functions and also runs \texttt{setUp} and
+\texttt{tearDown} methods before and after each tests if implemented.
+This helps configuring a test environment.
+
+
+\subsubsection{Exercice 5}
+
+As you can see, \texttt{test\_volume\_0} is not enough to validate your code.
+Add another test to validate the volume computation with
+$radius=1.5$ where $volume=14.137166941154069$.
+
+\paragraph{}Commit your code with the new test.
+
+
+\subsubsection{Refactoring}
+
+Now that your code is tested, you can safely start refactoring it.
+In our formula, the $ 4 * \Pi / 3 $ part can be computed only once instead of
+at each \texttt{volume} call.
+
+\subsubsection{Exercice 6}
+
+Move it in a class variable and use it in the \texttt{volume} method.
+
+Run the tests again. It should fail:
+
+\begin{lstlisting}
+nosetests -v
+test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
+test_volume_1_5 (tp_ci_sed.test.sphere_test.TestSphere) ... FAIL
+
+======================================================================
+FAIL: test_volume_1_5 (tp_ci_sed.test.sphere_test.TestSphere)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File ".../tp_ci_sed/test/sphere_test.py", line 19, in test_volume_1_5
+    self.assertEqual(14.137166941154069, vol)
+AssertionError: 14.137166941154069 != 14.137166941154067
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.007s
+
+FAILED (failures=1)
+\end{lstlisting}
+
+\begin{description}
+\item[Note] If it does not fail, ask for help, magic numbers technique failed.
+\end{description}
+
+Why does the test fail?
+
+Because of floating point arithmetics \emph{rounding errors}.
+
+Our response to this issue strongly depends on what kind of application we are
+working on:
+\begin{itemize}
+\item In some cases, we want to be aware that something has changed, even when
+    the change is the tiniest. In that case, the test we already have is just what we want.
+\item In other cases, we need not worry about such a small difference and hence
+    do not want to be bothered by tests complaining.
+\end{itemize}
+
+Here, the code result is correct, so the fail should pass.
+
+\subsubsection{Exercice 7}
+
+Find a way to modify the test so small rounding differences do not cause errors.
+
+\paragraph{Hint}List of \texttt{unittest} assert functions:
+
+\url{https://docs.python.org/2/library/unittest.html\#unittest.FunctionTestCase}
+
+
+\subsection{Code coverage}
+
+When running tests, the information of what part of the code has been tested is
+also meaningful. It is often refered as "code coverage".
+
+With Python it can be generated with the \texttt{coverage} package, but also
+directly with \texttt{nosetests} and \texttt{nose-xcover}.
+
+To get the coverage output, run
+\begin{lstlisting}
+ nosetests -v --with-xcoverage --cover-erase  --cover-inclusive \
+    --cover-branches --cover-html --cover-package  tp_ci_sed
+
+test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
+test_volume_1_5 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
+
+Name                  Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------
+tp_ci_sed.py              1      0      0      0   100%
+tp_ci_sed/sphere.py      19      6      2      1    67%   19, 28-32, 36, 35->36
+-----------------------------------------------------------------
+TOTAL                    20      6      2      1    68%
+----------------------------------------------------------------------
+Ran 2 tests in 0.012s
+
+OK
+\end{lstlisting}
+
+You can read the coverage output directly in the \texttt{nosetests} output.
+But a human readable html report and an xml report for jenkins are also generated.
+
+
+\begin{lstlisting}
+ ls
+cover coverage.xml  raw  sphere  tp_ci_sed
+ file coverage.xml
+coverage.xml: XML document text
+\end{lstlisting}
+
+See the html report
+
+\begin{lstlisting}
+ firefox cover/index.html &
+\end{lstlisting}
+
+
+\subsection{\texttt{setup.py} subcommands}
+
+As running \texttt{nosetests} with all the options is quite a pain, you will use
+\texttt{setuptools} to configure the \texttt{nosetests} command.
+
+Calling \texttt{nosetests} can be done using
+\begin{lstlisting}
+ python setup.py nosetests
+
+...
+
+reading manifest file 'tp_ci_sed.egg-info/SOURCES.txt'
+writing manifest file 'tp_ci_sed.egg-info/SOURCES.txt'
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.006s
+
+OK
+\end{lstlisting}
+
+Configuring \texttt{setup.py} commands requires adding options in a
+\texttt{setup.cfg} file.
+
+Copy the \texttt{second} script from the \texttt{raw} folder as \texttt{setup.cfg}.
+\begin{lstlisting}
+ cp raw/second setup.cfg
+ cat setup.cfg
+\end{lstlisting}
+
+The first part is \texttt{nosetests} configuration and allow coverage and also
+searching for all type of tests.
+
+Re run the command:
+
+\begin{lstlisting}
+ python setup.py nosetests
+
+...
+
+----------------------------------------------------------------------
+XML: /home/harter/work/tpcisedra/python/nosetests.xml
+Name                  Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------
+tp_ci_sed.py              1      0      0      0   100%
+tp_ci_sed/sphere.py      19      6      2      1    67%   19, 28-32, 36, 35->36
+-----------------------------------------------------------------
+TOTAL                    20      6      2      1    68%
+----------------------------------------------------------------------
+Ran 2 tests in 0.012s
+
+OK
+\end{lstlisting}
+
+
+Now running the tests with \texttt{python setup.py nosetests} also generates the
+coverage report.
+
+
+\subsection{Code static analysis and style}
+
+Python is a dynamic language where many things are evaluated at runtime,
+more than compiled languages. It means that if you do typos, errors may only
+occur when running the program. Using a static analysis program can detect
+errors without executing your program.
+
+With the same goal, using coding standards for formatting your code can increase
+readability. It make all your code look the same and ease comprehension.
+For python there is even an official coding style guide defined in the
+Python Enhancement Proposal 8 (PEP8\footnote{\url{https://www.python.org/dev/peps/pep-0008/}}).
+
+
+\paragraph{}In this section you will use two tools:
+\texttt{Pylint} and \texttt{PEP8} to perform static analysis and code style
+checking. They will be run using the \texttt{setup.py} script and so there
+configuration is in \texttt{setup.cfg}.
+
+
+Install dependencies, note the \texttt{setuptools-XXXX} which provide
+\texttt{setup.py} wrapper.
+\begin{lstlisting}
+sudo -H pip install --upgrade  pylint pep8 setuptools-lint setuptools-pep8
+\end{lstlisting}
+
+Run the two commands:
+
+\begin{lstlisting}
+ python setup.py lint
+ python setup.py pep8
+\end{lstlisting}
+
+You will, I think, get a lot of errors and warnings.
+
+\subsubsection{Exercice 8}
+
+Fix the errors.
+However, putting an empty docstring to get rid of the message is evil, it is
+your code documentation!
+
+\begin{description}
+  \item[Note] The tools may return some false-positive.
+    In this case it is possible to disable the error message.
+    Refer to the documentation when needed:
+    \url{http://docs.pylint.org/message-control}
+\end{description}
+
+
+\subsection{All tests in one command}
+
+Now that we sum up what we have, testing all your application with the previous
+tools is simply running the three following commands:
+
+\begin{lstlisting}
+ python setup.py nosetests
+ python setup.py lint
+ python setup.py pep8
+\end{lstlisting}
+
+You can write that in your documentation and let other users to do it.
+Is it enough?
+
+Do you remember to tell to install the tests dependencies?
+And if you want to add another test tool? You must inform all developpers to
+run the new command.
+And if you want to test with Python3?
+
+Adding a bash script to do it would work but as we are working with Python,
+let's use the right tool.
+
+
+\paragraph{tox}\footnote{\url{https://tox.readthedocs.org/en/latest/}}
+Is a generic \texttt{virtualenv} based automation tool.
+It lets you test that your package installs with different interpreters and runs
+tests in each environment.
+
+
+Install \texttt{tox} dependency.
+\begin{lstlisting}
+sudo -H pip install --upgrade  tox
+\end{lstlisting}
 
 
 
+\paragraph{}First thing, copy the \texttt{tests\_utils} from \texttt{raw} directory:
+\begin{lstlisting}
+ cp -r raw/tests_utils .
+ ls tests_utils/
+coverage-python-3.2.txt  pylint-python-2.6_3.2.txt  test-requirements.txt
+\end{lstlisting}
+
+Look into these files.
+
+All tests dependencies are described in the \texttt{test-requirements.txt} file.
+The two other files are specific versions for python 2.6 and 3.2.
+
+
+Now copy the \texttt{tox.ini} file from \texttt{raw/third} file.
+\begin{lstlisting}
+ cp -r raw/third tox.ini
+\end{lstlisting}
+
+The file content is the following:
+
+\lstinputlisting[caption=tox.ini,label=tox.ini]{../../Src/Python/tox.ini}
+
+The different part of the file are:
+\begin{itemize}
+\item envlist: is the list of python version you want to run on. Here only Python2.7 for the moment.
+\item deps: the test dependencies. With specific packages versions for \texttt{python2.6 python3.2}.
+\item commands: the list of test commands. The front dash \texttt{-} means don't fail on execution error.
+\end{itemize}
+
+Now executing your tests simply means running \texttt{tox} and the only required
+dependency installed is \texttt{tox} itself.
+
+\paragraph{Other versions}
+If everything succeeds, and you have python3 installed add it to the environment
+to see the result (py32 for python3.2). Re-run tox.
+I think it will fail, at least with the 'print' statement.
+
+However, you see how easy it is to test your code on different python versions.
+Making a code working for python2 and python3 requires some time, but at least
+it's easy to test!
+
+\paragraph{Conclusion} Now all you learned was how a test environment is created,
+how it is problematic, but how it can, at the end be summed up in one command
+with \texttt{tox}.
+
+
+
+\subsection{Advances tests writing: mocking}
+
+
+\begin{description}
+    \item[mock] \url{http://www.voidspace.org.uk/python/mock/index.html}
+\end{description}
+
+When testing, it is useful to replace some part of your application to give it
+a special behaviour, like raising an exception, or to prevent its side effect,
+like connection to an external service. It is also easier to be able to know how
+an object has been used or a function been called.
+
+In this section you will see \texttt{mock} to test the \texttt{main} function
+and verify the printed output.
+
+
+Install the dependency to have it on your system. It will be installed by
+\texttt{tox} in the test environment.
+\begin{lstlisting}
+sudo -H pip install --upgrade  mock
+\end{lstlisting}
+
+\texttt{mock} class provides mainly two important things:
+\begin{itemize}
+    \item \texttt{Mock} class which is an object whose behaviour can be
+        configured and that records all action on it.
+    \item \texttt{patch} function that dynamically replaces one
+        function/method/object with a Mock object.
+\end{itemize}
+
+\paragraph{sorry}Explaining mocks and applying is too long for this course,
+in this section I will mainly make you copy paste the code, try it and read
+afterwards to give you an example. See online documentations when trying it
+yourself.
+
+Copy the \texttt{fourth} file as \texttt{tp\_ci\_sed/test/sphere\_test\_main.py}
+and re-run tests.
+\begin{lstlisting}
+ cp -r raw/fourth tp_ci_sed/test/sphere_test_main.py
+ tox
+\end{lstlisting}
+
+You can see that we now have 100\% coverage.
+
+Now open the \texttt{sphere\_test\_main.py} in your editor and I will detail
+some parts.
+
+\paragraph{Main function} In order to test the main function, the program
+arguments \texttt{sys.argv} should be replaced with different values.
+Here I am patching it using a \texttt{context\_manager} (\texttt{with} keyword).
+It automatically applies and cleans up the patch.
+
+\paragraph{Mocking outputs} Two methods are presented:
+
+The first one is mockng \texttt{sys.stdout} with a \texttt{StringIO} object and
+get the written string. Here it is also done using a context manager.
+
+Another, is mocking the file object and verify \texttt{write} call arguments.
+It is presented here for \texttt{sys.stderr} by patching in \texttt{setUp} and
+cleaning it with \texttt{patch.stopall()} in \texttt{tearDown}.
+
+
+Both method are valid, it's just for presenting alternatives.
+
+
+\paragraph{Hints:} Some advices I want to give on patch:
+
+\begin{itemize}
+\item When 'patching' always verify that the mock has been called by your
+ program, there are so many cases where you can just fail to patch correctly.
+\item When patching a class, you should use MockClass.return\_value to get the instance mock.
+\item The patching path can depend on how the module is imported
+    \url{http://www.voidspace.org.uk/python/mock/patch.html#where-to-patch}.
+    Read it, try it, and understand this prior testing your application.
+    Basically, when patching an object imported using \texttt{import XXXX} it requires absolute patch path.
+    And when an object imported using \verb=from XXX import yyyyy= it requires patching from the importing module.
+\end{itemize}
+
+For every other problems, look at the documentation.
 
 
 \section{Continuous Integration Part}
