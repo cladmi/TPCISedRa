@@ -697,9 +697,9 @@ Back to the ``SOURCE CODE'' tab, look for the command to access your personal re
 WARNING: do not use the anonymous access (containing ``anonscm'') \\
 The correct command should look like this:
 \begin{lstlisting}
-$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/
-    users/<yourloginhere>.git
-$ cd <yourloginhere>/python
+$ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/
+    users/<yourlogin>.git
+$ cd <yourlogin>/python
 \end{lstlisting}
 
 You should have retrieved the following file tree:\\
@@ -1517,7 +1517,7 @@ On Linux, BSD, MACOS X systems, suitables versions may simply be installed with 
 For example : 
 \begin{itemize}
 \item on Fedora systems, one may use the command~: \texttt{sudo yum install cmake cppunit gcc-c++}
-\item and on recent Debian or Ubuntu systems~:
+\item on recent Debian or Ubuntu systems~:
 \texttt{sudo apt-get install cmake cppunit gcc-c++}
 \end{itemize}
 
@@ -1536,19 +1536,17 @@ A minimal \texttt{CMake} project is present under the file tree~:\\
 {\centering\small
             \begin{minipage}[t]{0.3\linewidth}
 \dirtree{%
-  .1 tpcisedra/c++.
-  .2 src.
+  .1 tpcisedra/cxx.
+  .2 CMakeLists.txt.
+  .2 cmake.
+  .2 Sphere.hpp.
+  .2 Sphere.cpp.
+  .2 bench.cpp.
+  .2 tests.
   .3 CMakeLists.txt.
-  .3 cmake.
-  .4 TP.cmake.
-  .3 Sphere.hpp.
-  .3 Sphere.cpp.
-  .3 bench.cpp.
-  .3 tests.
-  .4 CMakeLists.txt.
-  .4 TestTP.hpp.
-  .4 TestTP.cpp.
-  .4 TestMain.cpp.
+  .3 TestTP.hpp.
+  .3 TestTP.cpp.
+  .3 TestMain.cpp.
 }
 \end{minipage}
 }
@@ -1559,7 +1557,7 @@ dynamic shared and versioned ``TP'' \footnote{``TP'' for ``Travaux Pratiques''
   in french} library. The \texttt{CMake} configuration is specified in two
 \texttt{CMakeLists.txt} files~:
 \begin{itemize}
-\item one under the \texttt{src} directory : the main \texttt{CMakeLists.txt}
+\item one under the main directory : the main \texttt{CMakeLists.txt}
 \item one under the \texttt{tests} directory.
 \end{itemize}
 
@@ -1573,17 +1571,17 @@ be used to compare the influence of some compiler optimization flags.
 
 On a Unix system~:
 \begin{itemize}
-\item create a build directory, 
-\item create the build environment with \texttt{CMake},
-\item build the project,
-\item run the test
+\item Create a build directory
+\item Create the build environment with \texttt{CMake}
+\item Build the project
+\item Run the test
 \end{itemize}
 
 
 \begin{lstlisting}
 $ mkdir build
 $ cd build
-$ cmake ../cxx
+$ cmake ..
 $ make
 $ make test
 \end{lstlisting}
@@ -1596,7 +1594,7 @@ consider~:
 
 \begin{itemize}
 \item the \texttt{Debug} build type which sets the debug flags (\texttt{-g} with gcc) 
-\item the \texttt{Release} build type which sets some optimization flags (\texttt{-O3 -DNDEBUG} with gcc)
+\item the \texttt{Release} build type which sets some optimization flags (\texttt{-O3 -DNDEBUG} with \texttt{GNU C++})
 \end{itemize} 
 
 Once a directory has been given as argument to \texttt{CMake} it remains in a
@@ -1631,13 +1629,12 @@ $ ./bench
 Over this very simple computation, the benchmark difference between Debug and
 Release is not dramatic.
 
-With \texttt{gcc} compiler, we can go beyond \texttt{-O3} optimization flag with the
+With \texttt{GNU C++} compiler, we can go beyond \texttt{-O3} optimization flag with the
 \texttt{fast-math} option, which implies \texttt{-funsafe-math-optimizations}
 and may break some of the requirements of \texttt{IEEE} and \texttt{ANSI}
 standards.
 
-To pass a specific argument to the \texttt{c++} compiler we use the variable
-\texttt{CMAKE\_CXX\_FLAGS}. The arguments passed on the command line to this
+To pass a specific argument to the \texttt{GNU C++} compiler, we use the variable \texttt{CMAKE\_CXX\_FLAGS}. The arguments passed on the command line to this
 variable are added to the other compiler arguments. In doubt with the
 generated specification, one can use the argument \texttt{VERBOSE=1} to make,
 in order to see the flags passed to the compiler.
@@ -1647,6 +1644,8 @@ $ cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-ffast-math
 $ make VERBOSE=1
 $ ./bench
 \end{lstlisting}
+
+You should see a difference on time.
 
 Now, let's keep this configuration in our build directory.
 
@@ -1675,7 +1674,7 @@ Git configuration~:
 \item Copy the \emph{anonymous} URL to your personal repository into the appropriate field~:
 
 \begin{lstlisting}
-https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your login>.git
+https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
 \end{lstlisting}
 \end{itemize}
 
