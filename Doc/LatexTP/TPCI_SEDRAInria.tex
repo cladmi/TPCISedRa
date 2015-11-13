@@ -606,10 +606,10 @@ $ firefox target/site/project-reports.html &
 Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/} \\
 Log in and click \textbf{\texttt{Dashboard}}in the top menu \\
 You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button \\
-You may be prompted to log into jenkins, use the same login/passwd as for the ci portal
+You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the ci portal
 
 \subsection{Running your first test on CI}
-From our Jenkins dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
+From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
 Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Maven project}}
 
 \subsubsection{Git configuration}
@@ -632,8 +632,8 @@ In the \textbf{\texttt{Build History}} on the left, click on the last build (hop
 You can also check the \textbf{\texttt{Test Result}}
 
 \subsection{Adding build feedback}
-One of the good things with Jenkins is its ability to nicely present your test results. \\
-The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding Jenkins plugins.
+One of the good things with \texttt{Jenkins} is its ability to nicely present your test results. \\
+The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding \texttt{Jenkins} plugins.
 
 \subsubsection{Add coverage report}
 \begin{itemize}
@@ -1020,7 +1020,7 @@ OK
 \end{lstlisting}
 
 You can read the coverage output directly in the \texttt{nosetests} output.
-But a human readable html report and an xml report for jenkins are also generated.
+But a human readable html report and an xml report for \texttt{Jenkins} are also generated.
 
 
 \begin{lstlisting}
@@ -1374,9 +1374,9 @@ See the build output, you can see tests/coverage/pylint/pep8 text results.
 
 \subsection{Adding build feedback}
 
-A big value of Jenkins is the ability to nicely present your tests results.
+A big value of \texttt{Jenkins} is the ability to nicely present your tests results.
 
-The tools used to run tests and code quality where selected because they have output files compatible with Jenkins plugins.
+The tools used to run tests and code quality where selected because they have output files compatible with \texttt{Jenkins} plugins.
 
 \begin{description}
 \item[Note~:]
@@ -1552,7 +1552,6 @@ Then on a terminal, clone the content of your personnal \texttt{git} repository.
 \begin{lstlisting}
 $ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
 $ cd tpcisedra/cxx
-$ git checkout -b <yourname>
 \end{lstlisting}
 
 A minimal \texttt{CMake} project is present under the file tree~:\\
@@ -1675,19 +1674,19 @@ Now, let's keep this configuration in our build directory.
 
 \subsection{Jenkins setup}
 
-Log into the project's Jenkins instance~:
+Log into the project's \texttt{Jenkins} instance~:
 
 \begin{enumerate}
 \item Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/}.
 
 \item Log in and click \textbf{\texttt{Dashboard}} in the top menu
 \item You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button.
-You may be prompted to log into jenkins, use the same login/passwd as for the ci portal.
+You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the ci portal.
 \end{enumerate}
 
 Running your first test on CI~:
 \begin{itemize}
-\item From our Jenkins dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
+\item From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
 \item Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Freestyle project}}
 \end{itemize}
 
@@ -1753,12 +1752,12 @@ Let's assume it is successfull and commit your modifications.
 
 \begin{lstlisting}
 $ git commit -m "precomputation of 4pi/3"
-$ git push -a
+$ git push
 \end{lstlisting}
 
-The test should now fail on Jenkins.
+The test should now fail on \texttt{Jenkins}.
 
-Here is the output you can see on Jenkins console~:
+Here is the output you can see on \texttt{Jenkins} console~:
 \begin{lstlisting}
 + make test
 Running tests...
@@ -1785,11 +1784,8 @@ The direct check of equality of floating point numbers with the \texttt{==}
 operator should be avoided, we first add a warning (only if understood by the
 compiler) in order not to reproduce this kind of error.
 
-\textbf{Note}~:
-\begin{itemize}
-\item Since version $4.6$. \texttt{gcc} provides this warning \texttt{-Wfloat-equal}. 
-\item With portability in mind, before adding the flag to the compiler command, we need to check that the compiler accepts it.
-\end{itemize}
+Since version $4.6$, \texttt{gcc} provides this warning \texttt{-Wfloat-equal}. 
+With portability in mind, before adding the flag to the compiler command, we need to check that the compiler accepts it.
 
 With \texttt{CMake}, there is no builtin function for this operation, but that
 can be achieved with a simple macro~:
@@ -1805,36 +1801,34 @@ macro(add_cxx_compiler_flag _flag)
 endmacro()
 \end{lstlisting}
 
-This macro is provided in the TP.cmake module under \texttt{cmake} directory.
+This macro is provided in the \texttt{TP.cmake} module file under \texttt{cmake} directory.
 
-To load this TP module, one have to set the \texttt{CMake module path} to this directory~:
+To load this TP module, you need to modify the \texttt{CMakelists.txt} file :
+\begin{itemize}
+\item Set the \texttt{CMake module path} to this directory~:
 \begin{lstlisting}
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 \end{lstlisting}
-
-%$
-
-And then load the module~:
-
+\item Load the module \texttt{TP}; this should be done before using the macro~:
 \begin{lstlisting}
 include(TP)
 \end{lstlisting}
+\end{itemize}
 
-This should be done before using the macro.
-
-On Jenkins side, compiler warnings can be checked in the \texttt{Post build Actions} step of your build project. 
+On \texttt{Jenkins} side, compiler warnings can be checked in the \texttt{Post build Actions} step of your build project. 
 
 TODO~:
 \begin{itemize}
-\item In the \texttt{CMake} configuration file, main \texttt{CMakeLists.txt}, include the TP module.
-\item With the provided \texttt{CMake} macro, add the compiler warning to the \texttt{CMake} configuration.
-\item Verify that the warning is printed during compilation.
-\item In Jenkins, add the scan for compiler warnings in the \texttt{Post build Action} of your project
-\item Commit the code in order to check the parsing done by Jenkins.
+\item In the \texttt{CMake} configuration file, \texttt{CMakeLists.txt}, include the TP module.
+\item With the provided \texttt{CMake TP} macro, add the compiler warning to the \texttt{CMake} configuration
+\item Verify that the warning is printed during compilation
+\item Commit the code in order to check the parsing done by \texttt{Jenkins}
+\item In \texttt{Jenkins}, add the scan for compiler warnings in the \texttt{Post build Action} of your project
 \item Modify the appropiate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors, \texttt{cppunit} provides a macro for this~: 
   \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
-\item Once it is OK and the warning has gone, commit.
+\item Once it is OK and the warning has gone, commit
+\item Rebuild on \texttt{Jenkins} to check.
 \end{itemize}
 
 %$
@@ -1969,7 +1963,7 @@ $ firefox target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
-The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding Jenkins plugins.
+The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding \texttt{Jenkins} plugins.
 
 \section{Reports}
 \subsection{Add coverage report}
