@@ -293,9 +293,9 @@ Back to the ``SOURCE CODE'' tab, look for the command to access your personal re
 WARNING~: do not use the anonymous access (containing ``anonscm'') \\
 The correct command should look like this~:
 \begin{lstlisting}
-$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/
-    users/<yourloginhere>.git
-$ cd <yourloginhere>/java
+$ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/
+    users/<yourlogin>.git
+$ cd <yourlogin>/java
 \end{lstlisting}
 
 \
@@ -626,17 +626,17 @@ Click ``Build Now'' in the menu on the left
 In the ``Build History'' on the left, click on the last build (hopefully \#1), then select ``Console Output'' \\
 You can also check the ``Test Result''
 
-\subsection{Adding feedback to your build}
+\subsection{Adding build feedback}
 One of the good things with Jenkins is its ability to nicely present your test results. \\
 The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding Jenkins plugins.
 
 \subsubsection{Add coverage report}
 \begin{itemize}
 \item Go back to your item's configuration page (use the menu on the left)
-\item Replace your build's ``Goals and options'' with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
-\item Click on ``Add post-build action'' and select ``Publish Cobertura Coverage Report'' from the drop-down menu, your ``Cobertura xml report pattern'' is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
+\item Replace your build's \texttt{Goals and options} with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
+\item Click on \texttt{Add post-build action} and select \texttt{Publish Cobertura Coverage Report} from the drop-down menu, your ``Cobertura xml report pattern'' is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
 \item Save and Run the test
-\item Check the output~: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
+\item Check the output~: in the \texttt{Build History} on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
 \end{itemize}
 
 \subsubsection{Add checkstyle report}
@@ -689,13 +689,13 @@ testing steps.
 For the exercices you need to install the following dependencies.
 
 \begin{lstlisting}
-sudo aptitude install  python2 python-pip
+$ sudo aptitude install  python2 python-pip
 
 # Install directly from Python Package Index
-sudo -H pip install --upgrade  nosetests nose-xcover
-sudo -H pip install --upgrade  mock
-sudo -H pip install --upgrade  pylint pep8 setuptools-lint setuptools-pep8
-sudo -H pip install --upgrade  tox
+$ sudo -H pip install --upgrade  nosetests nose-xcover
+$ sudo -H pip install --upgrade  mock
+$ sudo -H pip install --upgrade  pylint pep8 setuptools-lint setuptools-pep8
+$ sudo -H pip install --upgrade  tox
 \end{lstlisting}
 
 
@@ -847,7 +847,7 @@ tox
 See the build output, you can see tests/coverage/pylint/pep8 text results.
 
 
-\subsection{Adding Build feedback}
+\subsection{Adding build feedback}
 
 A big value of Jenkins is the ability to nicely present your tests results.
 
@@ -987,9 +987,8 @@ Send mails on build failure~:
 %"${)
 
 \begin{homeworkProblem}[C++ Exercice]
-\section{Local Test Part}
 
-\subsection{Preamble}
+\section{Preamble}
 
 To perform this \texttt{C++} exercice, we rely on three main development tools~:
 
@@ -1001,23 +1000,22 @@ To perform this \texttt{C++} exercice, we rely on three main development tools~:
 
 On Linux, BSD, MACOS X systems, suitables versions may simply be installed with the package manager (\texttt{yum, apt, etc}).
 
-For example on Fedora systems, one may use the command~:
+For example : 
 \begin{itemize}
-\item \texttt{yum install cmake cppunit gcc-c++}
-\end{itemize}
-and on recent Debian or Ubuntu systems~:
-\begin{itemize}
-\item \texttt{apt-get install cmake cppunit gcc-c++}
+\item on Fedora systems, one may use the command~: \texttt{sudo yum install cmake cppunit gcc-c++}
+\item and on recent Debian or Ubuntu systems~:
+\texttt{sudo apt-get install cmake cppunit gcc-c++}
 \end{itemize}
 
 
-\subsection{Setup}
+\section{Setup}
+\subsection{Local setup}
 
 \subsubsection{Clone the git repository from INRIA forge and create your own branch}
 \begin{lstlisting}
-$ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
+$ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
 $ cd tpcisedra/cxx
-$ git checkout -b <yournamehere>
+$ git checkout -b <yourname>
 \end{lstlisting}
 
 A minimal \texttt{CMake} project is present under the file tree~:\\
@@ -1138,7 +1136,7 @@ $ ./bench
 
 Now, let's keep this configuration in our build directory.
 
-\subsubsection{Jenkins setup}
+\subsection{Jenkins setup}
 
 Log into the project's Jenkins instance~:
 
@@ -1172,7 +1170,7 @@ FIX~: add build trigger.
 
 \subsubsection{Exercice 1}
 
-Add a new build step~: ``Execute shell'', where you inform \texttt{Jenkins} how to build and test the project.
+Add a new build step~ using \texttt{Execute shell}, where you inform \texttt{Jenkins} how to build and test the project.
 
 \begin{itemize}
 \item You have to choose the \texttt{Debug} configuration for this build, this will be needed for coverage as we will see later.\\
@@ -1186,6 +1184,7 @@ You can also check the \texttt{Test Result}.
 
 \subsubsection{Exercice 2}
 
+\paragraph{First part}
 Edit the implementation of the \texttt{Sphere} class~:
 \texttt{tpcisedra/c++/src/Sphere.cpp} and have a look at the code of the method \texttt{Sphere::volume()}.
 
@@ -1239,7 +1238,7 @@ The following tests FAILED:
 \end{lstlisting}
 
 
-\subsubsection{More on exercice 2}
+\paragraph{Second part}
 
 The \texttt{-funsafe-math-optimizations} implied by \texttt{-ffast-math}
 allows for reordering of floating points operations and this may lead to
@@ -1306,7 +1305,7 @@ TODO~:
 
 
 %--------------------------------------
-\subsection{Test Coverage}
+\section{Test Coverage}
 
 At this stage, all our tests pass. But what does that mean regarding our application ?
 
@@ -1314,7 +1313,7 @@ Not much, you may say, but can you quantify it and will you be able to tell on a
 
 This is when \textbf{test coverage} becomes handy.
 
-\subsubsection{Installation}
+\subsection{Installation}
 
 Coverage with \texttt{gcov} needs the \texttt{gcc} compiler and the
 \texttt{-fprofile-arcs} and \texttt{-ftest-coverage} options.  \texttt{gcov}
@@ -1342,7 +1341,7 @@ TODO~:
 \end{itemize}
 
 
-\subsubsection{Add some new class to our project}
+\subsection{Add some new class to our project}
 
 Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project~:
 \begin{lstlisting}
@@ -1358,9 +1357,9 @@ $ git merge alpha-cxx
 \end{itemize}
 
 %--------------------------------------
-\subsection{Stylecheck}
+\section{Stylecheck}
 
-\subsubsection{Run a style checker}
+\subsection{Run a style checker}
 
 Let's try and run a style checker~:
 \begin{lstlisting}
@@ -1372,7 +1371,7 @@ We get plenty of errors with the default style \verb?sun_checks.xml?.
 
 Our coding style is close to Google style than it is to Sun style.
 
-\subsubsection{Run Google style checker}
+\subsection{Run Google style checker}
 
 Try running with Google checks (provided by the plugin)
 \begin{lstlisting}
@@ -1389,7 +1388,7 @@ NOTE~: this can also be achieved by adding the following lines to your pom.xml~:
 
 It's getting better but we might want to make a few changes to this default behaviour.
 
-\subsubsection{Exercice 5}
+\subsection{Exercice 5}
 
 \begin{itemize}
 \item Retrieve a local copy of google checks
@@ -1401,7 +1400,7 @@ $ wget https://raw.githubusercontent.com/checkstyle/checkstyle/
 \item You may also consider removing trailing underscores from data members or amending \texttt{checkstyle.xml}.
 \end{itemize}
 
-\subsubsection{[Optional] Integrate checkstyle to your reporting local website}
+\subsection{[Optional] Integrate checkstyle to your reporting local website}
 
 Add the following to the file \texttt{pom.xml}
 \begin{lstlisting}
@@ -1435,7 +1434,8 @@ $ firefox target/site/project-reports.html &
 
 The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding Jenkins plugins.
 
-\subsubsection{Add coverage report}
+\section{Reports}
+\subsection{Add coverage report}
 \begin{itemize}
 \item Go back to your item's configuration page (use the menu on the left)
 \item Replace your build's ``Goals and options'' with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
@@ -1444,7 +1444,7 @@ The tools we used to run tests and code quality checks have been selected based 
 \item Check the output~: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
 \end{itemize}
 
-\subsubsection{Add checkstyle report}
+\subsection{Add checkstyle report}
 \begin{itemize}
 \item Go back to your item's configuration page and add \\
 \texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's ``Goals and options''
