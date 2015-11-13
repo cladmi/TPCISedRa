@@ -1616,7 +1616,7 @@ with the \texttt{CMAKE\_BUILD\_TYPE} variable. Among them we are going to
 consider~:
 
 \begin{itemize}
-\item the \texttt{Debug} build type which sets the debug flags (\texttt{-g} with gcc) 
+\item the \texttt{Debug} build type which sets the debug flags (\texttt{-g} with \texttt{GNU C++}) 
 \item the \texttt{Release} build type which sets some optimization flags (\texttt{-O3 -DNDEBUG} with \texttt{GNU C++})
 \end{itemize} 
 
@@ -1784,7 +1784,7 @@ The direct check of equality of floating point numbers with the \texttt{==}
 operator should be avoided, we first add a warning (only if understood by the
 compiler) in order not to reproduce this kind of error.
 
-Since version $4.6$, \texttt{gcc} provides this warning \texttt{-Wfloat-equal}. 
+Since version $4.6$, \texttt{GNU C++} provides this warning \texttt{-Wfloat-equal}. 
 With portability in mind, before adding the flag to the compiler command, we need to check that the compiler accepts it.
 
 With \texttt{CMake}, there is no builtin function for this operation, but that
@@ -1846,7 +1846,7 @@ This is when \textbf{test coverage} becomes handy.
 
 \subsection{Installation}
 
-Coverage with \texttt{gcov} needs the \texttt{gcc} compiler and the
+Coverage with \texttt{gcov} needs the \texttt{GNU C++} compiler and the
 \texttt{-fprofile-arcs} and \texttt{-ftest-coverage} options.  \texttt{gcov}
 generates raw output. We are going to use the lcov utility for the
 post-processing and the generation of html pages and the gcovr utility in
