@@ -286,12 +286,12 @@ You will also need an account on both gforge.inria.fr and ci.inria.fr and be a m
 \subsection{Setup}
 
 \subsubsection{Create a personal copy of the git repository from inria forge and clone it}
-Go to https://gforge.inria.fr/projects/tpcisedra/ \\
+Go to https~://gforge.inria.fr/projects/tpcisedra/ \\
 Click on the ``SOURCE CODE'' tab \\
 Click on ``create a personal repository'' \\
 Back to the ``SOURCE CODE'' tab, look for the command to access your personal repository. \\
-WARNING: do not use the anonymous access (containing ``anonscm'') \\
-The correct command should look like this:
+WARNING~: do not use the anonymous access (containing ``anonscm'') \\
+The correct command should look like this~:
 \begin{lstlisting}
 $ git clone git+ssh://<yourloginhere>@scm.gforge.inria.fr/gitroot/tpcisedra/
     users/<yourloginhere>.git
@@ -299,7 +299,7 @@ $ cd <yourloginhere>/java
 \end{lstlisting}
 
 \
-You should have retrieved the following file tree:\\
+You should have retrieved the following file tree~:\\
 {\centering\small
             \begin{minipage}[t]{0.3\linewidth}
 \dirtree{%
@@ -323,7 +323,7 @@ You should have retrieved the following file tree:\\
 }
 
 
-The project is made up of:
+The project is made up of~:
 \begin{itemize}
 \item A Maven ``Project Object Model'' file named \texttt{pom.xml};
 \item A file \texttt{Sphere.java} implementing the class \texttt{Sphere};
@@ -337,7 +337,7 @@ yourpath/tpcisedra/java
 $ mvn package
 \end{lstlisting}
 
-You should see these lines (among others):
+You should see these lines (among others)~:
 \begin{lstlisting}
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -376,7 +376,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 Have a look at the code of the method \texttt{Sphere::computeVolume()}.\\
 To do so, edit \texttt{tpcisedra/java/src/main/java/fr/inria/sed/Sphere.java}.
 
-The code should be like that:
+The code should be like that~:
 \begin{lstlisting}
 public double computeVolume1() {
   return 4 * Math.PI * Math.pow(radius_, 3) / 3;
@@ -384,15 +384,15 @@ public double computeVolume1() {
 \end{lstlisting}
 
 
-We might want the value: \verb?4 * Math.PI / 3? to be computed once and for all.
+We might want the value~: \verb?4 * Math.PI / 3? to be computed once and for all.
 
-TODO:
+TODO~:
 \begin{itemize}
 \item Extract this value into a class data member
 \item Run the test again. It should fail.
 \end{itemize}
 
-Here is the output you should get:
+Here is the output you should get~:
 \begin{lstlisting}
 -------------------------------------------------------
  T E S T S
@@ -418,13 +418,13 @@ Why does the test in \texttt{SphereTest.java} fail ?
 
 This is because of floating point arithmetics \emph{rouding errors}.
 
-Our response to this issue strongly depends on what kind of application we are working on:
+Our response to this issue strongly depends on what kind of application we are working on~:
 \begin{itemize}
 \item In some cases, we want to be aware that something has changed, even when the change is the tiniest. In that case, the test we already have is just what we want.
 \item In other cases, we need not worry about such a small difference and hence do not want to be bothered by tests complaining.
 \end{itemize}
 
-TODO:
+TODO~:
 \begin{itemize}
 \item Find a way to modify the appropiate test in \texttt{SphereTest.java}
 so small rounding differences do not cause errors.
@@ -442,14 +442,14 @@ This is when \textbf{test coverage} becomes handy.
 
 \subsubsection{Run test coverage}
 
-Run the following \texttt{maven} command:
+Run the following \texttt{maven} command~:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn cobertura:cobertura
 \end{lstlisting}
 
-Cobertura should have produced test coverage results in the following directory:\\
+Cobertura should have produced test coverage results in the following directory~:\\
 \texttt{yourpath/tpcisedra/java/target/site/cobertura}
 
 
@@ -462,7 +462,7 @@ $ firefox target/site/cobertura/index.html &
 
 \begin{itemize}
 \item Populate your tests to achieve 100\% test coverage.\\
-Hint: you may not need any additional tests ;)
+Hint~: you may not need any additional tests ;)
 \end{itemize}
 
 
@@ -486,14 +486,14 @@ The report generation is now included in the build lifecycle (``site'' phase).
 \subsubsection{Exercice 3bis}
 
 \begin{itemize}
-\item To generate the report:
+\item To generate the report~:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn site
 \end{lstlisting}
 
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report:
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report~:
 \begin{lstlisting}
 iceweasel target/site/project-reports.html &
 \end{lstlisting}
@@ -518,7 +518,7 @@ $ git merge alpha
 
 \subsubsection{Run a style checker}
 
-Let's try and run a style checker:
+Let's try and run a style checker~:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
@@ -536,7 +536,7 @@ $ pwd
 yourpath/tpcisedra/java
 $ mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
 \end{lstlisting}
-NOTE: this can also be achieved by adding the following lines to your pom.xml:
+NOTE~: this can also be achieved by adding the following lines to your pom.xml~:
 \begin{lstlisting}
   <properties>
     <checkstyle.config.location>checkstyle-test.xml</checkstyle.config.location>
@@ -578,13 +578,13 @@ The check style report is now included in the build lifecycle (``site'' phase).
 \subsubsection{Exercice 5bis}
 
 \begin {itemize}
-\item To generate the report:
+\item To generate the report~:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn site
 \end{lstlisting}
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report:
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report~:
 \begin{lstlisting}
 $ firefox target/site/project-reports.html &
 \end{lstlisting}
@@ -598,7 +598,7 @@ $ firefox target/site/project-reports.html &
 \section{Continuous Integration Part}
 
 \subsection{Log into the project's Jenkins instance}
-Connect to the INRIA Continuous Integration web portal: \url{https://ci.inria.fr/} \\
+Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/} \\
 Log in and click ``Dashboard''in the top menu \\
 You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button \\
 You may be prompted to log into jenkins, use the same login/passwd as for the ci portal
@@ -608,7 +608,7 @@ From our Jenkins dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click ``
 Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select ``Maven project''
 
 \subsubsection{Git configuration}
-In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field:
+In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field~:
 \begin{lstlisting}
 https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/dparsons.git
 \end{lstlisting}
@@ -636,7 +636,7 @@ The tools we used to run tests and code quality checks have been selected based 
 \item Replace your build's ``Goals and options'' with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
 \item Click on ``Add post-build action'' and select ``Publish Cobertura Coverage Report'' from the drop-down menu, your ``Cobertura xml report pattern'' is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
 \item Save and Run the test
-\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
+\item Check the output~: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
 \end{itemize}
 
 \subsubsection{Add checkstyle report}
@@ -645,7 +645,7 @@ The tools we used to run tests and code quality checks have been selected based 
 \texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's ``Goals and options''
 \item Check the ``Publish Checkstyle analysis results'' box in ``Build Settings''
 \item Save and Run the test
-\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Checkstyle Warnings'', have a look at it
+\item Check the output~: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Checkstyle Warnings'', have a look at it
 \end{itemize}
 
 \clearpage
@@ -705,7 +705,7 @@ sudo -H pip install --upgrade  tox
 
 
 
-You should have retrieved the following file tree:
+You should have retrieved the following file tree~:
 
 
 \textbf{TODO} FileTree with each files described \textbf{TODO}
@@ -787,7 +787,7 @@ python setup.py upload
 \subsection{Validate on CI}
 
 At this point you have a your python project packaged with setup.py and tests
-running managed by tox. This means that running your tests only need to run:
+running managed by tox. This means that running your tests only need to run~:
 
 \begin{lstlisting}
 tox
@@ -812,7 +812,7 @@ brings errors in scripts to have path with spaces.
 \subsubsection{Build Step}
 
 \begin{itemize}
-\item Add build step: \texttt{Execute Shell} and execute:
+\item Add build step~: \texttt{Execute Shell} and execute~:
 \begin{lstlisting}
 cd python/
 tox
@@ -835,7 +835,7 @@ the process of 'integration' but sometimes you don't have the choice.
 \begin{itemize}
 \item Remove the build step and replace it with \texttt{Virtualenv Builder}.
 This puts the code execution in a separated python environment for the build.
-\item Now as first step, install your `tox` dependency:
+\item Now as first step, install your `tox` dependency~:
 \begin{lstlisting}
 pip install --quiet --upgrade tox
 cd python
@@ -854,14 +854,14 @@ A big value of Jenkins is the ability to nicely present your tests results.
 The tools used to run tests and code quality where selected because they have output files compatible with Jenkins plugins.
 
 \begin{description}
-\item[Note :]
+\item[Note~:]
 This selection may look restrictive, but it also means that the tools are indeed used by many developers and that it is
 not only a one man written test script.
 \end{description}
 
 \begin{itemize}
-\item \texttt{nosetests} outputs as a JUnit compatible XML: \texttt{nosetests.xml}
-\item \texttt{nose-xcover} outputs coverage compatible with cobertura: \texttt{coverage.xml}
+\item \texttt{nosetests} outputs as a JUnit compatible XML~: \texttt{nosetests.xml}
+\item \texttt{nose-xcover} outputs coverage compatible with cobertura~: \texttt{coverage.xml}
 \item \texttt{pylint} and \texttt{pep8} output is recognized by 'warnings' and 'violations' plugins.
 \end{itemize}
 
@@ -873,7 +873,7 @@ These output parsing is managed in \texttt{Add post-build action}.
 \begin{description}
 \item[Step \texttt{Publish JUnit test result report}] \hfill \\
 \begin{itemize}
-\item Test report xml: `**/*tests.xml` to scan for all files ending with 'tests.xml'
+\item Test report xml~: `**/*tests.xml` to scan for all files ending with 'tests.xml'
 \end{itemize}
 \end{description}
 
@@ -882,16 +882,16 @@ These output parsing is managed in \texttt{Add post-build action}.
 \begin{description}
 \item[Step \texttt{Publish Cobertura Coverage Report}] \hfill \\
   \begin{itemize}
-  \item Cobertura xml report pattern:  \texttt{**/coverage.xml} to scan for all  \texttt{coverage.xml} files.
+  \item Cobertura xml report pattern~:  \texttt{**/coverage.xml} to scan for all  \texttt{coverage.xml} files.
   \end{itemize}
 \end{description}
 
 As source files are not based at root directory Cobertura fails to locate source
 files.
 
-A solution is to create a symlink to the source directory:
+A solution is to create a symlink to the source directory~:
 \begin{itemize}
-  \item Add a build step \texttt{Execute shell} with:
+  \item Add a build step \texttt{Execute shell} with~:
 \begin{lstlisting}
 # Hack to help cobertura find source files
 ln  -nfs python/tp_ci_sed  tp_ci_sed
@@ -947,14 +947,14 @@ multiple builds to create graphs.
 
 %% TODO
 
-Automatically run the build:
+Automatically run the build~:
 \begin{itemize}
-\item  Never: you only run it manually (not recommended)
-\item Periodically: Every night at 3AM may be enough if your code moves slowly
-\item At each commit: with repository polling/ with git hook (see how...)
+\item  Never~: you only run it manually (not recommended)
+\item Periodically~: Every night at 3AM may be enough if your code moves slowly
+\item At each commit~: with repository polling/ with git hook (see how...)
 \end{itemize}
 
-Send mails on build failure:
+Send mails on build failure~:
 \begin{itemize}
 \item  Howto do that ?
 \end{itemize}
@@ -991,22 +991,24 @@ Send mails on build failure:
 
 \subsection{Preamble}
 
-To perform this C++ exercice, we rely on three main development tools:
+To perform this \texttt{C++} exercice, we rely on three main development tools~:
 
 \begin{itemize}
 \item A \texttt{C++} compiler, for example \texttt{gcc} or \texttt{clang}.
-\item A build process manager : \texttt{CMake} 
-\item A testing framework : \texttt{cppunit}.
+\item A build process manager~: \texttt{CMake} 
+\item A testing framework~: \texttt{cppunit}.
 \end{itemize}
 
-On linux, bsd, mac os X systems suitables versions may simply be installed with the package manager.
-for example on fedora systems, one may use the command:
+On Linux, BSD, MACOS X systems, suitables versions may simply be installed with the package manager (\texttt{yum, apt, etc}).
 
-\dots
-
-and on recent debian or ubuntu systems:
-
-\dots
+For example on Fedora systems, one may use the command~:
+\begin{itemize}
+\item \texttt{yum install cmake cppunit gcc}
+\end{itemize}
+and on recent Debian or Ubuntu systems~:
+\begin{itemize}
+\item \texttt{apt-get install cmake cppunit gcc}
+\end{itemize}
 
 
 \subsection{Setup}
@@ -1018,7 +1020,7 @@ cd tpcisedra/cxx
 git checkout -b <yournamehere>
 \end{lstlisting}
 
-A minimal cmake project is present under the file tree :\\
+A minimal cmake project is present under the file tree~:\\
 {\centering\small
             \begin{minipage}[t]{0.3\linewidth}
 \dirtree{%
@@ -1042,7 +1044,7 @@ A minimal cmake project is present under the file tree :\\
 This \texttt{CMake} project provides the framework needed to build and test a
 dynamic shared and versioned ``TP'' \footnote{``TP'' for ``Travaux Pratiques''
   in french} library. The \texttt{CMake} configuration is specified in two
-files \texttt{CMakeLists.txt} : one under the src directory (the
+files \texttt{CMakeLists.txt}~: one under the src directory (the
 main \texttt{CMakeLists.txt}) and one under the tests directory. 
 
 The API provided by this library is here constitued by a single Sphere class. The
@@ -1055,7 +1057,7 @@ be used to compare the influence of some compiler optimization flags.
 
 \subsubsection{Check that you can build the project and run the test}
 
-On a unix system:
+On a unix system~:
 \begin{itemize}
 \item create a build directory, 
 \item create the build environment with cmake,
@@ -1076,7 +1078,7 @@ make test
 
 \texttt{CMake} provides pre-defined build configuration that may be choosen
 with the \texttt{CMAKE\_BUILD\_TYPE} variable. Among them we are going to
-consider:
+consider~:
 
 \begin{itemize}
 \item the \texttt{Debug} build type which sets the debug flags (\texttt{-g} with gcc) 
@@ -1087,18 +1089,18 @@ Once a directory has been given as argument to \texttt{CMake} it remains in a
 cache, the \texttt{CMakeCache.txt} file in your build directory. This cache
 file is a text file and may be edited by hand.
 
-So for next calls to \texttt{CMake}, we can use the dot directory as argument :
+So for next calls to \texttt{CMake}, we can use the dot directory as argument~:
 
 \begin{lstlisting}
 cmake .
 \end{lstlisting}
 
 \texttt{CMake} variables may be set on the command line with \texttt{-D}
-arguments : \texttt{cmake . -D<VARIABLE_NAME>=<VALUE>}. The value remains in
+arguments~: \texttt{cmake . -D<VARIABLE\_NAME>=<VALUE>}. The value remains in
 the cache file, so when a variable has been modified once with a call to cmake, it
 is not necessary to define its value anymore on the command line.
 
-Let's configure our build to a debug build:
+Let's configure our build to a debug build~:
 
 \begin{lstlisting}
 cmake . -DCMAKE_BUILD_TYPE=Debug
@@ -1106,7 +1108,7 @@ make
 ./bench
 \end{lstlisting}
 
-For an optimized build, we do:
+For an optimized build, we do~:
 
 \begin{lstlisting}
 cmake . -DCMAKE_BUILD_TYPE=Release
@@ -1138,10 +1140,10 @@ Now, let's keep this configuration in our build directory.
 
 \subsubsection{Jenkins setup}
 
-Log into the project's Jenkins instance:
+Log into the project's Jenkins instance~:
 
 \begin{enumerate}
-\item Connect to the INRIA Continuous Integration web portal: https://ci.inria.fr/.
+\item Connect to the INRIA Continuous Integration web portal~: https://ci.inria.fr/.
 
 \item Log in and click ``Dashboard''in the top menu
 
@@ -1149,25 +1151,25 @@ Log into the project's Jenkins instance:
 You may be prompted to log into jenkins, use the same login/passwd as for the ci portal.
 \end{enumerate}
 
-Running your first test on CI:
+Running your first test on CI~:
 
 From our Jenkins dashboard page (https://ci.inria.fr/tpcisedra/), click ``New Item'' in the menu on the left
 Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select ``Freestyle project''
 
 
-Git configuration:
+Git configuration~:
 
-In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field:
+In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field~:
 
 \begin{lstlisting}
 https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your login>.git
 \end{lstlisting}
 
-FIX: add build trigger.
+FIX~: add build trigger.
 
 
 \subsubsection{Exercice 1}
-Add a new build step : ``Execute shell'', where you inform Jenkins how to
+Add a new build step~: ``Execute shell'', where you inform Jenkins how to
 build and test the project. Choose the \texttt{Debug} configuration for this
 build, this will be needed for coverage as we will see later.
 
@@ -1183,7 +1185,7 @@ You can also check the ``Test Result''
 
 \subsubsection{Exercice 2}
 
-Edit the implementation of the \texttt{Sphere} class :
+Edit the implementation of the \texttt{Sphere} class~:
 \texttt{tpcisedra/c++/src/Sphere.cpp} and have a look at the code of the method \texttt{Sphere::volume()}.\\
 
 \begin{lstlisting}
@@ -1194,7 +1196,7 @@ double Sphere::volume() const
 \end{lstlisting}
 
 This is the method which is tested in the unique test of the library, and the test is
-implemented in the file:
+implemented in the file~:
 
 \texttt{tpcisedra/c++/src/tests/testTP.cpp}
 
@@ -1202,7 +1204,7 @@ Let's imagine we want to improve the efficiency of the \texttt{volume()}
 method by pre-computing the value \verb?4 * Math.PI / 3?
 
 
-TODO :
+TODO~:
 \begin{itemize}
 \item Extract this value into a class data member.
 \item Run the benchmark. This may shows only a very, very minimal improvement!
@@ -1220,7 +1222,7 @@ git push -a
 
 The test should now fail on Jenkins.
 
-Here is the output you can see on Jenkins console:
+Here is the output you can see on Jenkins console~:
 \begin{lstlisting}
 + make test
 Running tests...
@@ -1247,13 +1249,13 @@ The direct check of equality of floating point numbers with the \texttt{==}
 operator should be avoided, we first add a warning (only if understood by the
 compiler) in order not to reproduce this kind of error.
 
-Since version 4.6 \texttt{gcc} gcc provides this warning \texttt{-Wfloat-equal}: 
+Since version 4.6 \texttt{gcc} gcc provides this warning \texttt{-Wfloat-equal}~: 
 
 With portability in mind, before adding the flag to the compiler command, we
 check that the compiler accepts it.
 
 With \texttt{CMake}, there is no builtin function for this operation, but that
-can be achieved with a simple macro:
+can be achieved with a simple macro~:
 
 \begin{lstlisting}
 include(TestCXXAcceptsFlag)
@@ -1268,14 +1270,14 @@ endmacro()
 
 This macro is provided in the TP.cmake module under cmake directory.
 
-To load this TP module, one have to set the cmake module path to this directory:
+To load this TP module, one have to set the cmake module path to this directory~:
 \begin{lstlisting}
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 \end{lstlisting}
 
 %$
 
-And then load the module:
+And then load the module~:
 
 \begin{lstlisting}
 include(TP)
@@ -1294,7 +1296,7 @@ TODO
 \item In Jenkins, add the scan for compiler warnings in the ``Post build Action'' of your project
 \item Commit the code in order to check the parsing done by Jenkins.
 \item Modify the appropiate test in \texttt{TestTP.cpp} so small rounding
-  differences do not cause errors, cppunit provides a macro for this : 
+  differences do not cause errors, cppunit provides a macro for this~: 
   \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
 \item Once it is ok and the warning has gone, commit.
 \end{itemize}
@@ -1320,20 +1322,20 @@ generates raw output. We are going to use the lcov utility for the
 post-processing and the generation of html pages and the gcovr utility in
 order to present parsable results to Jenkins.
 
-A \texttt{CMake} function \texttt{add_test_with_coverage} is provided in the
+A \texttt{CMake} function \texttt{add\_test\_with\_coverage} is provided in the
 \texttt{TP} module to simplify the whole setup.
 
 This function when used in place of the standard \texttt{CMake} function
-\texttt{add_test} function provides coverage support through a new
+\texttt{add\_test} function provides coverage support through a new
 \texttt{make} target (You can see all \texttt{make} targets with the help
-target : \texttt{make help})
+target~: \texttt{make help})
 %$
 
 \subsubsection{Exercice 3}
 
 \begin{itemize}
-\item Install coverage for the test TestVolume, you need to set the coveraged flags for the build of the library and the test with the add_cxx_compiler_flags and to use the 
-\item With a web browser open the file \texttt{index.html} under \texttt{TestTP__testVolume} directory.
+\item Install coverage for the test TestVolume, you need to set the coveraged flags for the build of the library and the test with the \texttt{add\_cxx\_compiler\_flags} and to use the 
+\item With a web browser open the file \texttt{index.html} under \texttt{TestTP\_\_testVolume} directory.
 \item On the Jenkins side, in ``Post-Build Actions'' add ``Publish Cobertura Report'' with the cobertura xml report pattern set to \texttt{<to be fixed>.xml}
 \item Commit
 \end{itemize}
@@ -1341,7 +1343,7 @@ target : \texttt{make help})
 
 \subsubsection{Add some new class to our project}
 
-Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project:
+Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project~:
 \begin{lstlisting}
 > git merge alpha-cxx
 \end{lstlisting}
@@ -1359,7 +1361,7 @@ Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest}
 
 \subsubsection{Run a style checker}
 
-Let's try and run a style checker :
+Let's try and run a style checker~:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
@@ -1377,7 +1379,7 @@ $ pwd
 yourpath/tpcisedra/java
 $ mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
 \end{lstlisting}
-NOTE: this can also be achieved by adding the following lines to your pom.xml:
+NOTE~: this can also be achieved by adding the following lines to your pom.xml~:
 \begin{lstlisting}
   <properties>
     <checkstyle.config.location>checkstyle-test.xml</checkstyle.config.location>
@@ -1419,13 +1421,13 @@ The check style report is now included in the build lifecycle (``site'' phase).
 \subsubsection{Exercice 5bis}
 
 \begin {itemize}
-\item To generate the report :
+\item To generate the report~:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn site
 \end{lstlisting}
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report :
+\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report~:
 \begin{lstlisting}
 $ firefox target/site/project-reports.html &
 \end{lstlisting}
@@ -1439,7 +1441,7 @@ The tools we used to run tests and code quality checks have been selected based 
 \item Replace your build's ``Goals and options'' with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
 \item Click on ``Add post-build action'' and select ``Publish Cobertura Coverage Report'' from the drop-down menu, your ``Cobertura xml report pattern'' is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
 \item Save and Run the test
-\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
+\item Check the output~: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
 \end{itemize}
 
 \subsubsection{Add checkstyle report}
@@ -1448,7 +1450,7 @@ The tools we used to run tests and code quality checks have been selected based 
 \texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's ``Goals and options''
 \item Check the ``Publish Checkstyle analysis results'' box in ``Build Settings''
 \item Save and Run the test
-\item Check the output: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Checkstyle Warnings'', have a look at it
+\item Check the output~: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Checkstyle Warnings'', have a look at it
 \end{itemize}
 
 
