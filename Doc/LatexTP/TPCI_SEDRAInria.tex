@@ -276,9 +276,9 @@
 
 To go through this exercise, you will need to install
 \begin{itemize}
-\item Git (apt-get install git | yum install git)
+\item \texttt{Git} (apt-get install git | yum install git)
 \item A JDK (apt-get install openjdk-7-jdk | yum install java-1.7.0-openjdk)
-\item Maven (apt-get install maven | yum install apache-maven)
+\item \texttt{Maven} (apt-get install maven | yum install apache-maven)
 \end{itemize}
 
 You will also need an account on both gforge.inria.fr and ci.inria.fr and be a member of the tpcisedra project.
@@ -286,12 +286,18 @@ You will also need an account on both gforge.inria.fr and ci.inria.fr and be a m
 \subsection{Setup}
 
 \subsubsection{Create a personal copy of the git repository from INRIA forge and clone it}
-Go to https~://gforge.inria.fr/projects/tpcisedra/ \\
-Click on the ``SOURCE CODE'' tab \\
-Click on ``create a personal repository'' \\
-Back to the ``SOURCE CODE'' tab, look for the command to access your personal repository. \\
-WARNING~: do not use the anonymous access (containing ``anonscm'') \\
-The correct command should look like this~:
+First, you will create your personal \texttt{git} repository on the INRIA forge as a branch of the main repository for the \texttt{tpcisedra} project~:
+\begin{itemize}
+\item Go to \url{https~://gforge.inria.fr/projects/tpcisedra/}
+\item Click on the \textbf{\texttt{CODE SOURCE}} or \textbf{\texttt{SCM}} tab
+\item Click on \textbf{\texttt{Create a personal repository}}
+\item Back to the \textbf{\texttt{SCM}} tab, look for the command to access your personal repository.
+\end{itemize}
+
+\textbf{WARNING~: do not use the anonymous access (containing \texttt{anonscm}) }
+
+
+Then on a terminal, clone the content of your personnal \texttt{git} repository. The correct command should look like this~:
 \begin{lstlisting}
 $ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/
     users/<yourlogin>.git
@@ -325,7 +331,7 @@ You should have retrieved the following file tree~:\\
 
 The project is made up of~:
 \begin{itemize}
-\item A Maven ``Project Object Model'' file named \texttt{pom.xml};
+\item A Maven \textbf{\texttt{Project Object Model}} file named \texttt{pom.xml};
 \item A file \texttt{Sphere.java} implementing the class \texttt{Sphere};
 \item A file \texttt{SphereTest.java} implementing its test class \texttt{SphereTest}.
 \end{itemize}
@@ -481,7 +487,7 @@ Add the following to the file  \texttt{pom.xml}
   </reporting>
 \end{lstlisting}
 
-The report generation is now included in the build lifecycle (``site'' phase).
+The report generation is now included in the build lifecycle (\textbf{\texttt{site}} phase).
 
 \subsubsection{Exercice 3bis}
 
@@ -553,9 +559,8 @@ It's getting better but we might want to make a few changes to this default beha
 $ wget https://raw.githubusercontent.com/checkstyle/checkstyle/
      18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
 \end{lstlisting}
-\item  Modify the file \texttt{google\_checks.xml} so that it accepts single character
-parameter names.
-\item You may also consider removing trailing underscores from data members or amending checkstyle.xml
+\item  Modify the file \texttt{google\_checks.xml} so that it accepts single character parameter names.
+\item You may also consider removing trailing underscores from data members or amending \texttt{checkstyle.xml}
 \end{itemize}
 
 \subsubsection{[Optional] Integrate checkstyle to your reporting local website}
@@ -573,7 +578,7 @@ Add the following to the file \texttt{pom.xml}
   </reporting>
 \end{lstlisting}
 
-The check style report is now included in the build lifecycle (``site'' phase).
+The check style report is now included in the build lifecycle (\textbf{\texttt{site}} phase).
 
 \subsubsection{Exercice 5bis}
 
@@ -599,32 +604,32 @@ $ firefox target/site/project-reports.html &
 
 \subsection{Log into the project's Jenkins instance}
 Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/} \\
-Log in and click ``Dashboard''in the top menu \\
-You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button \\
+Log in and click \textbf{\texttt{Dashboard}}in the top menu \\
+You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button \\
 You may be prompted to log into jenkins, use the same login/passwd as for the ci portal
 
 \subsection{Running your first test on CI}
-From our Jenkins dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click ``New Item'' in the menu on the left
-Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select ``Maven project''
+From our Jenkins dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
+Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Maven project}}
 
 \subsubsection{Git configuration}
-In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose Git as your Source Code Manager and copy the \emph{anonymous} url to your personal repository into the appropriate field~:
+In the new item's configuration page (which you will be redirected to after clicking \textbf{\texttt{OK}}), choose \texttt{git} as your \textbf{\texttt{Source Code Manager}} and copy the \emph{anonymous} url to your personal repository into the appropriate field~:
 \begin{lstlisting}
-https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/dparsons.git
+https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
 \end{lstlisting}
 \end{homeworkProblem}
 
 \subsubsection{Build configuration}
-In the ``Build'' section, change the root POM path to \texttt{java/pom.xml} and type \texttt{test} in ``Goals and options''
+In the \textbf{\texttt{Build}} section, change the root POM path to \texttt{java/pom.xml} and type \texttt{test} in \textbf{\texttt{Goals and options}} section.
 
 \subsubsection{Save}
 
 \subsubsection{Run the test}
-Click ``Build Now'' in the menu on the left
+Click \textbf{\texttt{Build Now}} in the menu on the left
 
 \subsubsection{Check the output}
-In the ``Build History'' on the left, click on the last build (hopefully \#1), then select ``Console Output'' \\
-You can also check the ``Test Result''
+In the \textbf{\texttt{Build History}} on the left, click on the last build (hopefully \#1), then select \textbf{\texttt{Console Output}} \\
+You can also check the \textbf{\texttt{Test Result}}
 
 \subsection{Adding build feedback}
 One of the good things with Jenkins is its ability to nicely present your test results. \\
@@ -634,18 +639,18 @@ The tools we used to run tests and code quality checks have been selected based 
 \begin{itemize}
 \item Go back to your item's configuration page (use the menu on the left)
 \item Replace your build's \texttt{Goals and options} with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
-\item Click on \texttt{Add post-build action} and select \texttt{Publish Cobertura Coverage Report} from the drop-down menu, your ``Cobertura xml report pattern'' is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
+\item Click on \texttt{Add post-build action} and select \texttt{Publish Cobertura Coverage Report} from the drop-down menu, your \textbf{\texttt{Cobertura xml report pattern}} is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
 \item Save and Run the test
-\item Check the output~: in the \texttt{Build History} on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
+\item Check the output~: in the \texttt{Build History} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Coverage Report}}, have a look at it
 \end{itemize}
 
 \subsubsection{Add checkstyle report}
 \begin{itemize}
 \item Go back to your item's configuration page and add \\
-\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's ``Goals and options''
-\item Check the ``Publish Checkstyle analysis results'' box in ``Build Settings''
+\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's \textbf{\texttt{Goals and options}}
+\item Check the \textbf{\texttt{Publish Checkstyle analysis results}} box in \textbf{\texttt{Build Settings}}
 \item Save and Run the test
-\item Check the output~: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Checkstyle Warnings'', have a look at it
+\item Check the output~: in the \textbf{\texttt{Build History}} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Checkstyle Warnings}}, have a look at it
 \end{itemize}
 
 \clearpage
@@ -689,13 +694,18 @@ The other test dependencies will be installed during the exercices.
 
 
 \subsubsection{Create and clone your personal copy of the repository}
+First, you will create your personal \texttt{git} repository on the INRIA forge as a branch of the main repository for the \texttt{tpcisedra} project~:
+\begin{itemize}
+\item Go to \url{https~://gforge.inria.fr/projects/tpcisedra/}
+\item Click on the \textbf{\texttt{CODE SOURCE}} or \textbf{\texttt{SCM}} tab
+\item Click on \textbf{\texttt{Create a personal repository}}
+\item Back to the \textbf{\texttt{SCM}} tab, look for the command to access your personal repository.
+\end{itemize}
 
-Go to https://gforge.inria.fr/projects/tpcisedra/ \\
-Click on the ``SOURCE CODE'' tab \\
-Click on ``create a personal repository'' \\
-Back to the ``SOURCE CODE'' tab, look for the command to access your personal repository. \\
-WARNING: do not use the anonymous access (containing ``anonscm'') \\
-The correct command should look like this:
+\textbf{WARNING~: do not use the anonymous access (containing \texttt{anonscm}) }
+
+
+Then on a terminal, clone the content of your personnal \texttt{git} repository. The correct command should look like this~:
 \begin{lstlisting}
 $ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/
     users/<yourlogin>.git
@@ -722,7 +732,7 @@ You should have retrieved the following file tree:\\
 
 This project should be the best package providing sphere volume computation.
 As simple as it can be, we want it packaged, tested, and we want to have this
-nice \verb=build|passing= icon on github: \includegraphics[height=10pt]{build_passing}.
+nice \verb=build|passing= icon on \texttt{github}~: \includegraphics[height=10pt]{build_passing}.
 
 It has a package, named \texttt{tp\_ci\_sed}, with a \texttt{sphere} submodule
 and even a cli script to run it.
@@ -820,7 +830,7 @@ Depending on your needs, you can specify the version with \texttt{==, <, !=} ope
 \begin{description}
 \item[Note]
 By default \texttt{setuptools} uses PyPi to find packages but can be configured
-to install from many places, like an existing git repository or an http url
+to install from many places, like an existing \texttt{git} repository or an \texttt{http} url
 \footnote{\url{https://pythonhosted.org/setuptools/setuptools.html\#dependencies-that-aren-t-in-pypi}}.
 \end{description}
 
@@ -1319,8 +1329,9 @@ brings errors in scripts to have path with spaces.
 \subsubsection{Git configuration}
 
 \begin{itemize}
-\item Go to \texttt{Source Code Management} and choose \texttt{Git}
-\item Put the anonymous git url of the repository \texttt{ADD\_URL\_HERE} and select your branch name \texttt{*/branch\_name}.
+\item Go to \textbf{\texttt{Source Code Management}} and choose \texttt{Git}
+\item Put the anonymous \texttt{git} url of the repository \url{https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git}
+\item Select your branch name \texttt{*/branch\_name}.
 \end{itemize}
 
 \subsubsection{Build Step}
@@ -1465,7 +1476,7 @@ Automatically run the build~:
 \begin{itemize}
 \item  Never~: you only run it manually (not recommended)
 \item Periodically~: Every night at 3AM may be enough if your code moves slowly
-\item At each commit~: with repository polling/ with git hook (see how...)
+\item At each commit~: with repository polling/ with \texttt{git} hook (see how...)
 \end{itemize}
 
 Send mails on build failure~:
@@ -1526,6 +1537,18 @@ For example :
 \subsection{Local setup}
 
 \subsubsection{Clone the git repository from INRIA forge and create your own branch}
+First, you will create your personal \texttt{git} repository on the INRIA forge as a branch of the main repository for the \texttt{tpcisedra} project~:
+\begin{itemize}
+\item Go to \url{https~://gforge.inria.fr/projects/tpcisedra/}
+\item Click on the \textbf{\texttt{CODE SOURCE}} or \textbf{\texttt{SCM}} tab
+\item Click on \textbf{\texttt{Create a personal repository}}
+\item Back to the \textbf{\texttt{SCM}} tab, look for the command to access your personal repository.
+\end{itemize}
+
+\textbf{WARNING~: do not use the anonymous access (containing \texttt{anonscm}) }
+
+
+Then on a terminal, clone the content of your personnal \texttt{git} repository. The correct command should look like this~:
 \begin{lstlisting}
 $ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
 $ cd tpcisedra/cxx
@@ -1539,6 +1562,7 @@ A minimal \texttt{CMake} project is present under the file tree~:\\
   .1 tpcisedra/cxx.
   .2 CMakeLists.txt.
   .2 cmake.
+  .3 TP.cmake.
   .2 Sphere.hpp.
   .2 Sphere.cpp.
   .2 bench.cpp.
@@ -1553,7 +1577,7 @@ A minimal \texttt{CMake} project is present under the file tree~:\\
 
 
 This \texttt{CMake} project provides the framework needed to build and test a
-dynamic shared and versioned ``TP'' \footnote{``TP'' for ``Travaux Pratiques''
+dynamic shared and versioned \textbf{\texttt{TP}} \footnote{\textbf{\texttt{TP}} for \textbf{\texttt{Travaux Pratiques}}
   in french} library. The \texttt{CMake} configuration is specified in two
 \texttt{CMakeLists.txt} files~:
 \begin{itemize}
@@ -1654,23 +1678,23 @@ Now, let's keep this configuration in our build directory.
 Log into the project's Jenkins instance~:
 
 \begin{enumerate}
-\item Connect to the INRIA Continuous Integration web portal~: https://ci.inria.fr/.
+\item Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/}.
 
-\item Log in and click ``Dashboard''in the top menu
-\item You should have been added to project ``TPCISedRa'', click on the ``Jenkins'' button.
+\item Log in and click \textbf{\texttt{Dashboard}} in the top menu
+\item You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button.
 You may be prompted to log into jenkins, use the same login/passwd as for the ci portal.
 \end{enumerate}
 
 Running your first test on CI~:
 \begin{itemize}
-\item From our Jenkins dashboard page (https://ci.inria.fr/tpcisedra/), click ``New Item'' in the menu on the left
-\item Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select ``Freestyle project''
+\item From our Jenkins dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
+\item Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Freestyle project}}
 \end{itemize}
 
 
-Git configuration~:
+\texttt{Git} configuration~:
 \begin{itemize}
-\item In the new item's configuration page (which you will be redirected to after clicking ``OK''), choose \texttt{Git} as your Source Code Manager
+\item In the new item's configuration page (which you will be redirected to after clicking \textbf{\texttt{OK}}), choose \texttt{Git} as your \textbf{\texttt{Source Code Manager}}
 \item Copy the \emph{anonymous} URL to your personal repository into the appropriate field~:
 
 \begin{lstlisting}
@@ -1689,8 +1713,8 @@ Add a new build step~ using \texttt{Execute shell}, where you inform \texttt{Jen
 \item You have to choose the \texttt{Debug} configuration for this build, this will be needed for coverage as we will see later.\\
 In the shell working directory (the result of the command \texttt{/bin/pwd} in
 this shell) \texttt{Jenkins} has cloned your source directory.
-\item Then save the project and verify the configuration with a click on ``Build
-Now'' in the menu on the left.
+\item Then save the project and verify the configuration with a click on \textbf{\texttt{Build
+Now}} in the menu on the left.
 \item In the \texttt{Build History} on the left, click on the last build (hopefully \#1), then select \texttt{Console Output}.\\
 You can also check the \texttt{Test Result}.
 \end{itemize}
@@ -1928,7 +1952,7 @@ Add the following to the file \texttt{pom.xml}
   </reporting>
 \end{lstlisting}
 
-The check style report is now included in the build lifecycle (``site'' phase).
+The check style report is now included in the build lifecycle (\textbf{\texttt{site}} phase).
 
 \subsubsection{Exercice 5bis}
 
@@ -1951,19 +1975,19 @@ The tools we used to run tests and code quality checks have been selected based 
 \subsection{Add coverage report}
 \begin{itemize}
 \item Go back to your item's configuration page (use the menu on the left)
-\item Replace your build's ``Goals and options'' with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
-\item Click on ``Add post-build action'' and select ``Publish Cobertura Coverage Report'' from the drop-down menu, your ``Cobertura xml report pattern'' is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
+\item Replace your build's \textbf{\texttt{Goals and options}} with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
+\item Click on \textbf{\texttt{Add post-build action}} and select \textbf{\texttt{Publish Cobertura Coverage Report}} from the drop-down menu, your \textbf{\texttt{Cobertura xml report pattern}} is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
 \item Save and Run the test
-\item Check the output~: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Coverage Report'', have a look at it
+\item Check the output~: in the \textbf{\texttt{Build History}} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Coverage Report}}, have a look at it
 \end{itemize}
 
 \subsection{Add checkstyle report}
 \begin{itemize}
 \item Go back to your item's configuration page and add \\
-\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's ``Goals and options''
-\item Check the ``Publish Checkstyle analysis results'' box in ``Build Settings''
+\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's \textbf{\texttt{Goals and options}}
+\item Check the \textbf{\texttt{Publish Checkstyle analysis results}} box in \textbf{\texttt{Build Settings}}
 \item Save and Run the test
-\item Check the output~: in the ``Build History'' on the left, click on the last build, you should have a new entry named ``Checkstyle Warnings'', have a look at it
+\item Check the output~: in the \textbf{\texttt{Build History}} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Checkstyle Warnings}}, have a look at it
 \end{itemize}
 
 
