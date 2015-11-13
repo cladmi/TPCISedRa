@@ -638,8 +638,8 @@ The tools we used to run tests and code quality checks have been selected based 
 \subsubsection{Add coverage report}
 \begin{itemize}
 \item Go back to your item's configuration page (use the menu on the left)
-\item Replace your build's \texttt{Goals and options} with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
-\item Click on \texttt{Add post-build action} and select \texttt{Publish Cobertura Coverage Report} from the drop-down menu, your \textbf{\texttt{Cobertura xml report pattern}} is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
+\item Replace your build's \textbf{\texttt{Goals and options}} with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
+\item Click on \textbf{\texttt{Add post-build action}} and select \textbf{\texttt{Publish Cobertura Coverage Report}} from the drop-down menu, your \textbf{\texttt{Cobertura xml report pattern}} is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
 \item Save and Run the test
 \item Check the output~: in the \texttt{Build History} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Coverage Report}}, have a look at it
 \end{itemize}
@@ -1020,7 +1020,7 @@ OK
 \end{lstlisting}
 
 You can read the coverage output directly in the \texttt{nosetests} output.
-But a human readable html report and an xml report for \texttt{Jenkins} are also generated.
+But a human readable html report and an \texttt{xml} report for \texttt{Jenkins} are also generated.
 
 
 \begin{lstlisting}
@@ -1385,12 +1385,12 @@ not only a one man written test script.
 \end{description}
 
 \begin{itemize}
-\item \texttt{nosetests} outputs as a JUnit compatible XML~: \texttt{nosetests.xml}
+\item \texttt{nosetests} outputs as a JUnit compatible \texttt{xml}~: \texttt{nosetests.xml}
 \item \texttt{nose-xcover} outputs coverage compatible with cobertura~: \texttt{coverage.xml}
 \item \texttt{pylint} and \texttt{pep8} output is recognized by 'warnings' and 'violations' plugins.
 \end{itemize}
 
-These output parsing is managed in \texttt{Add post-build action}.
+These output parsing is managed in \textbf{\texttt{Add post-build action}}.
 %% Maybe print the real plugins names here
 
 \subsection{Add tests results feedback}
@@ -1398,20 +1398,20 @@ These output parsing is managed in \texttt{Add post-build action}.
 \begin{description}
 \item[Step \texttt{Publish JUnit test result report}] \hfill \\
 \begin{itemize}
-\item Test report xml~: `**/*tests.xml` to scan for all files ending with 'tests.xml'
+\item Test report \texttt{xml}~: `**/*tests.xml` to scan for all files ending with 'tests.xml'
 \end{itemize}
 \end{description}
 
 \subsubsection{Add coverage feedback}
 
 \begin{description}
-\item[Step \texttt{Publish Cobertura Coverage Report}] \hfill \\
+\item[Step \textbf{\texttt{Publish Cobertura Coverage Report}}] \hfill \\
   \begin{itemize}
-  \item Cobertura xml report pattern~:  \texttt{**/coverage.xml} to scan for all  \texttt{coverage.xml} files.
+  \item \texttt{Cobertura xml} report pattern~:  \texttt{**/coverage.xml} to scan for all  \texttt{coverage.xml} files.
   \end{itemize}
 \end{description}
 
-As source files are not based at root directory Cobertura fails to locate source
+As source files are not based at root directory \texttt{Cobertura} fails to locate source
 files.
 
 A solution is to create a symlink to the source directory~:
@@ -1520,18 +1520,20 @@ To perform this \texttt{C++} exercice, we rely on three main development tools~:
 \begin{itemize}
 \item A \texttt{C++} compiler, for example \texttt{GNU C++} or \texttt{clang}.
 \item A build process manager~: \texttt{CMake} 
-\item A testing framework~: \texttt{cppunit}.
+\item A testing framework~: \texttt{cppunit}
+\item Coverage testing tools~: \texttt{gcov}, \texttt{lcov} \texttt{gcvor}.
 \end{itemize}
 
 On Linux, BSD, MACOS X systems, suitables versions may simply be installed with the package manager (\texttt{yum, apt, etc}).
 
 For example : 
 \begin{itemize}
-\item on Fedora systems, one may use the command~: \texttt{sudo yum install cmake cppunit gcc-c++}
+\item on Fedora systems, one may use the command~: \texttt{sudo yum install cmake cppunit gcc-c++ gcov lcov }
 \item on recent Debian or Ubuntu systems~:
-\texttt{sudo apt-get install cmake cppunit gcc-c++}
+\texttt{sudo apt-get install cmake cppunit gcc-c++ gcov lcov}
 \end{itemize}
 
+For \texttt{gcovr}, use \texttt{sudo pip install gcovr}.
 
 \section{Setup}
 \subsection{Local setup}
@@ -1815,15 +1817,15 @@ include(TP)
 \end{lstlisting}
 \end{itemize}
 
-On \texttt{Jenkins} side, compiler warnings can be checked in the \texttt{Post build Actions} step of your build project. 
+On \texttt{Jenkins} side, compiler warnings can be checked in the \textbf{\texttt{Post build Actions}} step of your build project. 
 
 TODO~:
 \begin{itemize}
-\item In the \texttt{CMake} configuration file, \texttt{CMakeLists.txt}, include the TP module.
+\item In the \texttt{CMake} configuration file, \texttt{CMakeLists.txt}, include the TP module
 \item With the provided \texttt{CMake TP} macro, add the compiler warning to the \texttt{CMake} configuration
 \item Verify that the warning is printed during compilation
 \item Commit the code in order to check the parsing done by \texttt{Jenkins}
-\item In \texttt{Jenkins}, add the scan for compiler warnings in the \texttt{Post build Action} of your project
+\item In \texttt{Jenkins}, add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project
 \item Modify the appropiate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors, \texttt{cppunit} provides a macro for this~: 
   \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
@@ -1847,10 +1849,11 @@ This is when \textbf{test coverage} becomes handy.
 \subsection{Installation}
 
 Coverage with \texttt{gcov} needs the \texttt{GNU C++} compiler and the
-\texttt{-fprofile-arcs} and \texttt{-ftest-coverage} options.  \texttt{gcov}
-generates raw output. We are going to use the lcov utility for the
-post-processing and the generation of html pages and the gcovr utility in
-order to present parsable results to \texttt{Jenkins}.
+\texttt{-fprofile-arcs} and \texttt{-ftest-coverage} options.
+
+\texttt{gcov} generates raw output. We are going to use the \texttt{lcov} utility for the
+post-processing and the generation of \texttt{html} pages and the \texttt{gcovr} utility in
+order to present parsable results for \texttt{Jenkins}.
 
 A \texttt{CMake} function \texttt{add\_test\_with\_coverage} is provided in the
 \texttt{TP} module to simplify the whole setup.
@@ -1865,9 +1868,9 @@ target~: \texttt{make help})
 
 TODO~:
 \begin{itemize}
-\item Install coverage for the test \texttt{TestVolume}. You need to set the coveraged flags for the build of the library and the test with the \texttt{add\_cxx\_compiler\_flags}.
+\item Install coverage for the test routine \texttt{TestVolume}. You need to set the coveraged flags for the build of the library and the test file with the \texttt{add\_cxx\_compiler\_flag}.
 \item With a Web browser, open the file \texttt{index.html} under \texttt{TestTP\_\_testVolume} directory.
-\item On the \texttt{Jenkins} side, in \texttt{Post-Build Actions} add \texttt{Publish Cobertura Report} with the cobertura xml report pattern set to \texttt{<to be fixed>.xml}
+\item On the \texttt{Jenkins} side, modify the build process in \textbf{\texttt{Execute shell}}. And in \textbf{\texttt{Post-Build Actions}}, add \textbf{\texttt{Publish Cobertura Report}} with the \texttt{Cobertura xml} report pattern set to \texttt{cxx/build/**/*.xml}
 \item Commit
 \end{itemize}
 
