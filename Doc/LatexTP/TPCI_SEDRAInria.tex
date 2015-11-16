@@ -1538,7 +1538,7 @@ In this exercise, we will focus on the configuration of Jenkins for~:
 \item a demonstration of static analysis with \texttt{cppcheck}.
 \end{enumerate}
 
-To perform this \texttt{C++} exercise, we rely on three main development tools~:
+To perform this \texttt{C++} exercise, we rely on these development tools~:
 
 \begin{itemize}
 \item A \texttt{C++} compiler, for example \texttt{GNU C++} or \texttt{clang}.
@@ -1683,6 +1683,8 @@ $ make
 $ ./bench
 \end{lstlisting}
 
+%$
+
 Over this very simple computation, the benchmark difference between Debug and
 Release is not dramatic.
 
@@ -1738,7 +1740,7 @@ https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
 \end{lstlisting}
 \end{itemize}
 
-An important step for the continuous integration step is the build trigger.
+An important step for the continuous integration setup is the build trigger.
 
 A simple possibility is to choose to build periodically, this is
 suitable for some nightly or weekly tests that may be time consuming
@@ -1771,7 +1773,7 @@ http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/an
 
 \subsubsection{Exercise 1}
 
-Add a new build step~ using \texttt{Execute shell}, where you inform \texttt{Jenkins} how to build and test the project.
+Add a new build step using \texttt{Execute shell}, where you inform \texttt{Jenkins} how to build and test the project.
 
 \begin{itemize}
 \item You have to choose the \texttt{Debug} configuration for this build, this will be needed for coverage as we will see later.\\
@@ -1884,15 +1886,15 @@ On \texttt{Jenkins} side, compiler warnings can be checked in the \textbf{\textt
 
 TODO~:
 \begin{itemize}
-\item In the \texttt{CMake} configuration file, \texttt{CMakeLists.txt}, include the \texttt{TP} module
-\item With the provided \texttt{CMake TP} macro, add the compiler warning to the \texttt{CMake} configuration
-\item Verify that the warning is printed during compilation
-\item Commit the code in order to check the parsing done by \texttt{Jenkins}
-\item In \texttt{Jenkins}, add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project
+\item In the \texttt{CMake} configuration file, \texttt{CMakeLists.txt}, include the TP module.
+\item With the provided \texttt{CMake TP} macro, add the compiler warning to the \texttt{CMake} configuration,
+\item Verify that the warning is printed during compilation.
+\item Commit the code in order to check the parsing done by \texttt{Jenkins}.
+\item In \texttt{Jenkins}, add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project.
 \item Modify the appropriate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors, \texttt{cppunit} provides a macro for this~: 
   \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
-\item Once it is OK and the warning has gone, commit
+\item Once it is OK and the warning has gone, commit.
 \item Rebuild on \texttt{Jenkins} to check.
 \end{itemize}
 
@@ -1955,12 +1957,25 @@ $ git merge alpha-cxx
 %--------------------------------------
 \section{Static analysis}
 
-Here the analysis does not need any compilation or execution.
-Whereas it is presented last, it may be performed first.
+With our library, one can check that the following code is valid but it may not be
+what the programmer intended:
 
-\subsection{cppcheck}
+\begin{lstlisting}
+ Sphere s1(.1);
+ Sphere s2(.2);
+ std::pair<Sphere, Sphere> p(s1,2);
+\end{lstlisting}
 
-One can simply have a report with the command
+With the implicit conversion allowed on the Sphere constructor, the pair of
+spheres \texttt{p} is constitued of the sphere \texttt{s1} and the Sphere
+\texttt{Sphere(2)} which is not the same as the pair of \texttt{s1} and \texttt{s2}.
+In the case of a typo, this may certainly lead to bugs.
+
+A static code analysis may help in the discovery of those potentials bugs.
+
+\paragraph{Let's use cppcheck}
+
+On our project, one can simply have a report with the command~:
 
 \begin{lstlisting}
 $ cppcheck <your source directory> -f -q --enable=style 
