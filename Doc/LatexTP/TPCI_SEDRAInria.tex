@@ -268,7 +268,7 @@
 %----------------------------------------------------------------------------------------
 
 % To have just one problem per page, simply put a \clearpage after each problem
-\begin{homeworkProblem}[Java Exercice]
+\begin{homeworkProblem}[Java Exercise]
 
 \section{Preamble}
 
@@ -295,7 +295,7 @@ First, you will create your personal \texttt{git} repository on the INRIA forge 
 \textbf{WARNING~: do not use the anonymous access (containing \texttt{anonscm}) }
 
 
-Then on a terminal, clone the content of your personnal \texttt{git} repository. The correct command should look like this~:
+Then on a terminal, clone the content of your personal \texttt{git} repository. The correct command should look like this~:
 \begin{lstlisting}
 $ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/
     users/<yourlogin>.git
@@ -505,7 +505,7 @@ Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize th
 $ firefox target/site/cobertura/index.html &
 \end{lstlisting}
 
-\section{Exercice 3}
+\section{Exercise 3}
 
 \subsubsection{TODO~:}
 
@@ -530,7 +530,7 @@ Add the following to the file  \texttt{pom.xml}
   </reporting>
 \end{lstlisting}
 
-The report generation is now included in the build lifecycle (\textbf{\texttt{site}} phase).
+The report generation is now included in the build life cycle (\textbf{\texttt{site}} phase).
 
 \subsubsection{TODO~:}
 
@@ -548,7 +548,7 @@ iceweasel target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
-\section{Exercice 3bis - Coverage Report on Jenkins}
+\section{Exercise 3bis - Coverage Report on Jenkins}
 
 \subsection{Adding build feedback}
 One of the good things with \texttt{Jenkins} is its ability to nicely present your test results. \\
@@ -557,8 +557,11 @@ The tools we used to run tests and code quality checks have been selected based 
 \subsection{Add coverage report}
 \begin{itemize}
 \item Go back to your item's configuration page (use the menu on the left)
-\item Replace your build's \textbf{\texttt{Goals and options}} with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
-\item Click on \textbf{\texttt{Add post-build action}} and select \textbf{\texttt{Publish Cobertura Coverage Report}} from the drop-down menu, your \textbf{\texttt{Cobertura xml report pattern}} is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
+\item Replace your build's \textbf{\texttt{Goals and options}} with~: \\
+\texttt{cobertura:cobertura -Dcobertura.report.format=xml}
+\item Click on \textbf{\texttt{Add post-build action}} and select \textbf{\texttt{Publish Cobertura Coverage Report}} from the drop-down menu
+\item The \textbf{\texttt{Cobertura xml report pattern}} is~:\\
+\texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
 \item Save and Run the test
 \item Check the output~: in the \texttt{Build History} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Coverage Report}}, have a look at it
 \end{itemize}
@@ -618,9 +621,8 @@ It's getting better but we might want to make a few changes to this default beha
 
 \begin{itemize}
 \item Retrieve a local copy of google checks
-\begin{lstlisting}
-$ wget https://raw.githubusercontent.com/checkstyle/checkstyle/
-     18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
+\begin{lstlisting}[breaklines=true]
+$ wget https://raw.githubusercontent.com/checkstyle/checkstyle/18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
 \end{lstlisting}
 \item  Modify the file \texttt{google\_checks.xml} so that it accepts single character parameter names.
 \item You may also consider removing trailing underscores from data members or amending \texttt{checkstyle.xml}
@@ -641,7 +643,7 @@ Add the following to the file \texttt{pom.xml}
   </reporting>
 \end{lstlisting}
 
-The check style report is now included in the build lifecycle (\textbf{\texttt{site}} phase).
+The check style report is now included in the build life cycle (\textbf{\texttt{site}} phase).
 
 \subsubsection{TODO~:}
 
@@ -690,7 +692,7 @@ python versions and environments.
 
 \subsubsection{Tools presentation}
 
-For this you will use the following tools:
+For this you will use the following tools~:
 
 \texttt{setuptools} packages your project,
 \texttt{unittest} to write tests (standard library),
@@ -712,7 +714,7 @@ The other test dependencies will be installed during the exercices.
 \subsubsection{Create and clone your personal copy of the repository}
 First, you will create your personal \texttt{git} repository on the INRIA forge as a branch of the main repository for the \texttt{tpcisedra} project~:
 \begin{itemize}
-\item Go to \url{https~://gforge.inria.fr/projects/tpcisedra/}
+\item Go to \url{https://gforge.inria.fr/projects/tpcisedra/}
 \item Click on the \textbf{\texttt{CODE SOURCE}} or \textbf{\texttt{SCM}} tab
 \item Click on \textbf{\texttt{Create a personal repository}}
 \item Back to the \textbf{\texttt{SCM}} tab, look for the command to access your personal repository.
@@ -728,8 +730,9 @@ $ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/
 $ cd <yourlogin>/python
 \end{lstlisting}
 
-You should have retrieved the following file tree:\\
-\begin{minipage}[t]{0.3\linewidth} \small
+You should have retrieved the following file tree~:
+{\centering\small
+  \begin{minipage}[t]{0.3\linewidth} \small
     \dirtree{%
         .1 tpcisedra/python.
         .2 sphere.
@@ -743,7 +746,7 @@ You should have retrieved the following file tree:\\
         .3 \#file used later.
     }
 \end{minipage}
-
+}
 \subsection{Project presentation}
 
 This project should be the best package providing sphere volume computation.
@@ -780,7 +783,7 @@ written with \texttt{setuptools}
 does not manage automatic dependency installation}.
 
 The script simply calls \texttt{setuptools.setup} function with the package
-description: package diretory, name, description, author, license, version,
+description~: package diretory, name, description, author, license, version,
 dependencies, supported python versions, \dots
 
 
@@ -790,16 +793,16 @@ This \texttt{setup.py} script is the entry point for installing and releasing
 your code. It will also be used later as an entry point for tests scripts.
 
 \begin{lstlisting}
-python setup.py <command> [opts]
+$ python setup.py <command> [opts]
 
 # Install the package
-python setup.py install
+$ python setup.py install
 
 # Install the package in a way that lets you edit the sources
-python setup.py develop
+$ python setup.py develop
 
-# Upload your last revision to PyPi repository
-python setup.py upload
+# Upload your last revision to \texttt{PyPi} repository
+$ python setup.py upload
 \end{lstlisting}
 
 \paragraph{Setuptools Documentation}
@@ -813,8 +816,8 @@ this exercise.
 
 Copy the \texttt{first} script from the \texttt{raw} folder as \texttt{setup.py}.
 \begin{lstlisting}
- cp raw/first setup.py
- cat setup.py
+$  cp raw/first setup.py
+$  cat setup.py
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
 
@@ -864,18 +867,18 @@ To prevent that, package \texttt{\_\_init\_\_.py} file can be read and parsed
 manually to find the version.
 
 \paragraph{}
-Package version can be queried with:
+Package version can be queried with~:
 \begin{lstlisting}
-python setup.py --version
+$ python setup.py --version
 \end{lstlisting}
 
 
-\subsubsection{Exercice 4}
+\subsubsection{Exercise 4}
 
 Find where the version is stored and how it is retrieved in the
 \texttt{setup.py} script.
 
-\subsection{Semantic Versioning}
+\subsection{Semantic versioning}
 
 Versioning should help users follow features addition and know when incompatible
 changes have been introduced.
@@ -884,14 +887,14 @@ Semantic Versioning gives you simple rules for changing your version numbers.
 \begin{quote}
 \begin{center}Summary \url{http://semver.org/}\end{center}
 
-Given a version number MAJOR.MINOR.PATCH, increment the:
+Given a version number MAJOR.MINOR.PATCH, increment the~:
 
 \begin{itemize}
 	\item MAJOR version when you make incompatible API changes,
 	\item MINOR version when you add functionality in a backwards-compatible manner, and
 	\item PATCH version when you make backwards-compatible bug fixes.
 \end{itemize}
-Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
+Additional labels for pre-release and build meta-data are available as extensions to the MAJOR.MINOR.PATCH format.
 \end{quote}
 
 For the following parts, remember to increment the version when you change the
@@ -902,7 +905,7 @@ API. However, as the code is still in \texttt{alpha} no need to increment the
 \subsection{Tests}
 
 Executing your code in command line and visually verifying the result is testing.
-However some parts of the code may be hard to reach from the cli, and are hard to
+However some parts of the code may be hard to reach from the \texttt{cli}, and are hard to
 test this way. Also, we want to automate this step and make it repeatable.
 
 So basically, we will write code to execute our code and verify the output.
@@ -911,14 +914,14 @@ And to simplify the organization we will use existing tools to write them.
 \paragraph{}In this section you will write tests using \texttt{unittest} and
 execute them with \texttt{nosetests}.
 
-Install the \texttt{nose} tools dependencies:
+Install the \texttt{nose} tools dependencies~:
 \begin{lstlisting}
-sudo -H pip install --upgrade  nosetests nose-xcover
+$ sudo -H pip install --upgrade  nosetests nose-xcover
 \end{lstlisting}
 
 One test has already been written as an example. Run it with \texttt{nosetests}
 \begin{lstlisting}
-nosetests -v
+$ nosetests -v
 test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
 
 ----------------------------------------------------------------------
@@ -939,7 +942,7 @@ This class implements several assert functions and also runs \texttt{setUp} and
 This helps configuring a test environment.
 
 
-\subsubsection{Exercice 5}
+\subsubsection{Exercise 5}
 
 As you can see, \texttt{test\_volume\_0} is not enough to validate your code.
 Add another test to validate the volume computation with
@@ -948,20 +951,20 @@ $radius=1.5$ where $volume=14.137166941154069$.
 \paragraph{}Commit your code with the new test.
 
 
-\subsubsection{Refactoring}
+\subsubsection{Re-factoring}
 
-Now that your code is tested, you can safely start refactoring it.
+Now that your code is tested, you can safely start re-factoring it.
 In our formula, the $ 4 * \Pi / 3 $ part can be computed only once instead of
 at each \texttt{volume} call.
 
-\subsubsection{Exercice 6}
+\subsubsection{Exercise 6}
 
 Move it in a class variable and use it in the \texttt{volume} method.
 
-Run the tests again. It should fail:
+Run the tests again. It should fail~:
 
 \begin{lstlisting}
-nosetests -v
+$ nosetests -v
 test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
 test_volume_1_5 (tp_ci_sed.test.sphere_test.TestSphere) ... FAIL
 
@@ -988,7 +991,7 @@ Why does the test fail?
 Because of floating point arithmetics \emph{rounding errors}.
 
 Our response to this issue strongly depends on what kind of application we are
-working on:
+working on~:
 \begin{itemize}
 \item In some cases, we want to be aware that something has changed, even when
     the change is the tiniest. In that case, the test we already have is just what we want.
@@ -1002,7 +1005,7 @@ Here, the code result is correct, so the fail should pass.
 
 Find a way to modify the test so small rounding differences do not cause errors.
 
-\paragraph{Hint}List of \texttt{unittest} assert functions:
+\paragraph{Hint}List of \texttt{unittest} assert functions~:
 
 \url{https://docs.python.org/2/library/unittest.html\#unittest.FunctionTestCase}
 
@@ -1017,7 +1020,7 @@ directly with \texttt{nosetests} and \texttt{nose-xcover}.
 
 To get the coverage output, run
 \begin{lstlisting}
- nosetests -v --with-xcoverage --cover-erase  --cover-inclusive \
+$ nosetests -v --with-xcoverage --cover-erase  --cover-inclusive \
     --cover-branches --cover-html --cover-package  tp_ci_sed
 
 test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
@@ -1036,31 +1039,31 @@ OK
 \end{lstlisting}
 
 You can read the coverage output directly in the \texttt{nosetests} output.
-But a human readable html report and an \texttt{xml} report for \texttt{Jenkins} are also generated.
+But a human readable \texttt{html} report and an \texttt{xml} report for \texttt{Jenkins} are also generated.
 
 
 \begin{lstlisting}
- ls
+$ ls
 cover coverage.xml  raw  sphere  tp_ci_sed
  file coverage.xml
 coverage.xml: XML document text
 \end{lstlisting}
 
-See the html report
+See the \texttt{html} report
 
 \begin{lstlisting}
- firefox cover/index.html &
+$ firefox cover/index.html &
 \end{lstlisting}
 
 
-\subsection{\texttt{setup.py} subcommands}
+\subsection{\texttt{setup.py} sub-commands}
 
 As running \texttt{nosetests} with all the options is quite a pain, you will use
 \texttt{setuptools} to configure the \texttt{nosetests} command.
 
 Calling \texttt{nosetests} can be done using
 \begin{lstlisting}
- python setup.py nosetests
+$ python setup.py nosetests
 
 ...
 
@@ -1078,17 +1081,16 @@ Configuring \texttt{setup.py} commands requires adding options in a
 
 Copy the \texttt{second} script from the \texttt{raw} folder as \texttt{setup.cfg}.
 \begin{lstlisting}
- cp raw/second setup.cfg
- cat setup.cfg
+$ cp raw/second setup.cfg
+$ cat setup.cfg
 \end{lstlisting}
 
 The first part is \texttt{nosetests} configuration and allow coverage and also
 searching for all type of tests.
 
-Re run the command:
-
+Re run the command~:
 \begin{lstlisting}
- python setup.py nosetests
+$ python setup.py nosetests
 
 ...
 
@@ -1113,7 +1115,7 @@ coverage report.
 
 \subsection{Code static analysis and style}
 
-Python is a dynamic language where many things are evaluated at runtime,
+Python is a dynamic language where many things are evaluated at run-time,
 more than compiled languages. It means that if you do typos, errors may only
 occur when running the program. Using a static analysis program can detect
 errors without executing your program.
@@ -1124,7 +1126,7 @@ For python there is even an official coding style guide defined in the
 Python Enhancement Proposal 8 (PEP8\footnote{\url{https://www.python.org/dev/peps/pep-0008/}}).
 
 
-\paragraph{}In this section you will use two tools:
+\paragraph{}In this section you will use two tools~:
 \texttt{Pylint} and \texttt{PEP8} to perform static analysis and code style
 checking. They will be run using the \texttt{setup.py} script and so there
 configuration is in \texttt{setup.cfg}.
@@ -1133,14 +1135,13 @@ configuration is in \texttt{setup.cfg}.
 Install dependencies, note the \texttt{setuptools-XXXX} which provide
 \texttt{setup.py} wrapper.
 \begin{lstlisting}
-sudo -H pip install --upgrade  pylint pep8 setuptools-lint setuptools-pep8
+$ sudo -H pip install --upgrade  pylint pep8 setuptools-lint setuptools-pep8
 \end{lstlisting}
 
-Run the two commands:
-
+Run the two commands~:
 \begin{lstlisting}
- python setup.py lint
- python setup.py pep8
+$ python setup.py lint
+$ python setup.py pep8
 \end{lstlisting}
 
 You will, I think, get a lot of errors and warnings.
@@ -1154,7 +1155,7 @@ your code documentation!
 \begin{description}
   \item[Note] The tools may return some false-positive.
     In this case it is possible to disable the error message.
-    Refer to the documentation when needed:
+    Refer to the documentation when needed~:
     \url{http://docs.pylint.org/message-control}
 \end{description}
 
@@ -1162,21 +1163,21 @@ your code documentation!
 \subsection{All tests in one command}
 
 Now that we sum up what we have, testing all your application with the previous
-tools is simply running the three following commands:
+tools is simply running the three following commands~:
 
 \begin{lstlisting}
- python setup.py nosetests
- python setup.py lint
- python setup.py pep8
+$ python setup.py nosetests
+$ python setup.py lint
+$ python setup.py pep8
 \end{lstlisting}
 
 You can write that in your documentation and let other users to do it.
 Is it enough?
 
 Do you remember to tell to install the tests dependencies?
-And if you want to add another test tool? You must inform all developpers to
+And if you want to add another test tool? You must inform all developers to
 run the new command.
-And if you want to test with Python3?
+And if you want to test with Python3 ?
 
 Adding a bash script to do it would work but as we are working with Python,
 let's use the right tool.
@@ -1187,18 +1188,17 @@ Is a generic \texttt{virtualenv} based automation tool.
 It lets you test that your package installs with different interpreters and runs
 tests in each environment.
 
-
 Install \texttt{tox} dependency.
 \begin{lstlisting}
-sudo -H pip install --upgrade  tox
+$ sudo -H pip install --upgrade  tox
 \end{lstlisting}
 
 
-
-\paragraph{}First thing, copy the \texttt{tests\_utils} from \texttt{raw} directory:
+\paragraph{}
+First thing, copy the \texttt{tests\_utils} from \texttt{raw} directory~:
 \begin{lstlisting}
- cp -r raw/tests_utils .
- ls tests_utils/
+$ cp -r raw/tests_utils .
+$ ls tests_utils/
 coverage-python-3.2.txt  pylint-python-2.6_3.2.txt  test-requirements.txt
 \end{lstlisting}
 
@@ -1210,30 +1210,30 @@ The two other files are specific versions for python 2.6 and 3.2.
 
 Now copy the \texttt{tox.ini} file from \texttt{raw/third} file.
 \begin{lstlisting}
- cp -r raw/third tox.ini
+$ cp -r raw/third tox.ini
 \end{lstlisting}
 
-The file content is the following:
-
+\clearpage
+The file content is the following~:
 \lstinputlisting[caption=tox.ini,label=tox.ini]{../../Src/Python/tox.ini}
 
-The different part of the file are:
+The different part of the file are~:
 \begin{itemize}
-\item envlist: is the list of python version you want to run on. Here only Python2.7 for the moment.
-\item deps: the test dependencies. With specific packages versions for \texttt{python2.6 python3.2}.
-\item commands: the list of test commands. The front dash \texttt{-} means don't fail on execution error.
+\item \texttt{envlist}~: is the list of python version you want to run on. Here only Python2.7 for the moment.
+\item \texttt{deps}~: the test dependencies. With specific packages versions for \texttt{python2.6 python3.2}.
+\item \texttt{commands}~: the list of test commands. The front dash \texttt{-} means don't fail on execution error.
 \end{itemize}
 
 Now executing your tests simply means running \texttt{tox} and the only required
 dependency installed is \texttt{tox} itself.
 
 \paragraph{Other versions}
-If everything succeeds, and you have python3 installed add it to the environment
-to see the result (py32 for python3.2). Re-run tox.
+If everything succeeds, and you have \texttt{python3} installed add it to the environment
+to see the result (\texttt{py32} for python3.2). Re-run \texttt{tox}.
 I think it will fail, at least with the 'print' statement.
 
 However, you see how easy it is to test your code on different python versions.
-Making a code working for python2 and python3 requires some time, but at least
+Making a code working for \texttt{python2} and \texttt{python3} requires some time, but at least
 it's easy to test!
 
 \paragraph{Conclusion} Now all you learned was how a test environment is created,
@@ -1242,7 +1242,7 @@ with \texttt{tox}.
 
 
 
-\subsection{Advances tests writing: mocking}
+\subsection{Advances tests writing~: mocking}
 
 
 \begin{description}
@@ -1250,7 +1250,7 @@ with \texttt{tox}.
 \end{description}
 
 When testing, it is useful to replace some part of your application to give it
-a special behaviour, like raising an exception, or to prevent its side effect,
+a special behavior, like raising an exception, or to prevent its side effect,
 like connection to an external service. It is also easier to be able to know how
 an object has been used or a function been called.
 
@@ -1261,10 +1261,10 @@ and verify the printed output.
 Install the dependency to have it on your system. It will be installed by
 \texttt{tox} in the test environment.
 \begin{lstlisting}
-sudo -H pip install --upgrade  mock
+$ sudo -H pip install --upgrade  mock
 \end{lstlisting}
 
-\texttt{mock} class provides mainly two important things:
+\texttt{mock} class provides mainly two important things~:
 \begin{itemize}
     \item \texttt{Mock} class which is an object whose behaviour can be
         configured and that records all action on it.
@@ -1280,8 +1280,8 @@ yourself.
 Copy the \texttt{fourth} file as \texttt{tp\_ci\_sed/test/sphere\_test\_main.py}
 and re-run tests.
 \begin{lstlisting}
- cp -r raw/fourth tp_ci_sed/test/sphere_test_main.py
- tox
+$ cp -r raw/fourth tp_ci_sed/test/sphere_test_main.py
+$ tox
 \end{lstlisting}
 
 You can see that we now have 100\% coverage.
@@ -1294,7 +1294,7 @@ arguments \texttt{sys.argv} should be replaced with different values.
 Here I am patching it using a \texttt{context\_manager} (\texttt{with} keyword).
 It automatically applies and cleans up the patch.
 
-\paragraph{Mocking outputs} Two methods are presented:
+\paragraph{Mocking outputs} Two methods are presented~:
 
 The first one is mockng \texttt{sys.stdout} with a \texttt{StringIO} object and
 get the written string. Here it is also done using a context manager.
@@ -1307,7 +1307,7 @@ cleaning it with \texttt{patch.stopall()} in \texttt{tearDown}.
 Both method are valid, it's just for presenting alternatives.
 
 
-\paragraph{Hints:} Some advices I want to give on patch:
+\paragraph{Hints~:} Some advices I want to give on patch~:
 
 \begin{itemize}
 \item When 'patching' always verify that the mock has been called by your
@@ -1330,7 +1330,7 @@ At this point you have a your python project packaged with setup.py and tests
 running managed by tox. This means that running your tests only need to run~:
 
 \begin{lstlisting}
-tox
+$ tox
 \end{lstlisting}
 
 \subsection{Running your first test on CI}
@@ -1355,8 +1355,8 @@ brings errors in scripts to have path with spaces.
 \begin{itemize}
 \item Add build step~: \texttt{Execute Shell} and execute~:
 \begin{lstlisting}
-cd python/
-tox
+$ cd python/
+$ tox
 \end{lstlisting}
 \item Save the configuration.
 \end{itemize}
@@ -1371,16 +1371,16 @@ See \texttt{Console Output} to see the script execution.
 
 As seen, \texttt{tox} is not installed on the build machine. It can either be installed
 manually or as a step of the integration process. The last solution is more in
-the process of 'integration' but sometimes you don't have the choice.
+the process of \emph{integration} but sometimes you don't have the choice.
 
 \begin{itemize}
 \item Remove the build step and replace it with \texttt{Virtualenv Builder}.
 This puts the code execution in a separated python environment for the build.
-\item Now as first step, install your `tox` dependency~:
+\item Now as first step, install your \texttt{tox} dependency~:
 \begin{lstlisting}
-pip install --quiet --upgrade tox
-cd python
-tox
+$ pip install --quiet --upgrade tox
+$ cd python
+$ tox
 \end{lstlisting}
 \item Save and build, it should be a successful build.
 \end{itemize}
@@ -1435,7 +1435,7 @@ A solution is to create a symlink to the source directory~:
   \item Add a build step \texttt{Execute shell} with~:
 \begin{lstlisting}
 # Hack to help cobertura find source files
-ln  -nfs python/tp_ci_sed  tp_ci_sed
+$ ln  -nfs python/tp_ci_sed  tp_ci_sed
 \end{lstlisting}
 \end{itemize}
 
@@ -1445,7 +1445,7 @@ ln  -nfs python/tp_ci_sed  tp_ci_sed
 \item[Step \texttt{Scan for compiler warnings}] \hfill \\
   \begin{itemize}
   \item Scan console log add two parsers, one for \texttt{pylint} and another for \texttt{pep8}.
-  \item In advanced configuration, select 'Resolve relative paths', either the plugin doesn't find the source files as they are not in the root folder.
+  \item In advanced configuration, select \textbf{\texttt{Resolve relative paths}}, either the plugin doesn't find the source files as they are not in the root folder.
   \end{itemize}
 \end{description}
 
@@ -1479,7 +1479,7 @@ multiple builds to create graphs.
 \subsection{Pylint/PEP8}
 
 \begin{itemize}
-\item Click on Pylint/PEP8 reports and see the errors in the source files.
+\item Click on \textbf{\texttt{Pylint/PEP8}} reports and see the errors in the source files.
 \end{itemize}
 
 
@@ -1497,7 +1497,7 @@ Automatically run the build~:
 
 Send mails on build failure~:
 \begin{itemize}
-\item  Howto do that ?
+\item  How to do that ?
 \end{itemize}
 
 
@@ -1505,7 +1505,7 @@ Send mails on build failure~:
 
 \begin{itemize}
 \item Try fixing all your code to get perfect results outputs;*
-\item Use tox to run tests on python3 also and make your code compatible with.
+\item Use \texttt{tox} to run tests on \texttt{python3} also and make your code compatible with.
 \end{itemize}
 
 %%\lipsum[1]
@@ -1527,18 +1527,18 @@ Send mails on build failure~:
 %----------------------------------------------------------------------------------------
 %"${)
 
-\begin{homeworkProblem}[C++ Exercice]
+\begin{homeworkProblem}[C++ Exercise]
 
 \section{Preamble}
 
-In this exercice, we will focus on the configuration of Jenkins for~:
+In this exercise, we will focus on the configuration of Jenkins for~:
 \begin{enumerate}
 \item a simple aspect of c++ unit testing, 
-\item an aspect of dynamic testing : source coverage,
-\item a demonstration of static analysis with cppcheck.
+\item an aspect of dynamic testing~: source coverage,
+\item a demonstration of static analysis with \texttt{cppcheck}.
 \end{enumerate}
 
-To perform this \texttt{C++} exercice, we rely on three main development tools~:
+To perform this \texttt{C++} exercise, we rely on three main development tools~:
 
 \begin{itemize}
 \item A \texttt{C++} compiler, for example \texttt{GNU C++} or \texttt{clang}.
@@ -1548,9 +1548,9 @@ To perform this \texttt{C++} exercice, we rely on three main development tools~:
 \item Coverage analysis tools~: \texttt{gcov}, \texttt{lcov} \texttt{gcvor}.
 \end{itemize}
 
-On Linux, BSD, MACOS X systems, suitables versions may simply be installed with the package manager (\texttt{yum, apt, etc}).
+On Linux, BSD, MACOS X systems, suitable versions may simply be installed with the package manager (\texttt{yum, apt, etc}).
 
-For example : 
+For example~: 
 \begin{itemize}
 \item on Fedora systems, one may use the command~: \texttt{sudo yum install cmake gcc-c++ cppunit cppcheck gcov lcov}
 \item on recent Debian or Ubuntu systems~:
@@ -1565,7 +1565,7 @@ For \texttt{gcovr}, use \texttt{sudo pip install gcovr}.
 \subsubsection{Clone the git repository from INRIA forge and create your own branch}
 First, you will create your personal \texttt{git} repository on the INRIA forge as a branch of the main repository for the \texttt{tpcisedra} project~:
 \begin{itemize}
-\item Go to \url{https~://gforge.inria.fr/projects/tpcisedra/}
+\item Go to \url{https://gforge.inria.fr/projects/tpcisedra/}
 \item Click on the \textbf{\texttt{CODE SOURCE}} or \textbf{\texttt{SCM}} tab
 \item Click on \textbf{\texttt{Create a personal repository}}
 \item Back to the \textbf{\texttt{SCM}} tab, look for the command to access your personal repository.
@@ -1574,7 +1574,7 @@ First, you will create your personal \texttt{git} repository on the INRIA forge 
 \textbf{WARNING~: do not use the anonymous access (containing \texttt{anonscm}) }
 
 
-Then on a terminal, clone the content of your personnal \texttt{git} repository. The correct command should look like this~:
+Then on a terminal, clone the content of your personal \texttt{git} repository. The correct command should look like this~:
 \begin{lstlisting}
 $ git clone \
   git+ssh://<yourlogin@scm.gforge.inria.fr/gitroot/tpcisedra/users/<yourlogin>.git
@@ -1607,7 +1607,7 @@ dynamic shared and versioned \textbf{\texttt{TP}} \footnote{\textbf{\texttt{TP}}
   in french} library. The \texttt{CMake} configuration is specified in two
 \texttt{CMakeLists.txt} files~:
 \begin{itemize}
-\item one under the main directory : the main \texttt{CMakeLists.txt}
+\item one under the main directory~: the main \texttt{CMakeLists.txt}
 \item one under the \texttt{tests} directory.
 \end{itemize}
 
@@ -1640,7 +1640,7 @@ $ make test
 
 \subsubsection{Run the benchmark}
 
-\texttt{CMake} provides pre-defined build configuration that may be choosen
+\texttt{CMake} provides pre-defined build configuration that may be chosen
 with the \texttt{CMAKE\_BUILD\_TYPE} variable. Among them we are going to
 consider~:
 
@@ -1662,9 +1662,12 @@ $ cmake .
 %$
 
 \texttt{CMake} variables may be set on the command line with \texttt{-D}
-arguments~: \texttt{cmake . -D<VARIABLE\_NAME>=<VALUE>}. The value remains in
-the cache file, so when a variable has been modified once with a call to cmake, it
-is not necessary to define its value anymore on the command line.
+arguments~: 
+\begin{lstlisting}
+$ cmake . -D<VARIABLE\_NAME>=<VALUE>
+\end{lstlisting}
+
+The value remains in the cache file, so when a variable has been modified once with a call to cmake, it is not necessary to define its value anymore on the command line.
 
 Let's configure our build to a debug build~:
 \begin{lstlisting}
@@ -1705,6 +1708,7 @@ You should see a difference on time.
 
 Now, let's keep this configuration in our build directory.
 
+\clearpage
 \subsection{Jenkins setup}
 
 Log into the project's \texttt{Jenkins} instance~:
@@ -1734,20 +1738,22 @@ https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
 \end{lstlisting}
 \end{itemize}
 
-An important step for the continuous integration step is the build trigger.  A
-simple possibility is to choose to build periodically, this is suitable for
-some nightly or weekly tests that may be time consuming and are not meant to
-be launched after each commit, but this should be avoided for short periods.
-In our case, we want the results to be displayed as soon as possible so we choose
-to launch the build after a post-commit hook~:
+An important step for the continuous integration step is the build trigger.
+
+A simple possibility is to choose to build periodically, this is
+suitable for some nightly or weekly tests that may be time consuming
+and are not meant to be launched after each commit, but this should be
+avoided for short periods.  In our case, we want the results to be
+displayed as soon as possible so we choose to launch the build after a
+post-commit hook~:
 
 \begin{itemize}
-\item click on Poll SCM
-\item and in the Schedule cut and paste: ``\# Leave empty. We don't poll periodically, but need polling enabled to let HTTP trigger work''
+\item Click on \textbf{\texttt{Poll SCM}}
+\item In the \textbf{\texttt{Schedule}} field, cut and paste~:\\ 
+\texttt{\# Leave empty. We don't poll periodically, but need polling enabled to let HTTP trigger work}
 \end{itemize}
 
-Then on the gforge server create the post-commit hook, first ``cd'' to the git
-hooks directory:
+Then on the INRIA gforge server, create the post-commit hook \texttt{post-receive}~:
 
 \begin{lstlisting}
 $ ssh <your gforge login>@scm.gforge.inria.fr
@@ -1755,16 +1761,15 @@ $ cd /gitroot/tpcisedra/users/<your gforge login>.git/hooks
 \end{lstlisting}
 
 And then create the executable file \texttt{post-receive}~:
-
-\begin{lstlisting}
+\begin{lstlisting}[breaklines=true]
 $ #!/bin/sh
-wget --auth-no-challenge --no-check-certificate http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tp
-cisedra/users/<your gforge login>.git
+wget --auth-no-challenge --no-check-certificate
+http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your gforge login>.git
 \end{lstlisting}
 
 %$
 
-\subsubsection{Exercice 1}
+\subsubsection{Exercise 1}
 
 Add a new build step~ using \texttt{Execute shell}, where you inform \texttt{Jenkins} how to build and test the project.
 
@@ -1778,7 +1783,7 @@ Now}} in the menu on the left.
 You can also check the \texttt{Test Result}.
 \end{itemize}
 
-\subsubsection{Exercice 2}
+\subsubsection{Exercise 2}
 
 \paragraph{First part}
 Edit the implementation of the \texttt{Sphere} class~:
@@ -1805,9 +1810,9 @@ TODO~:
 \item Run the test.
 \end{itemize}
 
-The test may still be successfull (this may depends on your hardware and compiler).
+The test may still be successful (this may depends on your hardware and compiler).
 
-Let's assume it is successfull and commit your modifications.
+Let's assume it is successful and commit your modifications.
 
 \begin{lstlisting}
 $ git commit -m "precomputation of 4pi/3"
@@ -1832,12 +1837,11 @@ The following tests FAILED:
 	  1 - TestVolume (Failed)
 \end{lstlisting}
 
-
 \paragraph{Second part}
 
 The \texttt{-funsafe-math-optimizations} implied by \texttt{-ffast-math}
 allows for reordering of floating points operations and this may lead to
-differents results.
+different results.
 
 The direct check of equality of floating point numbers with the \texttt{==}
 operator should be avoided, we first add a warning (only if understood by the
@@ -1846,7 +1850,7 @@ compiler) in order not to reproduce this kind of error.
 Since version $4.6$, \texttt{GNU C++} provides this warning \texttt{-Wfloat-equal}. 
 With portability in mind, before adding the flag to the compiler command, we need to check that the compiler accepts it.
 
-With \texttt{CMake}, there is no builtin function for this operation, but that
+With \texttt{CMake}, there is no built-in function for this operation, but that
 can be achieved with a simple macro~:
 
 \begin{lstlisting}
@@ -1862,7 +1866,7 @@ endmacro()
 
 This macro is provided in the \texttt{TP.cmake} module file under \texttt{cmake} directory.
 
-To load this TP module, you need to modify the \texttt{CMakelists.txt} file :
+To load this TP module, you need to modify the \texttt{CMakelists.txt} file~:
 \begin{itemize}
 \item Set the \texttt{CMake module path} to this directory~:
 \begin{lstlisting}
@@ -1885,7 +1889,7 @@ TODO~:
 \item Verify that the warning is printed during compilation
 \item Commit the code in order to check the parsing done by \texttt{Jenkins}
 \item In \texttt{Jenkins}, add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project
-\item Modify the appropiate test in \texttt{TestTP.cpp} so small rounding
+\item Modify the appropriate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors, \texttt{cppunit} provides a macro for this~: 
   \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
 \item Once it is OK and the warning has gone, commit
@@ -1921,11 +1925,11 @@ This function, when used in place of the standard \texttt{CMake} function
 target~: \texttt{make help})
 %$
 
-\subsubsection{Exercice 3}
+\subsubsection{Exercise 3}
 
 TODO~:
 \begin{itemize}
-\item Install coverage for the test routine \texttt{TestVolume}. In the cmake configurations files, you need to set the coverage flags for the build of the library and the test file with the \texttt{add\_cxx\_compiler\_flag}.
+\item Install coverage for the test routine \texttt{TestVolume}. In the \texttt{CMake} configurations files, you need to set the coverage flags for the build of the library and the test file with the \texttt{add\_cxx\_compiler\_flag}.
 \item Run a test with \texttt{make coverage}
 \item With a Web browser, open the file \texttt{index.html} under \texttt{TestTP\_\_testVolume} directory.
 \item On the \texttt{Jenkins} side, modify the build process in \textbf{\texttt{Execute shell}}. And in \textbf{\texttt{Post-Build Actions}}, add \textbf{\texttt{Publish Cobertura Report}} with the \texttt{Cobertura xml} report pattern set to \texttt{**/coverage.xml}
@@ -1942,7 +1946,7 @@ $ git merge alpha-cxx
 
 %$
 
-\subsubsection{Exercice 4}
+\subsubsection{Exercise 4}
 \begin{itemize}
 \item Generate and visualize the corresponding coverage report.
 \item Improve the test coverage and commit.
@@ -1964,13 +1968,13 @@ $ cppcheck <your source directory> -f -q --enable=style
 
 %$
 
-The results we obtain depends on the version of cppcheck!
+The results we obtain depends on the version of \texttt{cppcheck}!
 
-On the virtual machine, the latest (\texttt{1.71}) cppcheck is installed.
+On the virtual machine, the latest (\texttt{1.71}) \texttt{cppcheck} is installed.
 
-\subsubsection{Exercice 5}
+\subsubsection{Exercise 5}
 \begin{itemize}
-\item Install the check on Jenkins. One have to generate an xml output
+\item Install the check on Jenkins. One have to generate an \texttt{XML} output
   (\texttt{--xml} option) and to redirect standard error to a file name
   \texttt{cppcheck-result.xml}). Jenkins read this file if configured properly
   in the ``Post-Build'' Action of your build project.
