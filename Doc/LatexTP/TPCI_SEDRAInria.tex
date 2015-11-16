@@ -270,9 +270,7 @@
 % To have just one problem per page, simply put a \clearpage after each problem
 \begin{homeworkProblem}[Java Exercice]
 
-\section{Local Test Part}
-
-\subsection{Preamble}
+\section{Preamble}
 
 To go through this exercise, you will need to install
 \begin{itemize}
@@ -283,9 +281,9 @@ To go through this exercise, you will need to install
 
 You will also need an account on both gforge.inria.fr and ci.inria.fr and be a member of the tpcisedra project.
 
-\subsection{Setup}
+\section{Setup}
 
-\subsubsection{Create a personal copy of the git repository from INRIA forge and clone it}
+\subsection{Create a personal copy of the git repository from INRIA forge and clone it}
 First, you will create your personal \texttt{git} repository on the INRIA forge as a branch of the main repository for the \texttt{tpcisedra} project~:
 \begin{itemize}
 \item Go to \url{https~://gforge.inria.fr/projects/tpcisedra/}
@@ -336,7 +334,7 @@ The project is made up of~:
 \item A file \texttt{SphereTest.java} implementing its test class \texttt{SphereTest}.
 \end{itemize}
 
-\subsubsection{Check that you can build the project}
+\subsection{Check that you can build the project}
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
@@ -353,9 +351,9 @@ You should see these lines (among others)~:
 
 
 %--------------------------------------
-\subsection{Testing your code}
+\section{Testing your code locally}
 
-\subsubsection{Run the (single) test}
+\subsection{Run the (single) test}
 \begin{lstlisting}
 $ mvn test
 \end{lstlisting}
@@ -377,7 +375,43 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 [INFO] ------------------------------------------------------------------------
 \end{lstlisting}
 
-\subsubsection{Exercice 1}
+
+
+%--------------------------------------
+\section{Testing your code remotely on ci.inria.fr}
+
+\subsection{Log into the project's Jenkins instance}
+Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/} \\
+Log in and click \textbf{\texttt{Dashboard}} in the top menu \\
+You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button \\
+You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the ci portal
+
+\subsection{Create a new Jenkins item}
+From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
+Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Maven project}}
+
+\subsection{Git configuration}
+In the new item's configuration page (which you will be redirected to after clicking \textbf{\texttt{OK}} on the \texttt{New Item} page), choose \texttt{git} as your \textbf{\texttt{Source Code Manager}} and copy the \emph{anonymous} url to your personal repository into the appropriate field~:
+\begin{lstlisting}
+https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
+\end{lstlisting}
+\end{homeworkProblem}
+
+\subsection{Build configuration}
+In the \textbf{\texttt{Build}} section, change the root POM path to \texttt{java/pom.xml} and type \texttt{test} in \textbf{\texttt{Goals and options}} section.
+
+\subsection{Save and run}
+Click \textbf{\texttt{Save}} at the bottom of the page \\
+Click \textbf{\texttt{Build Now}} in the menu on the left
+
+\subsection{Check the output}
+In the \textbf{\texttt{Build History}} on the left, click on the last build (hopefully \#1), then select \textbf{\texttt{Console Output}} \\
+You can also check the \textbf{\texttt{Test Result}}
+
+
+
+%--------------------------------------
+\section{Exercice 1}
 
 Have a look at the code of the method \texttt{Sphere::computeVolume()}.\\
 To do so, edit \texttt{tpcisedra/java/src/main/java/fr/inria/sed/Sphere.java}.
@@ -392,7 +426,7 @@ public double computeVolume1() {
 
 We might want the value~: \verb?4 * Math.PI / 3? to be computed once and for all.
 
-TODO~:
+\subsubsection{TODO~:}
 \begin{itemize}
 \item Extract this value into a class data member
 \item Run the test again. It should fail.
@@ -418,7 +452,13 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 [INFO] ------------------------------------------------------------------------
 \end{lstlisting}
 
-\subsubsection{Exercice 2}
+\subsubsection{TODO~:}
+\begin{itemize}
+\item Check that tests fail on CI. \\
+Hint~: have you commited and pushed your changes ?
+\end{itemize}
+
+\section{Exercice 2}
 
 Why does the test in \texttt{SphereTest.java} fail ?
 
@@ -430,15 +470,16 @@ Our response to this issue strongly depends on what kind of application we are w
 \item In other cases, we need not worry about such a small difference and hence do not want to be bothered by tests complaining.
 \end{itemize}
 
-TODO~:
+\subsubsection{TODO~:}
 \begin{itemize}
 \item Find a way to modify the appropriate test in \texttt{SphereTest.java}
 so small rounding differences do not cause errors.
+\item Check that tests pass on CI.
 \end{itemize}
 
 
 %--------------------------------------
-\subsection{Test Coverage}
+\section{Test Coverage}
 
 At this stage, all our tests pass. But what does that mean regarding our application ?
 
@@ -446,7 +487,7 @@ Not much you may say, but can you quantify it and will you be able to tell on a 
 
 This is when \textbf{test coverage} becomes handy.
 
-\subsubsection{Run test coverage}
+\subsection{Run test coverage}
 
 Run the following \texttt{maven} command~:
 \begin{lstlisting}
@@ -464,7 +505,9 @@ Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize th
 $ firefox target/site/cobertura/index.html &
 \end{lstlisting}
 
-\subsubsection{Exercice 3}
+\section{Exercice 3}
+
+\subsubsection{TODO~:}
 
 \begin{itemize}
 \item Populate your tests to achieve 100\% test coverage.\\
@@ -472,7 +515,7 @@ Hint~: you may not need any additional tests ;)
 \end{itemize}
 
 
-\subsubsection{[Optional] Integrate cobertura to your reporting local website}
+\subsection{Integrate cobertura to your reporting local website}
 
 Add the following to the file  \texttt{pom.xml}
 \begin{lstlisting}
@@ -489,10 +532,10 @@ Add the following to the file  \texttt{pom.xml}
 
 The report generation is now included in the build lifecycle (\textbf{\texttt{site}} phase).
 
-\subsubsection{Exercice 3bis}
+\subsubsection{TODO~:}
 
 \begin{itemize}
-\item To generate the report~:
+\item Generate the report~:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
@@ -505,7 +548,24 @@ iceweasel target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
-\subsubsection{Add some new class to our project}
+\section{Exercice 3bis - Coverage Report on Jenkins}
+
+\subsection{Adding build feedback}
+One of the good things with \texttt{Jenkins} is its ability to nicely present your test results. \\
+The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding \texttt{Jenkins} plugins.
+
+\subsection{Add coverage report}
+\begin{itemize}
+\item Go back to your item's configuration page (use the menu on the left)
+\item Replace your build's \textbf{\texttt{Goals and options}} with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
+\item Click on \textbf{\texttt{Add post-build action}} and select \textbf{\texttt{Publish Cobertura Coverage Report}} from the drop-down menu, your \textbf{\texttt{Cobertura xml report pattern}} is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
+\item Save and Run the test
+\item Check the output~: in the \texttt{Build History} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Coverage Report}}, have a look at it
+\end{itemize}
+
+
+
+\section{Add a new class to our project}
 
 Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project
 \begin{lstlisting}
@@ -513,16 +573,17 @@ $ git merge alpha
 \end{lstlisting}
 
 
-\subsubsection{Exercice 4}
+\section{Exercice 4}
 \begin{itemize}
 \item Generate and visualize the corresponding coverage report
 \item Make what changes are necessary to achieve 100\% test coverage
+\item Check that you get the same results on Jenkins
 \end{itemize}
 
 %--------------------------------------
-\subsection{Stylecheck}
+\section{Stylecheck}
 
-\subsubsection{Run a style checker}
+\subsection{Run a style checker}
 
 Let's try and run a style checker~:
 \begin{lstlisting}
@@ -532,9 +593,9 @@ $ mvn checkstyle:checkstyle
 \end{lstlisting}
 We get plenty of errors with the default style \verb?sun_checks.xml?.
 
-Our coding style is close to Google style than it is to Sun style.
+Our coding style is closer to Google style than it is to Sun style.
 
-\subsubsection{Run Google style checker}
+\subsection{Run Google style checker}
 
 Try running with Google checks (provided by the plugin)
 \begin{lstlisting}
@@ -551,7 +612,9 @@ NOTE~: this can also be achieved by adding the following lines to your pom.xml~:
 
 It's getting better but we might want to make a few changes to this default behaviour.
 
-\subsubsection{Exercice 5}
+\section{Exercice 5}
+
+\subsubsection{TODO~:}
 
 \begin{itemize}
 \item Retrieve a local copy of google checks
@@ -563,7 +626,7 @@ $ wget https://raw.githubusercontent.com/checkstyle/checkstyle/
 \item You may also consider removing trailing underscores from data members or amending \texttt{checkstyle.xml}
 \end{itemize}
 
-\subsubsection{[Optional] Integrate checkstyle to your reporting local website}
+\section{Integrate checkstyle to your reporting local website}
 
 Add the following to the file \texttt{pom.xml}
 \begin{lstlisting}
@@ -580,10 +643,10 @@ Add the following to the file \texttt{pom.xml}
 
 The check style report is now included in the build lifecycle (\textbf{\texttt{site}} phase).
 
-\subsubsection{Exercice 5bis}
+\subsubsection{TODO~:}
 
 \begin {itemize}
-\item To generate the report~:
+\item Generate the report~:
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
@@ -595,56 +658,9 @@ $ firefox target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
+\section{Exercice 5bis - Checkstyle Report on Jenkins}
 
-
-%----------------------------------------------------------------------------------------
-%   Java CI
-%----------------------------------------------------------------------------------------
-\section{Continuous Integration Part}
-
-\subsection{Log into the project's Jenkins instance}
-Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/} \\
-Log in and click \textbf{\texttt{Dashboard}}in the top menu \\
-You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button \\
-You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the ci portal
-
-\subsection{Running your first test on CI}
-From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
-Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Maven project}}
-
-\subsubsection{Git configuration}
-In the new item's configuration page (which you will be redirected to after clicking \textbf{\texttt{OK}}), choose \texttt{git} as your \textbf{\texttt{Source Code Manager}} and copy the \emph{anonymous} url to your personal repository into the appropriate field~:
-\begin{lstlisting}
-https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
-\end{lstlisting}
-\end{homeworkProblem}
-
-\subsubsection{Build configuration}
-In the \textbf{\texttt{Build}} section, change the root POM path to \texttt{java/pom.xml} and type \texttt{test} in \textbf{\texttt{Goals and options}} section.
-
-\subsubsection{Save}
-
-\subsubsection{Run the test}
-Click \textbf{\texttt{Build Now}} in the menu on the left
-
-\subsubsection{Check the output}
-In the \textbf{\texttt{Build History}} on the left, click on the last build (hopefully \#1), then select \textbf{\texttt{Console Output}} \\
-You can also check the \textbf{\texttt{Test Result}}
-
-\subsection{Adding build feedback}
-One of the good things with \texttt{Jenkins} is its ability to nicely present your test results. \\
-The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding \texttt{Jenkins} plugins.
-
-\subsubsection{Add coverage report}
-\begin{itemize}
-\item Go back to your item's configuration page (use the menu on the left)
-\item Replace your build's \textbf{\texttt{Goals and options}} with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
-\item Click on \textbf{\texttt{Add post-build action}} and select \textbf{\texttt{Publish Cobertura Coverage Report}} from the drop-down menu, your \textbf{\texttt{Cobertura xml report pattern}} is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
-\item Save and Run the test
-\item Check the output~: in the \texttt{Build History} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Coverage Report}}, have a look at it
-\end{itemize}
-
-\subsubsection{Add checkstyle report}
+\subsubsection{TODO~:}
 \begin{itemize}
 \item Go back to your item's configuration page and add \\
 \texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's \textbf{\texttt{Goals and options}}
