@@ -1517,7 +1517,7 @@ In this exercice, we will focus on the configuration of Jenkins for~:
 \begin{enumerate}
 \item a simple aspect of c++ unit testing, 
 \item an aspect of dynamic testing : source coverage,
-\item a demonstration of static analysis with cppcheck
+\item a demonstration of static analysis with cppcheck.
 \end{enumerate}
 
 To perform this \texttt{C++} exercice, we rely on three main development tools~:
@@ -1558,7 +1558,8 @@ First, you will create your personal \texttt{git} repository on the INRIA forge 
 
 Then on a terminal, clone the content of your personnal \texttt{git} repository. The correct command should look like this~:
 \begin{lstlisting}
-$ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/tpcisedra.git 
+$ git clone \
+  git+ssh://<yourlogin@scm.gforge.inria.fr/gitroot/tpcisedra/users/<yourlogin>.git
 $ cd tpcisedra/cxx
 \end{lstlisting}
 
@@ -1778,7 +1779,6 @@ This is the method which is tested in the unique test of the library, and the te
 
 Let's imagine we want to improve the efficiency of the \texttt{volume()}
 method by pre-computing the value \verb?4 * Math.PI / 3?
-
 
 TODO~:
 \begin{itemize}
