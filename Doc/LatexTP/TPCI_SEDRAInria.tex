@@ -1521,6 +1521,7 @@ To perform this \texttt{C++} exercice, we rely on three main development tools~:
 \item A \texttt{C++} compiler, for example \texttt{GNU C++} or \texttt{clang}.
 \item A build process manager~: \texttt{CMake} 
 \item A testing framework~: \texttt{cppunit}
+\item A checking style tool~: \texttt{cppcheck}
 \item Coverage testing tools~: \texttt{gcov}, \texttt{lcov} \texttt{gcvor}.
 \end{itemize}
 
@@ -1528,9 +1529,9 @@ On Linux, BSD, MACOS X systems, suitables versions may simply be installed with 
 
 For example : 
 \begin{itemize}
-\item on Fedora systems, one may use the command~: \texttt{sudo yum install cmake cppunit gcc-c++ gcov lcov }
+\item on Fedora systems, one may use the command~: \texttt{sudo yum install cmake gcc-c++ cppunit cppcheck gcov lcov}
 \item on recent Debian or Ubuntu systems~:
-\texttt{sudo apt-get install cmake cppunit gcc-c++ gcov lcov}
+\texttt{sudo apt-get install cmake gcc-c++ cppunit cppcheck gcov lcov}
 \end{itemize}
 
 For \texttt{gcovr}, use \texttt{sudo pip install gcovr}.
