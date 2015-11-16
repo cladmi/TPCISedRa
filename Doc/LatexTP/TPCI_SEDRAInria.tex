@@ -411,7 +411,7 @@ You can also check the \textbf{\texttt{Test Result}}
 
 
 %--------------------------------------
-\section{Exercice 1}
+\section{Exercise 1}
 
 Have a look at the code of the method \texttt{Sphere::computeVolume()}.\\
 To do so, edit \texttt{tpcisedra/java/src/main/java/fr/inria/sed/Sphere.java}.
@@ -458,7 +458,7 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 Hint~: have you commited and pushed your changes ?
 \end{itemize}
 
-\section{Exercice 2}
+\section{Exercise 2}
 
 Why does the test in \texttt{SphereTest.java} fail ?
 
@@ -576,7 +576,7 @@ $ git merge alpha
 \end{lstlisting}
 
 
-\section{Exercice 4}
+\section{Exercise 4}
 \begin{itemize}
 \item Generate and visualize the corresponding coverage report
 \item Make what changes are necessary to achieve 100\% test coverage
@@ -615,7 +615,7 @@ NOTE~: this can also be achieved by adding the following lines to your pom.xml~:
 
 It's getting better but we might want to make a few changes to this default behaviour.
 
-\section{Exercice 5}
+\section{Exercise 5}
 
 \subsubsection{TODO~:}
 
@@ -660,7 +660,7 @@ $ firefox target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
-\section{Exercice 5bis - Checkstyle Report on Jenkins}
+\section{Exercise 5bis - Checkstyle Report on Jenkins}
 
 \subsubsection{TODO~:}
 \begin{itemize}
@@ -678,9 +678,7 @@ $ firefox target/site/project-reports.html &
 %----------------------------------------------------------------------------------------
 %   PYTHON
 %----------------------------------------------------------------------------------------
-\begin{homeworkProblem}[Python Exercice]
-
-\section{Local Test Part}
+\begin{homeworkProblem}[Python Exercise]
 
 \subsection{Preamble}
 
@@ -689,6 +687,8 @@ packaging tools, test it, measure the tests code coverage, and perform some
 static code analysis. And finally do this in a single command for multiple
 python versions and environments.
 
+In the same time, you will use all these tools on Jenkins and use visualization
+plugins for their output on it.
 
 \subsubsection{Tools presentation}
 
@@ -747,6 +747,8 @@ You should have retrieved the following file tree~:
     }
 \end{minipage}
 }
+
+
 \subsection{Project presentation}
 
 This project should be the best package providing sphere volume computation.
@@ -756,11 +758,11 @@ nice \verb=build|passing= icon on \texttt{github}~: \includegraphics[height=10pt
 It has a package, named \texttt{tp\_ci\_sed}, with a \texttt{sphere} submodule
 and even a cli script to run it.
 
-\subsubsection{Exercice 1}
+\subsubsection{Exercise 1}
 
 Try the \texttt{sphere} script.
 
-\subsubsection{Exercice 2}
+\subsubsection{Exercise 2}
 
 Write the \texttt{Sphere.volume} method.
 For that, use \texttt{math} module and remember volume formula
@@ -826,7 +828,7 @@ from setuptools import setup, find_packages
 ...
 \end{lstlisting}
 
-\subsubsection{Exercice 3}
+\subsubsection{Exercise 3}
 Open the \texttt{setup.py} script and look at the \texttt{setup} function
 arguments.
 
@@ -951,13 +953,107 @@ $radius=1.5$ where $volume=14.137166941154069$.
 \paragraph{}Commit your code with the new test.
 
 
-\subsubsection{Re-factoring}
+\subsection{Jenkins setup}
+
+Log into the project's \texttt{Jenkins} instance~:
+
+\begin{enumerate}
+\item Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/}.
+
+\item Log in and click \textbf{\texttt{Dashboard}} in the top menu
+\item You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button.
+You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the ci portal.
+\end{enumerate}
+
+Running your first test on CI~:
+\begin{itemize}
+\item From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
+\item Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Freestyle project}}
+\end{itemize}
+
+
+\texttt{Git} configuration~:
+\begin{itemize}
+\item In the new item's configuration page (which you will be redirected to after clicking \textbf{\texttt{OK}}), choose \texttt{Git} as your \textbf{\texttt{Source Code Manager}}
+\item Copy the \emph{anonymous} URL to your personal repository into the appropriate field~:
+
+\begin{lstlisting}
+https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
+\end{lstlisting}
+\end{itemize}
+
+An important step for the continuous integration step is the build trigger.
+
+A simple possibility is to choose to build periodically, this is
+suitable for some nightly or weekly tests that may be time consuming
+and are not meant to be launched after each commit, but this should be
+avoided for short periods.  In our case, we want the results to be
+displayed as soon as possible so we choose to launch the build after a
+post-commit hook~:
+
+\begin{itemize}
+\item Click on \textbf{\texttt{Poll SCM}}
+\item In the \textbf{\texttt{Schedule}} field, cut and paste~:\\
+\texttt{\# Leave empty. We don't poll periodically, but need polling enabled to let HTTP trigger work}
+\end{itemize}
+
+Then on the INRIA gforge server, create the post-commit hook \texttt{post-receive}~:
+
+\begin{lstlisting}
+$ ssh <your gforge login>@scm.gforge.inria.fr
+$ cd /gitroot/tpcisedra/users/<your gforge login>.git/hooks
+$ touch post-receive
+$ chmod +x post-receive
+\end{lstlisting}
+
+And then create the executable file \texttt{post-receive}~:
+\begin{lstlisting}[breaklines=true]
+#!/bin/sh
+wget --auth-no-challenge --no-check-certificate -q -O -
+http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your gforge login>.git
+\end{lstlisting}
+
+
+\subsubsection{Exercise 6}
+
+Add a new build step using \emph{Virtualenv Builder}.
+
+Using a \texttt{virtualenv} puts the code execution in a separated python
+environment. This will allow installing packages for this build.
+
+Now in this field, you inform \texttt{Jenkins} how to build and test the project.
+\begin{lstlisting}
+# Install dependencies
+sudo -H pip install --upgrade  nosetests nose-xcover
+
+# Go in source directory
+cd python
+
+# Run tests and generate 'xml' test results
+nosetests -v --with-xunit
+\end{lstlisting}
+
+Then add \texttt{Jenkins} test result report and build:
+\begin{itemize}
+    \item Click on \textbf{\texttt{Post build Actions}} and
+        select \texttt{Publish JUnit test result report}]
+    \item For \texttt{Test report XMLs} put \texttt{**/*tests.xml}
+        to scan for all files ending  with 'tests.xml'.
+    \item Then save the project and verify the configuration with a click on
+        \textbf{\texttt{Build Now}} in the menu on the left.
+    \item In the \texttt{Build History} on the left, click on the last build
+        (hopefully \#1), then select \texttt{Console Output}.
+        You can also check the \texttt{Test Result}.
+\end{itemize}
+
+
+\subsection{Refactoring}
 
 Now that your code is tested, you can safely start re-factoring it.
 In our formula, the $ 4 * \Pi / 3 $ part can be computed only once instead of
 at each \texttt{volume} call.
 
-\subsubsection{Exercise 6}
+\subsubsection{Exercise 7}
 
 Move it in a class variable and use it in the \texttt{volume} method.
 
@@ -986,6 +1082,18 @@ FAILED (failures=1)
 \item[Note] If it does not fail, ask for help, magic numbers technique failed.
 \end{description}
 
+However, let's assume it's successfull and commit your modifications.
+\begin{lstlisting}
+$ git commit -m "Precompute 4pi/3"
+$ git push
+\end{lstlisting}
+The test should now fail on \texttt{Jenkins}. See the Console output.
+
+Even if you didn't test it on your computer before committing, at least it is
+tested somewhere and the error can be detected.
+
+
+\subsubsection{Refactoring error}
 Why does the test fail?
 
 Because of floating point arithmetics \emph{rounding errors}.
@@ -1001,9 +1109,11 @@ working on~:
 
 Here, the code result is correct, so the fail should pass.
 
-\subsubsection{Exercice 7}
+\subsubsection{Exercise 8}
 
 Find a way to modify the test so small rounding differences do not cause errors.
+
+Commit, push and verify \texttt{Jenkins} result.
 
 \paragraph{Hint}List of \texttt{unittest} assert functions~:
 
@@ -1085,8 +1195,9 @@ $ cp raw/second setup.cfg
 $ cat setup.cfg
 \end{lstlisting}
 
-The first part is \texttt{nosetests} configuration and allow coverage and also
-searching for all type of tests.
+The first part is \texttt{nosetests} configuration.
+It allows coverage and test xml results
+and also searching for all type of tests (unittest, doctest).
 
 Re run the command~:
 \begin{lstlisting}
@@ -1111,6 +1222,36 @@ OK
 
 Now running the tests with \texttt{python setup.py nosetests} also generates the
 coverage report.
+
+
+\subsubsection{Coverage on Jenkins}
+
+\begin{itemize}
+    \item First change the \verb=nosetests -v --with-xunit= build action with
+        \verb=python setup.py notestests=.
+    \item Add \textbf{\texttt{Post build Actions}} \texttt{Publish Cobertura Coverage Report}.
+    \item Configure \texttt{Cobertura xml report pattern} with: \texttt{**/coverage.xml}
+\end{itemize}
+
+
+\paragraph{Workaround}
+
+As source files are not based at root directory \texttt{Cobertura} plugin fails
+to locate them.
+
+A solution is to create a symlink to the source directory~:
+\begin{itemize}
+  \item Add a build step \texttt{Execute shell} with~:
+\begin{lstlisting}
+# Hack to help cobertura find source files
+$ ln  -nfs python/tp_ci_sed  tp_ci_sed
+\end{lstlisting}
+\end{itemize}
+
+
+Commit your code and push. Manually re-run a build to get Cobertura
+plugin graph (it needs more than one build).
+You can click on the report to see per-file coverage infos.
 
 
 \subsection{Code static analysis and style}
@@ -1146,11 +1287,23 @@ $ python setup.py pep8
 
 You will, I think, get a lot of errors and warnings.
 
-\subsubsection{Exercice 8}
+\subsubsection{Exercise 9}
 
-Fix the errors.
+Add \texttt{lint} and \texttt{pep8} in \texttt{Jenkins} build step.
+
+To get the reports use \textbf{\texttt{Post build Actions}} named
+\texttt{Scan for compiler warnings} and in \texttt{Scan console log} add
+\texttt{Pep8} and \texttt{Pylint}.
+
+Re-run the build manually.
+
+\subsubsection{Exercise 10}
+
+Fix some of the errors, but don't take too much time.
 However, putting an empty docstring to get rid of the message is evil, it is
 your code documentation!
+
+Commit and see the output on \texttt{Jenkins}.
 
 \begin{description}
   \item[Note] The tools may return some false-positive.
@@ -1227,6 +1380,22 @@ The different part of the file are~:
 Now executing your tests simply means running \texttt{tox} and the only required
 dependency installed is \texttt{tox} itself.
 
+Commit and push.
+
+\subsubsection{Exercise 11}
+
+Update \texttt{Jenkins} main build step.
+You can replace all dependencies installation with only \texttt{tox} and replace
+the \texttt{setup.py} execution with \texttt{tox}.
+
+\begin{lstlisting}
+pip install --quiet --upgrade tox
+cd pthon
+tox
+\end{lstlisting}
+
+Re-run the build.
+
 \paragraph{Other versions}
 If everything succeeds, and you have \texttt{python3} installed add it to the environment
 to see the result (\texttt{py32} for python3.2). Re-run \texttt{tox}.
@@ -1235,11 +1404,6 @@ I think it will fail, at least with the 'print' statement.
 However, you see how easy it is to test your code on different python versions.
 Making a code working for \texttt{python2} and \texttt{python3} requires some time, but at least
 it's easy to test!
-
-\paragraph{Conclusion} Now all you learned was how a test environment is created,
-how it is problematic, but how it can, at the end be summed up in one command
-with \texttt{tox}.
-
 
 
 \subsection{Advances tests writing~: mocking}
@@ -1322,191 +1486,23 @@ Both method are valid, it's just for presenting alternatives.
 
 For every other problems, look at the documentation.
 
-
-\section{Continuous Integration Part}
-\subsection{Validate on CI}
-
-At this point you have a your python project packaged with setup.py and tests
-running managed by tox. This means that running your tests only need to run~:
-
-\begin{lstlisting}
-$ tox
-\end{lstlisting}
-
-\subsection{Running your first test on CI}
-
-\begin{itemize}
-\item Create your job with \texttt{New Item} button on the left menu.
-\item For Python create a \texttt{Freestyle project} and put a name without spaces, it always
-brings errors in scripts to have path with spaces.
-\item Then go to \texttt{Configure}.
-\end{itemize}
-
-\subsubsection{Git configuration}
-
-\begin{itemize}
-\item Go to \textbf{\texttt{Source Code Management}} and choose \texttt{Git}
-\item Put the anonymous \texttt{git} url of the repository \url{https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git}
-\item Select your branch name \texttt{*/branch\_name}.
-\end{itemize}
-
-\subsubsection{Build Step}
-
-\begin{itemize}
-\item Add build step~: \texttt{Execute Shell} and execute~:
-\begin{lstlisting}
-$ cd python/
-$ tox
-\end{lstlisting}
-\item Save the configuration.
-\end{itemize}
-
-\subsubsection{Running test}
-
-What is the result ?
-
-See \texttt{Console Output} to see the script execution.
-
-\subsection{Fixing the errors the Python way}
-
-As seen, \texttt{tox} is not installed on the build machine. It can either be installed
-manually or as a step of the integration process. The last solution is more in
-the process of \emph{integration} but sometimes you don't have the choice.
-
-\begin{itemize}
-\item Remove the build step and replace it with \texttt{Virtualenv Builder}.
-This puts the code execution in a separated python environment for the build.
-\item Now as first step, install your \texttt{tox} dependency~:
-\begin{lstlisting}
-$ pip install --quiet --upgrade tox
-$ cd python
-$ tox
-\end{lstlisting}
-\item Save and build, it should be a successful build.
-\end{itemize}
-
-See the build output, you can see tests/coverage/pylint/pep8 text results.
-
-
-\subsection{Adding build feedback}
-
-A big value of \texttt{Jenkins} is the ability to nicely present your tests results.
-
-The tools used to run tests and code quality where selected because they have output files compatible with \texttt{Jenkins} plugins.
-
-\begin{description}
-\item[Note~:]
-This selection may look restrictive, but it also means that the tools are indeed used by many developers and that it is
-not only a one man written test script.
-\end{description}
-
-\begin{itemize}
-\item \texttt{nosetests} outputs as a JUnit compatible \texttt{xml}~: \texttt{nosetests.xml}
-\item \texttt{nose-xcover} outputs coverage compatible with cobertura~: \texttt{coverage.xml}
-\item \texttt{pylint} and \texttt{pep8} output is recognized by 'warnings' and 'violations' plugins.
-\end{itemize}
-
-These output parsing is managed in \textbf{\texttt{Add post-build action}}.
-%% Maybe print the real plugins names here
-
-\subsection{Add tests results feedback}
-
-\begin{description}
-\item[Step \texttt{Publish JUnit test result report}] \hfill \\
-\begin{itemize}
-\item Test report \texttt{xml}~: `**/*tests.xml` to scan for all files ending with 'tests.xml'
-\end{itemize}
-\end{description}
-
-\subsubsection{Add coverage feedback}
-
-\begin{description}
-\item[Step \textbf{\texttt{Publish Cobertura Coverage Report}}] \hfill \\
-  \begin{itemize}
-  \item \texttt{Cobertura xml} report pattern~:  \texttt{**/coverage.xml} to scan for all  \texttt{coverage.xml} files.
-  \end{itemize}
-\end{description}
-
-As source files are not based at root directory \texttt{Cobertura} fails to locate source
-files.
-
-A solution is to create a symlink to the source directory~:
-\begin{itemize}
-  \item Add a build step \texttt{Execute shell} with~:
-\begin{lstlisting}
-# Hack to help cobertura find source files
-$ ln  -nfs python/tp_ci_sed  tp_ci_sed
-\end{lstlisting}
-\end{itemize}
-
-\subsubsection{Add code quality output}
-
-\begin{description}
-\item[Step \texttt{Scan for compiler warnings}] \hfill \\
-  \begin{itemize}
-  \item Scan console log add two parsers, one for \texttt{pylint} and another for \texttt{pep8}.
-  \item In advanced configuration, select \textbf{\texttt{Resolve relative paths}}, either the plugin doesn't find the source files as they are not in the root folder.
-  \end{itemize}
-\end{description}
-
-
 \subsubsection{Code review by ChuckNorris}
 
-\begin{description}
-\item[Step \texttt{Activate Chuck Norris}] \hfill \\
-It displays you Chuck Norris facts and a picture of Chuck adapted to your build result (seems like the picture is not displayed why ?)
-\end{description}
+Add ChuckNorris post build action. It will make your code famous and better.
 
+It displays you Chuck Norris facts and a picture of Chuck adapted to your build
+result (seems like the picture is not displayed but I don't know why?)
 
-Do not forget to save configuration.
+\subsubsection{Build Passing icon}
 
+There is a plugin for that. It's called \texttt{Embeddable Build Status},
+however it requires the project to have at least 'ViewStatus' to allow everyone
+to see it. And it's not configured in this project.
 
-\subsection{Analyze build output}
+But you will set it on your own Jenkins for your project!
 
-\begin{itemize}
-\item Build the project two times to get a nice displayed output. Plugins need
-multiple builds to create graphs.
-\end{itemize}
+Always verify on a non-authenticated browser.
 
-
-\subsection{Coverage Report}
-
-\begin{itemize}
-\item Click on Coverage Report, you can then see per file coverage output.
-\end{itemize}
-
-
-\subsection{Pylint/PEP8}
-
-\begin{itemize}
-\item Click on \textbf{\texttt{Pylint/PEP8}} reports and see the errors in the source files.
-\end{itemize}
-
-
-
-\subsection{Further steps}
-
-%% TODO
-
-Automatically run the build~:
-\begin{itemize}
-\item  Never~: you only run it manually (not recommended)
-\item Periodically~: Every night at 3AM may be enough if your code moves slowly
-\item At each commit~: with repository polling/ with \texttt{git} hook (see how...)
-\end{itemize}
-
-Send mails on build failure~:
-\begin{itemize}
-\item  How to do that ?
-\end{itemize}
-
-
-\subsection{Improvements}
-
-\begin{itemize}
-\item Try fixing all your code to get perfect results outputs;*
-\item Use \texttt{tox} to run tests on \texttt{python3} also and make your code compatible with.
-\end{itemize}
 
 %%\lipsum[1]
 
@@ -1533,7 +1529,7 @@ Send mails on build failure~:
 
 In this exercise, we will focus on the configuration of Jenkins for~:
 \begin{enumerate}
-\item a simple aspect of c++ unit testing, 
+\item a simple aspect of c++ unit testing,
 \item an aspect of dynamic testing~: source coverage,
 \item a demonstration of static analysis with \texttt{cppcheck}.
 \end{enumerate}
@@ -1542,7 +1538,7 @@ To perform this \texttt{C++} exercise, we rely on these development tools~:
 
 \begin{itemize}
 \item A \texttt{C++} compiler, for example \texttt{GNU C++} or \texttt{clang}.
-\item A build process manager~: \texttt{CMake} 
+\item A build process manager~: \texttt{CMake}
 \item A testing framework~: \texttt{cppunit}
 \item A static analysis tool~: \texttt{cppcheck}
 \item Coverage analysis tools~: \texttt{gcov}, \texttt{lcov} \texttt{gcvor}.
@@ -1550,7 +1546,7 @@ To perform this \texttt{C++} exercise, we rely on these development tools~:
 
 On Linux, BSD, MACOS X systems, suitable versions may simply be installed with the package manager (\texttt{yum, apt, etc}).
 
-For example~: 
+For example~:
 \begin{itemize}
 \item on Fedora systems, one may use the command~: \texttt{sudo yum install cmake gcc-c++ cppunit cppcheck gcov lcov}
 \item on recent Debian or Ubuntu systems~:
@@ -1645,9 +1641,9 @@ with the \texttt{CMAKE\_BUILD\_TYPE} variable. Among them we are going to
 consider~:
 
 \begin{itemize}
-\item the \texttt{Debug} build type which sets the debug flags (\texttt{-g} with \texttt{GNU C++}) 
+\item the \texttt{Debug} build type which sets the debug flags (\texttt{-g} with \texttt{GNU C++})
 \item the \texttt{Release} build type which sets some optimization flags (\texttt{-O3 -DNDEBUG} with \texttt{GNU C++})
-\end{itemize} 
+\end{itemize}
 
 Once a directory has been given as argument to \texttt{CMake} it remains in a
 cache, the \texttt{CMakeCache.txt} file in your build directory. This cache
@@ -1662,7 +1658,7 @@ $ cmake .
 %$
 
 \texttt{CMake} variables may be set on the command line with \texttt{-D}
-arguments~: 
+arguments~:
 \begin{lstlisting}
 $ cmake . -D<VARIABLE\_NAME>=<VALUE>
 \end{lstlisting}
@@ -1751,7 +1747,7 @@ post-commit hook~:
 
 \begin{itemize}
 \item Click on \textbf{\texttt{Poll SCM}}
-\item In the \textbf{\texttt{Schedule}} field, cut and paste~:\\ 
+\item In the \textbf{\texttt{Schedule}} field, cut and paste~:\\
 \texttt{\# Leave empty. We don't poll periodically, but need polling enabled to let HTTP trigger work}
 \end{itemize}
 
@@ -1760,12 +1756,14 @@ Then on the INRIA gforge server, create the post-commit hook \texttt{post-receiv
 \begin{lstlisting}
 $ ssh <your gforge login>@scm.gforge.inria.fr
 $ cd /gitroot/tpcisedra/users/<your gforge login>.git/hooks
+$ touch post-receive
+$ chmod +x post-receive
 \end{lstlisting}
 
 And then create the executable file \texttt{post-receive}~:
 \begin{lstlisting}[breaklines=true]
-$ #!/bin/sh
-wget --auth-no-challenge --no-check-certificate
+#!/bin/sh
+wget --auth-no-challenge --no-check-certificate -q -O -
 http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your gforge login>.git
 \end{lstlisting}
 
@@ -1855,7 +1853,7 @@ The direct check of equality of floating point numbers with the \texttt{==}
 operator should be avoided, we first add a warning (only if understood by the
 compiler) in order not to reproduce this kind of error.
 
-Since version $4.6$, \texttt{GNU C++} provides this warning \texttt{-Wfloat-equal}. 
+Since version $4.6$, \texttt{GNU C++} provides this warning \texttt{-Wfloat-equal}.
 With portability in mind, before adding the flag to the compiler command, we need to check that the compiler accepts it.
 
 With \texttt{CMake}, there is no built-in function for this operation, but that
@@ -1888,7 +1886,7 @@ include(TP)
 
 %$
 
-On \texttt{Jenkins} side, compiler warnings can be checked in the \textbf{\texttt{Post build Actions}} step of your build project. 
+On \texttt{Jenkins} side, compiler warnings can be checked in the \textbf{\texttt{Post build Actions}} step of your build project.
 
 TODO~:
 \begin{itemize}
@@ -1898,7 +1896,7 @@ TODO~:
 \item Commit the code in order to check the parsing done by \texttt{Jenkins}.
 \item In \texttt{Jenkins}, add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project.
 \item Modify the appropriate test in \texttt{TestTP.cpp} so small rounding
-  differences do not cause errors, \texttt{cppunit} provides a macro for this~: 
+  differences do not cause errors, \texttt{cppunit} provides a macro for this~:
   \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
 \item Once it is OK and the warning has gone, commit.
 \item Rebuild on \texttt{Jenkins} to check.
@@ -1944,7 +1942,7 @@ TODO~:
 \item Commit
 \end{itemize}
 
-Let's test if it works with more than one class. 
+Let's test if it works with more than one class.
 
 Thanks to another development branch, we add a new class \texttt{Alphabet} to
 our project~:
@@ -1984,7 +1982,7 @@ A static code analysis may help in the discovery of those potentials bugs.
 On our project, one can simply have a report with the command~:
 
 \begin{lstlisting}
-$ cppcheck <your source directory> -f -q --enable=style 
+$ cppcheck <your source directory> -f -q --enable=style
 \end{lstlisting}
 
 %$
