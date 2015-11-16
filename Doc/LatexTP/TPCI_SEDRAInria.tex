@@ -1513,7 +1513,12 @@ Send mails on build failure~:
 
 \begin{homeworkProblem}[C++ Exercice]
 
-\section{Preamble}
+In this exercice, we will focus on the configuration of Jenkins for~:
+\begin{enumerate}
+\item a simple aspect of c++ unit testing, 
+\item an aspect of dynamic testing : source coverage,
+\item a demonstration of static analysis with cppcheck
+\end{enumerate}
 
 To perform this \texttt{C++} exercice, we rely on three main development tools~:
 
@@ -1521,8 +1526,8 @@ To perform this \texttt{C++} exercice, we rely on three main development tools~:
 \item A \texttt{C++} compiler, for example \texttt{GNU C++} or \texttt{clang}.
 \item A build process manager~: \texttt{CMake} 
 \item A testing framework~: \texttt{cppunit}
-\item A checking style tool~: \texttt{cppcheck}
-\item Coverage testing tools~: \texttt{gcov}, \texttt{lcov} \texttt{gcvor}.
+\item A static analysis tool~: \texttt{cppcheck}
+\item Coverage analysis tools~: \texttt{gcov}, \texttt{lcov} \texttt{gcvor}.
 \end{itemize}
 
 On Linux, BSD, MACOS X systems, suitables versions may simply be installed with the package manager (\texttt{yum, apt, etc}).
@@ -1536,7 +1541,7 @@ For example :
 
 For \texttt{gcovr}, use \texttt{sudo pip install gcovr}.
 
-\section{Setup}
+\section{Unit testing}
 \subsection{Local setup}
 
 \subsubsection{Clone the git repository from INRIA forge and create your own branch}
@@ -1612,6 +1617,8 @@ $ make
 $ make test
 \end{lstlisting}
 
+%$
+
 \subsubsection{Run the benchmark}
 
 \texttt{CMake} provides pre-defined build configuration that may be choosen
@@ -1632,6 +1639,8 @@ So for next calls to \texttt{CMake}, we can use the dot directory as argument~:
 \begin{lstlisting}
 $ cmake .
 \end{lstlisting}
+
+%$
 
 \texttt{CMake} variables may be set on the command line with \texttt{-D}
 arguments~: \texttt{cmake . -D<VARIABLE\_NAME>=<VALUE>}. The value remains in
@@ -1671,6 +1680,8 @@ $ make VERBOSE=1
 $ ./bench
 \end{lstlisting}
 
+%$
+
 You should see a difference on time.
 
 Now, let's keep this configuration in our build directory.
@@ -1704,8 +1715,35 @@ https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
 \end{lstlisting}
 \end{itemize}
 
-FIX~: add build trigger.
+An important step for the continuous integration step is the build trigger.  A
+simple possibility is to choose to build periodically, this is suitable for
+some nightly or weekly tests that may be time consuming and are not meant to
+be launched after each commit, but this should be avoided for short periods.
+In our case, we want the results to be displayed as soon as possible so we choose
+to launch the build after a post-commit hook~:
 
+\begin{itemize}
+\item click on Poll SCM
+\item and in the Schedule cut and paste: ``\# Leave empty. We don't poll periodically, but need polling enabled to let HTTP trigger work''
+\end{itemize}
+
+Then on the gforge server create the post-commit hook, first ``cd'' to the git
+hooks directory:
+
+\begin{lstlisting}
+$ ssh <your gforge login>@scm.gforge.inria.fr
+$ cd /gitroot/tpcisedra/users/<your gforge login>.git/hooks
+\end{lstlisting}
+
+And then create the executable file \texttt{post-receive}~:
+
+\begin{lstlisting}
+$ #!/bin/sh
+wget --auth-no-challenge --no-check-certificate http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tp
+cisedra/users/<your gforge login>.git
+\end{lstlisting}
+
+%$
 
 \subsubsection{Exercice 1}
 
@@ -1818,6 +1856,8 @@ include(TP)
 \end{lstlisting}
 \end{itemize}
 
+%$
+
 On \texttt{Jenkins} side, compiler warnings can be checked in the \textbf{\texttt{Post build Actions}} step of your build project. 
 
 TODO~:
@@ -1839,13 +1879,11 @@ TODO~:
 
 
 %--------------------------------------
-\section{Test Coverage}
+\section{Code coverage}
 
-At this stage, all our tests pass. But what does that mean regarding our application ?
-
-Not much, you may say, but can you quantify it and will you be able to tell on a real project ?
-
-This is when \textbf{test coverage} becomes handy.
+This is a demonstration of some dynamics analysis. After the tests are
+executed, the code coverage tools shows which lines of code have been involved
+in the execution.
 
 \subsection{Installation}
 
@@ -1854,14 +1892,14 @@ Coverage with \texttt{gcov} needs the \texttt{GNU C++} compiler and the
 
 \texttt{gcov} generates raw output. We are going to use the \texttt{lcov} utility for the
 post-processing and the generation of \texttt{html} pages and the \texttt{gcovr} utility in
-order to present parsable results for \texttt{Jenkins}.
+order to present parsable results to \texttt{Jenkins}.
 
 A \texttt{CMake} function \texttt{add\_test\_with\_coverage} is provided in the
 \texttt{TP} module to simplify the whole setup.
 
-This function when used in place of the standard \texttt{CMake} function
-\texttt{add\_test} function provides coverage support through a new
-\texttt{make} target (You can see all \texttt{make} targets with the help
+This function, when used in place of the standard \texttt{CMake} function
+\texttt{add\_test} function, provides coverage support through a new
+\texttt{make coverage} target (You can see all \texttt{make} targets with the help
 target~: \texttt{make help})
 %$
 
@@ -1869,16 +1907,17 @@ target~: \texttt{make help})
 
 TODO~:
 \begin{itemize}
-\item Install coverage for the test routine \texttt{TestVolume}. You need to set the coveraged flags for the build of the library and the test file with the \texttt{add\_cxx\_compiler\_flag}.
+\item Install coverage for the test routine \texttt{TestVolume}. In the cmake configurations files, you need to set the coverage flags for the build of the library and the test file with the \texttt{add\_cxx\_compiler\_flag}.
+\item Run a test with \texttt{make coverage}
 \item With a Web browser, open the file \texttt{index.html} under \texttt{TestTP\_\_testVolume} directory.
-\item On the \texttt{Jenkins} side, modify the build process in \textbf{\texttt{Execute shell}}. And in \textbf{\texttt{Post-Build Actions}}, add \textbf{\texttt{Publish Cobertura Report}} with the \texttt{Cobertura xml} report pattern set to \texttt{cxx/build/**/*.xml}
+\item On the \texttt{Jenkins} side, modify the build process in \textbf{\texttt{Execute shell}}. And in \textbf{\texttt{Post-Build Actions}}, add \textbf{\texttt{Publish Cobertura Report}} with the \texttt{Cobertura xml} report pattern set to \texttt{**/coverage.xml}
 \item Commit
 \end{itemize}
 
+Let's test if it works with more than one class. 
 
-\subsection{Add some new class to our project}
-
-Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project~:
+Thanks to another development branch, we add a new class \texttt{Alphabet} to
+our project~:
 \begin{lstlisting}
 $ git merge alpha-cxx
 \end{lstlisting}
@@ -1887,167 +1926,41 @@ $ git merge alpha-cxx
 
 \subsubsection{Exercice 4}
 \begin{itemize}
-\item Generate and visualize the corresponding coverage report
-\item Make what changes are necessary to achieve 100\% test coverage
+\item Generate and visualize the corresponding coverage report.
+\item Improve the test coverage and commit.
 \end{itemize}
 
 %--------------------------------------
-\section{Stylecheck}
+\section{Static analysis}
 
-\subsection{Run a style checker}
+Here the analysis does not need any compilation or execution.
+Whereas it is presented last, it may be performed first.
 
-Let's try and run a style checker~:
+\subsection{cppcheck}
+
+One can simply have a report with the command
+
 \begin{lstlisting}
-$ pwd
-yourpath/tpcisedra/java
-$ mvn checkstyle:checkstyle
-\end{lstlisting}
-We get plenty of errors with the default style \verb?sun_checks.xml?.
-
-Our coding style is close to Google style than it is to Sun style.
-
-\subsection{Run Google style checker}
-
-Try running with Google checks (provided by the plugin)
-\begin{lstlisting}
-$ pwd
-yourpath/tpcisedra/java
-$ mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
-\end{lstlisting}
-NOTE~: this can also be achieved by adding the following lines to your pom.xml~:
-\begin{lstlisting}
-  <properties>
-    <checkstyle.config.location>checkstyle-test.xml</checkstyle.config.location>
-  </properties>
+$ cppcheck <your source directory> -f -q --enable=style 
 \end{lstlisting}
 
-It's getting better but we might want to make a few changes to this default behaviour.
+%$
 
-\subsection{Exercice 5}
+The results we obtain depends on the version of cppcheck!
 
+On the virtual machine, the latest (\texttt{1.71}) cppcheck is installed.
+
+\subsubsection{Exercice 5}
 \begin{itemize}
-\item Retrieve a local copy of google checks
-\begin{lstlisting}
-$ wget https://raw.githubusercontent.com/checkstyle/checkstyle/
-     18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
-\end{lstlisting}
-\item  Modify the file \texttt{google\_checks.xml} so that it accepts single character parameter names
-\item You may also consider removing trailing underscores from data members or amending \texttt{checkstyle.xml}.
-\end{itemize}
-
-\subsection{[Optional] Integrate checkstyle to your reporting local website}
-
-Add the following to the file \texttt{pom.xml}
-\begin{lstlisting}
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.16</version>
-      </plugin>
-    </plugins>
-  </reporting>
-\end{lstlisting}
-
-The check style report is now included in the build lifecycle (\textbf{\texttt{site}} phase).
-
-\subsubsection{Exercice 5bis}
-
-\begin {itemize}
-\item To generate the report~:
-\begin{lstlisting}
-$ pwd
-yourpath/tpcisedra/java
-$ mvn site
-\end{lstlisting}
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report~:
-\begin{lstlisting}
-$ firefox target/site/project-reports.html &
-\end{lstlisting}
-\end{itemize}
-
-The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding \texttt{Jenkins} plugins.
-
-\section{Reports}
-\subsection{Add coverage report}
-\begin{itemize}
-\item Go back to your item's configuration page (use the menu on the left)
-\item Replace your build's \textbf{\texttt{Goals and options}} with \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
-\item Click on \textbf{\texttt{Add post-build action}} and select \textbf{\texttt{Publish Cobertura Coverage Report}} from the drop-down menu, your \textbf{\texttt{Cobertura xml report pattern}} is \texttt{**/target/site/cobertura/coverage.xml} (it is the example provided below the field)
-\item Save and Run the test
-\item Check the output~: in the \textbf{\texttt{Build History}} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Coverage Report}}, have a look at it
-\end{itemize}
-
-\subsection{Add checkstyle report}
-\begin{itemize}
-\item Go back to your item's configuration page and add \\
-\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's \textbf{\texttt{Goals and options}}
-\item Check the \textbf{\texttt{Publish Checkstyle analysis results}} box in \textbf{\texttt{Build Settings}}
-\item Save and Run the test
-\item Check the output~: in the \textbf{\texttt{Build History}} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Checkstyle Warnings}}, have a look at it
+\item Install the check on Jenkins. One have to generate an xml output
+  (\texttt{--xml} option) and to redirect standard error to a file name
+  \texttt{cppcheck-result.xml}). Jenkins read this file if configured properly
+  in the ``Post-Build'' Action of your build project.
+\item Fix some warnings and commit.
 \end{itemize}
 
 
-%%Extract from C++ program
-%%\begin{lstlisting}[name=Function Test, frame=trBL]
-%%#include <iostream>
-%%#include <basetsd.h>
-%%#include <iomanip>
-%%#include <cstdlib>
-%%using namespace std;
-%%
-%%union FloatNum //Here the tag name (FloatNum) is redundant.
-%% {
-%%   float fx;//4 bytes variable
-%%   long  lx;//4 bytes variable
-%% }fn;
-%%
-%%union DoubleNum
-%% {
-%%   double dx;  //8 bytes variable
-%%   LONG64 lx;  //8 bytes variable
-%% }dn;
-%%
-%%union LongDoubleNum
-%% {
-%%   long double dx;  //12 bytes variable
-%%   long  lx[3]; // 3 * 4 bytes variable
-%% }ldn;
-%%
-%%int main()
-%%{
-%%    fn.fx = -118.6253433; //variable assignment declaration statement
-%%   //show size of float
-%%    cout << "\nsize of float = " << dec << sizeof(fn.fx) << endl;
-%%    cout << setprecision(10) << fn.fx << " = 0x" << hex << fn.lx << endl;
-%%
-%%    dn.dx =  112.6255678;  //assign value to a variable
-%%    //show size of double
-%%    cout << "\nsize of double = " << dec << sizeof(dn.dx) << endl;
-%%    cout << dn.dx <<"  = 0x" << hex << dn.lx << endl;
-%%
-%%    ldn.dx = -12.61256125;  //assign value to a variable
-%%    //show size of long double
-%%    cout << "\nsize of long double = " << dec << sizeof(ldn.dx) << endl;
-%%    cout << setprecision(10) << ldn.dx << " = 0x"
-%%         <<  hex << ldn.lx[2] << ldn.lx[1] << ldn.lx[0] << endl;
-%%    return 0;
-%%}
-%%\end{lstlisting}
-
-
-%\problemAnswer{
-
-%Answer
-%\begin{center}
-%\includegraphics[width=0.75\columnwidth]{example_figure} % Example image
-%\end{center}
-
-%\lipsum[3-5]
-%}
 \end{homeworkProblem}
-
 %----------------------------------------------------------------------------------------
 
 \end{document}
