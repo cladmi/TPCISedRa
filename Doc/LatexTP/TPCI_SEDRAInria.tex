@@ -919,8 +919,8 @@ Additional labels for pre-release and build meta-data are available as extension
 \end{quote}
 
 Later on, remember to increment the version when you change the
-API. However, as the code is still in \texttt{alpha} no need to increment the
-\texttt{MAJOR} the \texttt{MINOR} is enough.
+API. However, as the code is still in \texttt{alpha} so you should increment
+\texttt{MINOR} instead of \texttt{MAJOR}.
 
 
 \subsection{Tests}
@@ -1009,7 +1009,7 @@ suitable for some nightly or weekly tests that may be time consuming
 and are not meant to be launched after each commit, but this should be
 avoided for short periods.  In our case, we want the results to be
 displayed as soon as possible so we choose to launch the build after a
-post-commit hook~:
+post-commit hook~: \footnote{It is explained in \url{ci.inria.fr} documentation in the FAQ}
 
 \begin{itemize}
 \item Click on \textbf{\texttt{Poll SCM}}
@@ -1033,6 +1033,12 @@ wget --auth-no-challenge --no-check-certificate -q -O -
 http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your gforge login>.git
 \end{lstlisting}
 
+%%
+For this, you can copy the following file, and simply modify the login in the script:
+\begin{lstlisting}[breaklines=true]
+$ cp /gitroot/tpcisedra/users/bremond.git/hooks/post-receive /gitroot/tpcisedra/users/<your gforge login>.git/hooks
+\end{lstlisting}
+
 
 \subsubsection{Exercise 6}
 
@@ -1049,7 +1055,7 @@ sudo -H pip install --upgrade  nosetests nose-xcover
 # Go in source directory
 cd python
 
-# Run tests and generate \texttt{XML} test results
+# Run tests and generate XML test results
 nosetests -v --with-xunit
 \end{lstlisting}
 
@@ -1069,7 +1075,7 @@ Then add \texttt{Jenkins} test result report and build:
 
 \subsection{Refactoring}
 
-Now that your code is tested, you can safely start re-factoring it.
+Now that your code is tested, you can safely start refactoring it.
 In our formula, the $ 4 * \Pi / 3 $ part can be computed only once instead of
 at each \texttt{volume} call.
 
@@ -1112,6 +1118,8 @@ $ git push
 
 Even if you didn't test it on your computer before committing, at least it is
 tested somewhere and the error can be detected.
+
+\paragraph{Version} Did you remember to increase the package version?
 
 
 \subsubsection{Refactoring error}
@@ -1258,7 +1266,6 @@ coverage report.
 \paragraph{Workaround}
 
 As source files are not located at root directory, \texttt{Cobertura} plugin fails to find them correctly.
-
 A solution is to create a symbolic link to the source directory.
 \begin{itemize}
   \item Add a build step \texttt{Execute shell} with~:
@@ -1274,10 +1281,14 @@ $ ln  -nfs python/tp_ci_sed  tp_ci_sed
 
 \subsection{Code static analysis and style}
 
-\texttt{Python} is a dynamic language where many things are evaluated at run-time. So it is different from compiled languages. It means that if you do typos, errors may only occur when running the program. Using a static analysis program can detect errors without executing your program.
+\texttt{Python} is a dynamic language where many things are evaluated at run-time.
+So it is different from compiled languages. It means that if you do typos,
+errors may only occur when running the program.
+Using a static analysis program can detect errors without executing your program.
 
-Another way to handle the typos and then to increase readability, is using coding standards for formatting your code. It make all your code look the same and it eases comprehension.
-\\
+Another way to avoid typos and increase readability, is using coding standards
+for formatting your code. It make all your code look the same and it eases comprehension.
+
 For \texttt{Python} there is even an official coding style guide defined in the
 \texttt{Python} Enhancement Proposal 8 (PEP8\footnote{\url{https://www.python.org/dev/peps/pep-0008/}}).
 
@@ -1745,6 +1756,8 @@ and are not meant to be launched after each commit, but this should be
 avoided for short periods.
 \\
 In our case, we want the results to be displayed as soon as possible, so we choose to launch the build after a \texttt{post-commit} hook~:
+\footnote{It is explained in \url{ci.inria.fr} documentation in the FAQ}
+
 
 \begin{itemize}
 \item Click on \textbf{\texttt{Poll SCM}}
