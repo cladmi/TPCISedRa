@@ -632,7 +632,7 @@ NOTE~: this can also be achieved by adding the following lines to your \texttt{p
   </properties>
 \end{lstlisting}
 
-It's getting better but we might want to make a few changes to this default behaviour.
+It is getting better but we might want to make a few changes to this default behaviour.
 
 \section{Exercise 5}
 
@@ -797,7 +797,7 @@ Now, is your package ready to use by everyone ? Can it be installed by users ?
 
 The first step of an integration process is being able to install the project with its dependencies.
 
-In \texttt{Python} it's done using a \texttt{setup.py} script
+In \texttt{Python} it is done using a \texttt{setup.py} script
 written with \texttt{setuptools}
 \footnote{Default \texttt{setup.py} package is \texttt{distutils} but it
 does not manage automatic dependency installation}.
@@ -1102,7 +1102,7 @@ FAILED (failures=1)
 \item[Note] If it does not fail, ask for help, magic numbers technique failed.
 \end{description}
 
-However, let's assume it's successfull and commit your modifications.
+However, let's assume it is successfull and commit your modifications.
 \begin{lstlisting}
 $ git commit -m "Precompute 4pi/3"
 $ git push
@@ -1128,15 +1128,15 @@ working on~:
     do not want to be bothered by tests complaining.
 \end{itemize}
 
-Here, the code result is correct, so the fail should pass.
+Here, the code result is correct, so it should pass.
 
 \subsubsection{Exercise 8}
 
-Find a way to modify the test so small rounding differences do not cause errors.
-
-Commit, push and verify \texttt{Jenkins} result.
-
-\paragraph{Hint}List of \texttt{unittest} assert functions~:
+\begin{itemize}
+\item Find a way to modify the test so small rounding differences do not cause errors
+\item Commit, push and verify \texttt{Jenkins} result
+\end{itemize}
+\paragraph{Hint~: } See the list of \texttt{unittest} assert functions~:
 
 \url{https://docs.python.org/2/library/unittest.html\#unittest.FunctionTestCase}
 
@@ -1149,7 +1149,7 @@ also meaningful. It is often refered as "code coverage".
 With \texttt{Python} it can be generated with the \texttt{coverage} package, but also
 directly with \texttt{nosetests} and \texttt{nose-xcover}.
 
-To get the coverage output, run
+To get the coverage output, run~:
 \begin{lstlisting}
 $ nosetests -v --with-xcoverage --cover-erase  --cover-inclusive \
     --cover-branches --cover-html --cover-package  tp_ci_sed
@@ -1180,7 +1180,7 @@ cover coverage.xml  raw  sphere  tp_ci_sed
 coverage.xml: XML document text
 \end{lstlisting}
 
-See the \texttt{html} report
+Look at the \texttt{html} report using a \texttt{Web} browser~:
 
 \begin{lstlisting}
 $ firefox cover/index.html &
@@ -1192,7 +1192,7 @@ $ firefox cover/index.html &
 As running \texttt{nosetests} with all the options is quite a pain, you will use
 \texttt{setuptools} to configure the \texttt{nosetests} command.
 
-Calling \texttt{nosetests} can be done using
+Calling \texttt{nosetests} can be done using~:
 \begin{lstlisting}
 $ python setup.py nosetests
 
@@ -1217,10 +1217,10 @@ $ cat setup.cfg
 \end{lstlisting}
 
 The first part is \texttt{nosetests} configuration.
-It allows coverage and test xml results
+It allows coverage and test \texttt{XML} results
 and also searching for all type of tests (unittest, doctest).
 
-Re run the command~:
+Re-run the command~:
 \begin{lstlisting}
 $ python setup.py nosetests
 
@@ -1257,78 +1257,73 @@ coverage report.
 
 \paragraph{Workaround}
 
-As source files are not based at root directory \texttt{Cobertura} plugin fails
-to locate them.
+As source files are not located at root directory, \texttt{Cobertura} plugin fails to find them correctly.
 
-A solution is to create a symlink to the source directory~:
+A solution is to create a symbolic link to the source directory.
 \begin{itemize}
   \item Add a build step \texttt{Execute shell} with~:
 \begin{lstlisting}
 # Hack to help cobertura find source files
 $ ln  -nfs python/tp_ci_sed  tp_ci_sed
 \end{lstlisting}
+\item Commit your code and push
+\item Manually re-run a build to get \texttt{Cobertura} plugin graph (it needs more than one build)
+\item You can click on the report to see per-file coverage infos.
 \end{itemize}
-
-
-Commit your code and push. Manually re-run a build to get Cobertura
-plugin graph (it needs more than one build).
-You can click on the report to see per-file coverage infos.
 
 
 \subsection{Code static analysis and style}
 
-\texttt{Python} is a dynamic language where many things are evaluated at run-time,
-more than compiled languages. It means that if you do typos, errors may only
-occur when running the program. Using a static analysis program can detect
-errors without executing your program.
+\texttt{Python} is a dynamic language where many things are evaluated at run-time. So it is different from compiled languages. It means that if you do typos, errors may only occur when running the program. Using a static analysis program can detect errors without executing your program.
 
-With the same goal, using coding standards for formatting your code can increase
-readability. It make all your code look the same and ease comprehension.
+Another way to handle the typos and then to increase readability, is using coding standards for formatting your code. It make all your code look the same and it eases comprehension.
+\\
 For \texttt{Python} there is even an official coding style guide defined in the
 \texttt{Python} Enhancement Proposal 8 (PEP8\footnote{\url{https://www.python.org/dev/peps/pep-0008/}}).
 
 
-\paragraph{}In this section you will use two tools~:
-\texttt{Pylint} and \texttt{PEP8} to perform static analysis and code style
-checking. They will be run using the \texttt{setup.py} script and so there
-configuration is in \texttt{setup.cfg}.
+\paragraph{}In this section you will use two tools  to perform static analysis and code style checking~: \texttt{Pylint} and \texttt{PEP8}.
 
+They will be run using the \texttt{setup.py} script and so their
+configuration is set in \texttt{setup.cfg}.
 
-Install dependencies, note the \texttt{setuptools-XXXX} which provide
+\begin{itemize}
+\item Install dependencies. Note the \texttt{setuptools-XXXX} which provides
 \texttt{setup.py} wrapper.
 \begin{lstlisting}
 $ sudo -H pip install --upgrade  pylint pep8 setuptools-lint setuptools-pep8
 \end{lstlisting}
-
-Run the two commands~:
+\item Run the two commands~:
 \begin{lstlisting}
 $ python setup.py lint
 $ python setup.py pep8
 \end{lstlisting}
+\end{itemize}
 
-You will, I think, get a lot of errors and warnings.
+You should get a lot of errors and warnings.
 
 \subsubsection{Exercise 9}
 
-Add \texttt{lint} and \texttt{pep8} in \texttt{Jenkins} build step.
-
-To get the reports use \textbf{\texttt{Post build Actions}} named
+\begin{itemize}
+\item Add \texttt{lint} and \texttt{pep8} in \texttt{Jenkins} build step
+\item To get the reports use \textbf{\texttt{Post build Actions}} named
 \texttt{Scan for compiler warnings} and in \texttt{Scan console log} add
-\texttt{Pep8} and \texttt{Pylint}.
-
-Re-run the build manually.
+\texttt{Pep8} and \texttt{Pylint}
+\item Re-run the build manually.
+\end{itemize}
 
 \subsubsection{Exercise 10}
 
-Fix some of the errors, but don't take too much time.
+\begin{itemize}
+\item Fix some of the errors, but do not spend too much time.
 However, putting an empty docstring to get rid of the message is evil, it is
-your code documentation!
-
-Commit and see the output on \texttt{Jenkins}.
+your code documentation !
+\item Commit and see the output on \texttt{Jenkins}.
+\end{itemize}
 
 \begin{description}
   \item[Note] The tools may return some false-positive.
-    In this case it is possible to disable the error message.
+    In this case it is possible to disable the error messages.
     Refer to the documentation when needed~:
     \url{http://docs.pylint.org/message-control}
 \end{description}
@@ -1353,59 +1348,48 @@ And if you want to add another test tool? You must inform all developers to
 run the new command.
 And if you want to test with \texttt{Python}3 ?
 
-Adding a bash script to do it would work but as we are working with \texttt{Python},
-let's use the right tool.
+Adding a \texttt{bash} script to do it would work but as we are working with \texttt{Python}, let's use the right tool.
 
 
 \paragraph{tox}\footnote{\url{https://tox.readthedocs.org/en/latest/}}
 Is a generic \texttt{virtualenv} based automation tool.
-It lets you test that your package installs with different interpreters and runs
+It lets you test that your package can be installed with different interpreters and runs
 tests in each environment.
 
-Install \texttt{tox} dependency.
+\begin{itemize}
+\item Install \texttt{tox} dependency.
 \begin{lstlisting}
 $ sudo -H pip install --upgrade  tox
 \end{lstlisting}
-
-
-\paragraph{}
-First thing, copy the \texttt{tests\_utils} from \texttt{raw} directory~:
+\item Copy the \texttt{tests\_utils} from \texttt{raw} directory~:
 \begin{lstlisting}
 $ cp -r raw/tests_utils .
 $ ls tests_utils/
 coverage-python-3.2.txt  pylint-python-2.6_3.2.txt  test-requirements.txt
 \end{lstlisting}
-
-Look into these files.
-
+\item Look at these files.
 All tests dependencies are described in the \texttt{test-requirements.txt} file.
 The two other files are specific versions for \texttt{Python} 2.6 and 3.2.
-
-
-Now copy the \texttt{tox.ini} file from \texttt{raw/third} file.
+\item Copy the \texttt{tox.ini} file from \texttt{raw/third} file.
 \begin{lstlisting}
 $ cp -r raw/third tox.ini
 \end{lstlisting}
-
-\clearpage
 The file content is the following~:
 \lstinputlisting[caption=tox.ini,label=tox.ini]{../../Src/Python/tox.ini}
-
 The different part of the file are~:
 \begin{itemize}
-\item \texttt{envlist}~: is the list of \texttt{Python} version you want to run on. Here only \texttt{Python}2.7 for the moment.
+\item \texttt{envlist}~: is the list of \texttt{Python} version you want to run on. Here we  only consider \texttt{Python}2.7 for the moment.
 \item \texttt{deps}~: the test dependencies. With specific packages versions for \texttt{python2.6 python3.2}.
-\item \texttt{commands}~: the list of test commands. The front dash \texttt{-} means don't fail on execution error.
+\item \texttt{commands}~: the list of test commands. The front dash \texttt{-} means "don't fail" on execution error.
 \end{itemize}
-
-Now executing your tests simply means running \texttt{tox} and the only required
-dependency installed is \texttt{tox} itself.
-
-Commit and push.
-
+From now, executing your tests simply means running \texttt{tox} and the only required dependency installed is \texttt{tox} itself.
+\item Commit and push.
+\end{itemize}
+\
 \subsubsection{Exercise 11}
 
-Update \texttt{Jenkins} main build step.
+\begin{itemize}
+\item Update \texttt{Jenkins} main build step.
 You can replace all dependencies installation with only \texttt{tox} and replace
 the \texttt{setup.py} execution with \texttt{tox}.
 
@@ -1414,17 +1398,20 @@ pip install --quiet --upgrade tox
 cd pthon
 tox
 \end{lstlisting}
-
-Re-run the build.
+\item Re-run the build.
+\end{itemize}
 
 \paragraph{Other versions}
-If everything succeeds, and you have \texttt{python3} installed add it to the environment
-to see the result (\texttt{py32} for \texttt{Python}3.2). Re-run \texttt{tox}.
-I think it will fail, at least with the 'print' statement.
+If everything succeeds, and you can test using \texttt{python3} (\texttt{Python}3 is installed in the virtual machine related to \texttt{ci.inria.fr/tpcisedra}
+).
+\begin{itemize}
+\item Use \texttt{py32} (for \texttt{Python}3.2)
+\item Re-run \texttt{tox}.
+\end{itemize}
+Tests should fail, at least for the \texttt{print} statement.
 
 However, you see how easy it is to test your code on different \texttt{Python} versions.
-Making a code working for \texttt{python2} and \texttt{python3} requires some time, but at least
-it's easy to test!
+Making a code working for \texttt{python2} and \texttt{python3} requires some time, but at least it is easy to test.
 
 
 \subsection{Advances tests writing~: mocking}
@@ -1489,7 +1476,7 @@ It is presented here for \texttt{sys.stderr} by patching in \texttt{setUp} and
 cleaning it with \texttt{patch.stopall()} in \texttt{tearDown}.
 
 
-Both method are valid, it's just for presenting alternatives.
+Both method are valid, it is just for presenting alternatives.
 
 
 \paragraph{Hints~:} Some advices I want to give on patch~:
@@ -1516,9 +1503,9 @@ result (seems like the picture is not displayed but I don't know why?)
 
 \subsubsection{Build Passing icon}
 
-There is a plugin for that. It's called \texttt{Embeddable Build Status},
+There is a plugin for that. It is called \texttt{Embeddable Build Status},
 however it requires the project to have at least 'ViewStatus' to allow everyone
-to see it. And it's not configured in this project.
+to see it. And it is not configured in this project.
 
 But you will set it on your own \texttt{Jenkins} for your project !
 
