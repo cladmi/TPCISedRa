@@ -1414,14 +1414,14 @@ However, you see how easy it is to test your code on different \texttt{Python} v
 Making a code working for \texttt{python2} and \texttt{python3} requires some time, but at least it is easy to test.
 
 
-\subsection{Advances tests writing~: mocking}
+\subsection{Advanced tests writing~: mocking}
 
 
 \begin{description}
     \item[mock] \url{http://www.voidspace.org.uk/python/mock/index.html}
 \end{description}
 
-When testing, it is useful to replace some part of your application to give it
+When testing, it is useful to replace some part of your application to handle
 a special behavior, like raising an exception, or to prevent its side effect,
 like connection to an external service. It is also easier to be able to know how
 an object has been used or a function been called.
@@ -1430,36 +1430,39 @@ In this section you will see \texttt{mock} to test the \texttt{main} function
 and verify the printed output.
 
 
-Install the dependency to have it on your system. It will be installed by
+\begin{itemize}
+\item  Install the dependency on your system. It will be installed by
 \texttt{tox} in the test environment.
 \begin{lstlisting}
 $ sudo -H pip install --upgrade  mock
 \end{lstlisting}
+\end{itemize}
 
 \texttt{mock} class provides mainly two important things~:
 \begin{itemize}
     \item \texttt{Mock} class which is an object whose behaviour can be
         configured and that records all action on it.
     \item \texttt{patch} function that dynamically replaces one
-        function/method/object with a Mock object.
+        function/method/object with a \texttt{Mock} object.
 \end{itemize}
 
-\paragraph{sorry}Explaining mocks and applying is too long for this course,
-in this section I will mainly make you copy paste the code, try it and read
-afterwards to give you an example. See online documentations when trying it
+\paragraph{Remark} Explaining mocks and applying is too long for this course.
+So in this section you have to copy paste the code, try it and read
+afterwards to understand the example. See online documentations when trying it
 yourself.
 
-Copy the \texttt{fourth} file as \texttt{tp\_ci\_sed/test/sphere\_test\_main.py}
-and re-run tests.
+\begin{itemize}
+\item Copy the \texttt{fourth} file as \texttt{tp\_ci\_sed/test/sphere\_test\_main.py}
+\item Re-run tests.
 \begin{lstlisting}
 $ cp -r raw/fourth tp_ci_sed/test/sphere_test_main.py
 $ tox
 \end{lstlisting}
+\end{itemize}
 
 You can see that we now have 100\% coverage.
 
-Now open the \texttt{sphere\_test\_main.py} in your editor and I will detail
-some parts.
+Now open the \texttt{sphere\_test\_main.py} in a text editor and check this~:
 
 \paragraph{Main function} In order to test the main function, the program
 arguments \texttt{sys.argv} should be replaced with different values.
@@ -1468,7 +1471,7 @@ It automatically applies and cleans up the patch.
 
 \paragraph{Mocking outputs} Two methods are presented~:
 
-The first one is mockng \texttt{sys.stdout} with a \texttt{StringIO} object and
+The first one is mocking \texttt{sys.stdout} with a \texttt{StringIO} object and
 get the written string. Here it is also done using a context manager.
 
 Another, is mocking the file object and verify \texttt{write} call arguments.
@@ -1479,32 +1482,33 @@ cleaning it with \texttt{patch.stopall()} in \texttt{tearDown}.
 Both method are valid, it is just for presenting alternatives.
 
 
-\paragraph{Hints~:} Some advices I want to give on patch~:
+\paragraph{Hints~:} Some advices on patch~:
 
 \begin{itemize}
-\item When 'patching' always verify that the mock has been called by your
+\item When ``patching'' always verify that the mock has been called by your
  program, there are so many cases where you can just fail to patch correctly.
-\item When patching a class, you should use MockClass.return\_value to get the instance mock.
-\item The patching path can depend on how the module is imported
+\item When patching a class, you should use \texttt{MockClass.return\_value} to get the instance \texttt{mock}.
+\item The patching path can depend on how the module is imported, see~:
     \url{http://www.voidspace.org.uk/python/mock/patch.html#where-to-patch}.
     Read it, try it, and understand this prior testing your application.
     Basically, when patching an object imported using \texttt{import XXXX} it requires absolute patch path.
-    And when an object imported using \verb=from XXX import yyyyy= it requires patching from the importing module.
+    And when an object is imported using \verb=from XXX import yyyyy=, it requires patching from the importing module.
 \end{itemize}
 
 For every other problems, look at the documentation.
 
 \subsubsection{Code review by ChuckNorris}
 
-Add ChuckNorris post build action. It will make your code famous and better.
-
-It displays you Chuck Norris facts and a picture of Chuck adapted to your build
-result (seems like the picture is not displayed but I don't know why?)
+\begin{itemize}
+\item Add ChuckNorris post build action. It will make your code famous and better.
+\end{itemize}
+It displays Chuck Norris facts and a picture of Chuck adapted to your build
+result (seems like the picture is not displayed but why ?)
 
 \subsubsection{Build Passing icon}
 
 There is a plugin for that. It is called \texttt{Embeddable Build Status},
-however it requires the project to have at least 'ViewStatus' to allow everyone
+however it requires the project to have at least ``ViewStatus'' to allow everyone
 to see it. And it is not configured in this project.
 
 But you will set it on your own \texttt{Jenkins} for your project !
