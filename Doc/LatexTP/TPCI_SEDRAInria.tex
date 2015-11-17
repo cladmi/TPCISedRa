@@ -222,12 +222,12 @@
 %	NAME AND CLASS SECTION
 %----------------------------------------------------------------------------------------
 
-\newcommand{\hmwkTitle}{Java/C++/Python Exercices} % Assignment title
+\newcommand{\hmwkTitle}{Java/C++/Python Exercises} % Assignment title
 \newcommand{\hmwkDueDate}{Tuesday,\ November\ 17,\ 2015} % Due date
 \newcommand{\hmwkClass}{Continuous Integration Seminar} % Course/class
 \newcommand{\hmwkClassTime}{13h30} % Class/lecture time
 \newcommand{\hmwkClassInstructor}{\url{sed.inrialpes.fr}} % Teacher/lecturer
-\newcommand{\hmwkAuthorName}{Maurice Bremond, Gaetan Harter, David Parsons -- SED INRIA Rhône-Alpes} % Your name
+\newcommand{\hmwkAuthorName}{Maurice Br\'{e}mond, Ga\"{e}tan Harter, David Parsons -- SED INRIA Rh\^{o}ne-Alpes} % Your name
 
 
 %----------------------------------------------------------------------------------------
@@ -261,7 +261,7 @@
 %\newpage
 \tableofcontents
 %\newpage
-
+\clearpage
 
 %----------------------------------------------------------------------------------------
 %	JAVA
@@ -272,7 +272,7 @@
 
 \section{Preamble}
 
-To go through this exercise, you will need to install
+To go through this exercise, you will need to install~:
 \begin{itemize}
 \item \texttt{Git} (apt-get install git | yum install git)
 \item A JDK (apt-get install openjdk-7-jdk | yum install java-1.7.0-openjdk)
@@ -303,7 +303,7 @@ $ cd <yourlogin>/java
 \end{lstlisting}
 
 \
-You should have retrieved the following file tree~:\\
+You should retrieve the following file tree~:\\
 {\centering\small
             \begin{minipage}[t]{0.3\linewidth}
 \dirtree{%
@@ -329,8 +329,8 @@ You should have retrieved the following file tree~:\\
 
 The project is made up of~:
 \begin{itemize}
-\item A Maven \textbf{\texttt{Project Object Model}} file named \texttt{pom.xml};
-\item A file \texttt{Sphere.java} implementing the class \texttt{Sphere};
+\item A Maven \textbf{\texttt{Project Object Model}} file named \texttt{pom.xml}
+\item A file \texttt{Sphere.java} implementing the class \texttt{Sphere}
 \item A file \texttt{SphereTest.java} implementing its test class \texttt{SphereTest}.
 \end{itemize}
 
@@ -381,33 +381,52 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 \section{Testing your code remotely on ci.inria.fr}
 
 \subsection{Log into the project's Jenkins instance}
-Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/} \\
-Log in and click \textbf{\texttt{Dashboard}} in the top menu \\
-You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button \\
-You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the ci portal
+\begin{itemize}
+\item Connect to the INRIA Continuous Integration \texttt{Web} portal~: \url{https://ci.inria.fr/}
+\item Log in and click \textbf{\texttt{Dashboard}} in the top menu
+\item As you should have been added as member of the project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button.
+You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the \texttt{ci.inria.fr} portal.
+\end{itemize}
 
 \subsection{Create a new Jenkins item}
-From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
-Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Maven project}}
+From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/})~:
+\begin{itemize}
+\item Click \textbf{\texttt{New Item}} in the menu on the left
+\item Provide a name for this new item (avoid spaces since it is likely to lead to errors)
+\item Select \textbf{\texttt{Maven project}}.
+\end{itemize}
 
 \subsection{Git configuration}
-In the new item's configuration page (which you will be redirected to after clicking \textbf{\texttt{OK}} on the \texttt{New Item} page), choose \texttt{git} as your \textbf{\texttt{Source Code Manager}} and copy the \emph{anonymous} url to your personal repository into the appropriate field~:
+In the \textbf{\texttt{Configuration}} page (which you will be redirected to after clicking \textbf{\texttt{OK}} on the \textbf{\texttt{New Item}} page)~:
+\begin{itemize}
+\item Choose \texttt{git} as your \textbf{\texttt{Source Code Manager}}
+\item Copy the \emph{anonymous} url to your personal repository into the appropriate field~:
 \begin{lstlisting}
 https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
 \end{lstlisting}
+\end{itemize}
 \end{homeworkProblem}
 
 \subsection{Build configuration}
-In the \textbf{\texttt{Build}} section, change the root POM path to \texttt{java/pom.xml} and type \texttt{test} in \textbf{\texttt{Goals and options}} section.
+In the \textbf{\texttt{Build}} section~:
+\begin{itemize}
+\item Change the root \texttt{POM} path to \texttt{java/pom.xml}
+\item Type \texttt{test} in \textbf{\texttt{Goals and options}} section.
+\end{itemize}
 
 \subsection{Save and run}
-Click \textbf{\texttt{Save}} at the bottom of the page \\
-Click \textbf{\texttt{Build Now}} in the menu on the left
+\begin{itemize}
+\item Click \textbf{\texttt{Save}} at the bottom of the page
+\item Click \textbf{\texttt{Build Now}} in the menu on the left.
+\end{itemize}
 
 \subsection{Check the output}
-In the \textbf{\texttt{Build History}} on the left, click on the last build (hopefully \#1), then select \textbf{\texttt{Console Output}} \\
-You can also check the \textbf{\texttt{Test Result}}
-
+In the \textbf{\texttt{Build History}} on the left~:
+\begin{itemize}
+\item Click on the last build (hopefully $\#1$)
+\item Select \textbf{\texttt{Console Output}}
+\item You can also check the \textbf{\texttt{Test Result}}.
+\end{itemize}
 
 
 %--------------------------------------
@@ -454,8 +473,8 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 
 \subsubsection{TODO~:}
 \begin{itemize}
-\item Check that tests fail on CI. \\
-Hint~: have you commited and pushed your changes ?
+\item Check that tests fail on \texttt{Jenkins} instance.\\
+Hint~: Have you commited and pushed your changes ?
 \end{itemize}
 
 \section{Exercise 2}
@@ -496,11 +515,11 @@ yourpath/tpcisedra/java
 $ mvn cobertura:cobertura
 \end{lstlisting}
 
-Cobertura should have produced test coverage results in the following directory~:\\
+\texttt{Cobertura} should have produced test coverage results in the following directory~:\\
 \texttt{yourpath/tpcisedra/java/target/site/cobertura}
 
 
-Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated results of the test coverage
+Use your favorite \texttt{Web} browser (\texttt{firefox}, \texttt{chrome}, \texttt{iceweasel}, ...) to visualize the generated results of the test coverage~:
 \begin{lstlisting}
 $ firefox target/site/cobertura/index.html &
 \end{lstlisting}
@@ -515,7 +534,7 @@ Hint~: you may not need any additional tests ;)
 \end{itemize}
 
 
-\subsection{Integrate cobertura to your reporting local website}
+\subsection{Integrate cobertura to your reporting local Website}
 
 Add the following to the file  \texttt{pom.xml}
 \begin{lstlisting}
@@ -542,7 +561,7 @@ yourpath/tpcisedra/java
 $ mvn site
 \end{lstlisting}
 
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report~:
+\item Use your favorite \texttt{Web} browser (\texttt{firefox}, \texttt{chrome}, \texttt{iceweasel}, ...) to visualize the generated report~:
 \begin{lstlisting}
 iceweasel target/site/project-reports.html &
 \end{lstlisting}
@@ -570,7 +589,7 @@ The tools we used to run tests and code quality checks have been selected based 
 
 \section{Add a new class to our project}
 
-Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project
+Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project~:
 \begin{lstlisting}
 $ git merge alpha
 \end{lstlisting}
@@ -580,7 +599,7 @@ $ git merge alpha
 \begin{itemize}
 \item Generate and visualize the corresponding coverage report
 \item Make what changes are necessary to achieve 100\% test coverage
-\item Check that you get the same results on Jenkins
+\item Check that you get the same results on \texttt{Jenkins}.
 \end{itemize}
 
 %--------------------------------------
@@ -596,17 +615,17 @@ $ mvn checkstyle:checkstyle
 \end{lstlisting}
 We get plenty of errors with the default style \verb?sun_checks.xml?.
 
-Our coding style is closer to Google style than it is to Sun style.
+Our coding style is closer to \texttt{Google} style than it is to \texttt{Sun} style.
 
 \subsection{Run Google style checker}
 
-Try running with Google checks (provided by the plugin)
+Try running with \texttt{Google} checks (provided by the plugin)
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
 $ mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
 \end{lstlisting}
-NOTE~: this can also be achieved by adding the following lines to your pom.xml~:
+NOTE~: this can also be achieved by adding the following lines to your \texttt{pom.xml}~:
 \begin{lstlisting}
   <properties>
     <checkstyle.config.location>checkstyle-test.xml</checkstyle.config.location>
@@ -620,7 +639,7 @@ It's getting better but we might want to make a few changes to this default beha
 \subsubsection{TODO~:}
 
 \begin{itemize}
-\item Retrieve a local copy of google checks
+\item Retrieve a local copy of \texttt{Google} checks
 \begin{lstlisting}[breaklines=true]
 $ wget https://raw.githubusercontent.com/checkstyle/checkstyle/18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
 \end{lstlisting}
@@ -628,7 +647,7 @@ $ wget https://raw.githubusercontent.com/checkstyle/checkstyle/18f6ebbcad23e88e3
 \item You may also consider removing trailing underscores from data members or amending \texttt{checkstyle.xml}
 \end{itemize}
 
-\section{Integrate checkstyle to your reporting local website}
+\section{Integrate checkstyle to your reporting local Website}
 
 Add the following to the file \texttt{pom.xml}
 \begin{lstlisting}
@@ -654,7 +673,7 @@ $ pwd
 yourpath/tpcisedra/java
 $ mvn site
 \end{lstlisting}
-\item Use your favorite WEB browser (firefox, chrome, iceweasel, \...) to visualize the generated report~:
+\item Use your favorite \texttt{Web} browser (\texttt{firefox}, \texttt{chrome}, \texttt{iceweasel}, ...) to visualize the generated report~:
 \begin{lstlisting}
 $ firefox target/site/project-reports.html &
 \end{lstlisting}
@@ -664,11 +683,12 @@ $ firefox target/site/project-reports.html &
 
 \subsubsection{TODO~:}
 \begin{itemize}
-\item Go back to your item's configuration page and add \\
-\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml} to your build's \textbf{\texttt{Goals and options}}
-\item Check the \textbf{\texttt{Publish Checkstyle analysis results}} box in \textbf{\texttt{Build Settings}}
-\item Save and Run the test
-\item Check the output~: in the \textbf{\texttt{Build History}} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Checkstyle Warnings}}, have a look at it
+\item Go back to your item's \textbf{\texttt{configuration}} page.
+\item In the \textbf{\texttt{Build}} section, set the \texttt{Goals and options} field to~:\\
+\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml}
+\item In the \textbf{\texttt{Build Settings}} section, check the \textbf{\texttt{Publish Checkstyle analysis results}} box.
+\item Save and run the test.
+\item Check the output~: in the \textbf{\texttt{Build History}} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Checkstyle Warnings}}. Have a look at it.
 \end{itemize}
 
 \clearpage
@@ -682,12 +702,12 @@ $ firefox target/site/project-reports.html &
 
 \subsection{Preamble}
 
-In this exercice, you will learn how to install your python program with
+In this exercice, you will learn how to install your \texttt{Python} program with
 packaging tools, test it, measure the tests code coverage, and perform some
 static code analysis. And finally do this in a single command for multiple
-python versions and environments.
+\texttt{Python} versions and environments.
 
-In the same time, you will use all these tools on Jenkins and use visualization
+In the same time, you will use all these tools on \texttt{Jenkins} and use visualization
 plugins for their output on it.
 
 \subsubsection{Tools presentation}
@@ -699,17 +719,11 @@ For this you will use the following tools~:
 \texttt{nose} tools run tests and format the results,
 \texttt{mock} allow replacing function or objects during tests,
 \texttt{pylint} provide static code analysis and style checking,
-\texttt{pep8} verifies code compliancy to python PEP8 style convention
-and \texttt{tox} is a virtualenv based test automation tool.
+\texttt{pep8} verifies code compliancy to \texttt{Python} PEP8 style convention
+and \texttt{tox} is a virtual environment based test automation tool.
 
 
 \subsection{Setup}
-
-\subsubsection{Python requirements}
-
-For the exercices you need to install first the following dependencies.
-The other test dependencies will be installed during the exercices.
-
 
 \subsubsection{Create and clone your personal copy of the repository}
 First, you will create your personal \texttt{git} repository on the INRIA forge as a branch of the main repository for the \texttt{tpcisedra} project~:
@@ -730,63 +744,67 @@ $ git clone git+ssh://<yourlogin>@scm.gforge.inria.fr/gitroot/tpcisedra/
 $ cd <yourlogin>/python
 \end{lstlisting}
 
-You should have retrieved the following file tree~:
+You should have retrieved the following file tree~:\\
 {\centering\small
-  \begin{minipage}[t]{0.3\linewidth} \small
+  \begin{minipage}[t]{0.3\linewidth}
     \dirtree{%
-        .1 tpcisedra/python.
-        .2 sphere.
-        .2 tp\_ci\_sed.
-        .3 \_\_init\_\_.py.
-        .3 sphere.py.
-        .3 test.
-        .4 \_\_init\_\_.py.
-        .4 sphere\_test.py.
-        .2 raw.
-        .3 \#file used later.
+      .1 tpcisedra/python.
+      .2 sphere.
+      .2 tp\_ci\_sed.
+      .3 \_\_init\_\_.py.
+      .3 sphere.py.
+      .3 test.
+      .4 \_\_init\_\_.py.
+      .4 sphere\_test.py.
+      .2 raw.
+      .3 \#file used later.
     }
-\end{minipage}
+  \end{minipage}
 }
 
 
 \subsection{Project presentation}
 
-This project should be the best package providing sphere volume computation.
+This project aims to compute a sphere volume.
 As simple as it can be, we want it packaged, tested, and we want to have this
 nice \verb=build|passing= icon on \texttt{github}~: \includegraphics[height=10pt]{build_passing}.
 
-It has a package, named \texttt{tp\_ci\_sed}, with a \texttt{sphere} submodule
-and even a cli script to run it.
+Your goal is to create a package, named \texttt{tp\_ci\_sed}, with a \texttt{sphere} submodule
+and a command line interface (or \texttt{cli}) script to run it.
 
 \subsubsection{Exercise 1}
 
-Try the \texttt{sphere} script.
+\begin{itemize}
+\item Try the \texttt{sphere} script.
+\end{itemize}
 
 \subsubsection{Exercise 2}
 
-Write the \texttt{Sphere.volume} method.
-For that, use \texttt{math} module and remember volume formula
-$ 4 * \Pi * R^3 / 3 $ you learned in school
+\begin{itemize}
+\item Write the \texttt{Sphere.volume} method.\\
+For that, use \texttt{math} module and remember volume formula you learned in school~:\\
+$ 4 * \Pi * R^3 / 3 $ 
 \footnote{Volume of a $1.5$ radius sphere is around $14.137$}.
-
-\paragraph{} Commit your code with a meaningfull message an push.
+\item  Commit your code with a meaningfull message and push.
+\end{itemize}
 
 \subsubsection{Releasing your code}
 
-Now, is your package ready to use by everyone? Can it be installed by users?
+Now, is your package ready to use by everyone ? Can it be installed by users ?
 
 
 \subsection{Packaging your code}
 
-First step of an integration process is being able to install the project with
-its dependencies. In Python it's done using a \texttt{setup.py} script
+The first step of an integration process is being able to install the project with its dependencies.
+
+In \texttt{Python} it's done using a \texttt{setup.py} script
 written with \texttt{setuptools}
 \footnote{Default \texttt{setup.py} package is \texttt{distutils} but it
 does not manage automatic dependency installation}.
 
 The script simply calls \texttt{setuptools.setup} function with the package
 description~: package diretory, name, description, author, license, version,
-dependencies, supported python versions, \dots
+dependencies, supported \texttt{Python} versions, \dots
 
 
 \subsubsection{Usage}
@@ -812,7 +830,7 @@ $ python setup.py upload
 
 \subsubsection{Writing the \texttt{setup.py} script}
 
-Writing the script is basically just giving the right informations in the right
+Writing the script is basically just giving the right information in the right
 format. Usually adapting an existing one is simple enough so it is provided in
 this exercise.
 
@@ -829,15 +847,15 @@ from setuptools import setup, find_packages
 \end{lstlisting}
 
 \subsubsection{Exercise 3}
-Open the \texttt{setup.py} script and look at the \texttt{setup} function
+\begin{itemize}
+\item Open the \texttt{setup.py} script and look at the \texttt{setup} function
 arguments.
-
+\end{itemize}
 
 \paragraph{Package dependency}
-Instead of writing in a README what packages are required by your project,
-they can be automatically at package installation with \texttt{setuptools}.
-Dependencies should be listed in the \texttt{install\_requires} here
-\texttt{argparse} will be installed with the package.
+Instead of writing in a \texttt{README} file explaining which packages are required by your project,
+those packages can be automatically installed with \texttt{setuptools}.
+Dependencies should be listed using \texttt{install\_requires} parameter. In the example below, \texttt{argparse} dependency  will be installed with the package.
 
 \begin{lstlisting}
 setup(
@@ -850,13 +868,13 @@ Depending on your needs, you can specify the version with \texttt{==, <, !=} ope
 
 \begin{description}
 \item[Note]
-By default \texttt{setuptools} uses PyPi to find packages but can be configured
+By default \texttt{setuptools} uses \texttt{PyPi} to find packages but can be configured
 to install from many places, like an existing \texttt{git} repository or an \texttt{http} url
 \footnote{\url{https://pythonhosted.org/setuptools/setuptools.html\#dependencies-that-aren-t-in-pypi}}.
 \end{description}
 
 
-\paragraph{Package version} Python package version is usually accessible
+\paragraph{Package version} \texttt{Python} package version is usually accessible
 at \texttt{package\_name.\_\_version\_\_} and should be consistent with the
 version in \texttt{setup.py} .
 
@@ -869,7 +887,7 @@ To prevent that, package \texttt{\_\_init\_\_.py} file can be read and parsed
 manually to find the version.
 
 \paragraph{}
-Package version can be queried with~:
+Package version can be obtained using~:
 \begin{lstlisting}
 $ python setup.py --version
 \end{lstlisting}
@@ -877,8 +895,10 @@ $ python setup.py --version
 
 \subsubsection{Exercise 4}
 
-Find where the version is stored and how it is retrieved in the
+\begin{itemize}
+\item Find where the version is stored and how it is retrieved in the
 \texttt{setup.py} script.
+\end{itemize}
 
 \subsection{Semantic versioning}
 
@@ -886,9 +906,8 @@ Versioning should help users follow features addition and know when incompatible
 changes have been introduced.
 Semantic Versioning gives you simple rules for changing your version numbers.
 
+From  \url{http://semver.org/} summary~:
 \begin{quote}
-\begin{center}Summary \url{http://semver.org/}\end{center}
-
 Given a version number MAJOR.MINOR.PATCH, increment the~:
 
 \begin{itemize}
@@ -899,29 +918,29 @@ Given a version number MAJOR.MINOR.PATCH, increment the~:
 Additional labels for pre-release and build meta-data are available as extensions to the MAJOR.MINOR.PATCH format.
 \end{quote}
 
-For the following parts, remember to increment the version when you change the
+Later on, remember to increment the version when you change the
 API. However, as the code is still in \texttt{alpha} no need to increment the
 \texttt{MAJOR} the \texttt{MINOR} is enough.
 
 
 \subsection{Tests}
 
-Executing your code in command line and visually verifying the result is testing.
+Executing your code in command line and visually verifying the result consists in testing.
 However some parts of the code may be hard to reach from the \texttt{cli}, and are hard to
 test this way. Also, we want to automate this step and make it repeatable.
 
-So basically, we will write code to execute our code and verify the output.
+So basically, we need to write code to execute our code and verify the output.
 And to simplify the organization we will use existing tools to write them.
 
 \paragraph{}In this section you will write tests using \texttt{unittest} and
-execute them with \texttt{nosetests}.
+execute them with \texttt{nosetests} tool.
 
 Install the \texttt{nose} tools dependencies~:
 \begin{lstlisting}
 $ sudo -H pip install --upgrade  nosetests nose-xcover
 \end{lstlisting}
 
-One test has already been written as an example. Run it with \texttt{nosetests}
+The test \texttt{test\_volume\_0} has already been written as an example. Run it with \texttt{nosetests}
 \begin{lstlisting}
 $ nosetests -v
 test_volume_0 (tp_ci_sed.test.sphere_test.TestSphere) ... ok
@@ -936,21 +955,22 @@ Now go in \texttt{tp\_ci\_sed/test/sphere\_test.py} to see the implementation.
 
 \paragraph{unittest}
 framework\footnote{\url{https://docs.python.org/2/library/unittest.html}}
-is the Python implementation of \texttt{JUnit}.
+is the \texttt{Python} implementation of \texttt{JUnit}.
 
 It provides a \texttt{TestCase} base class to help writing tests.
 This class implements several assert functions and also runs \texttt{setUp} and
-\texttt{tearDown} methods before and after each tests if implemented.
+\texttt{tearDown} methods before and after each test if implemented.
 This helps configuring a test environment.
 
 
 \subsubsection{Exercise 5}
 
-As you can see, \texttt{test\_volume\_0} is not enough to validate your code.
-Add another test to validate the volume computation with
-$radius=1.5$ where $volume=14.137166941154069$.
-
-\paragraph{}Commit your code with the new test.
+\texttt{test\_volume\_0} is not enough to validate your code.
+\begin{itemize}
+\item Add another test to validate the volume computation with~:\\
+$radius=1.5$ where $volume=14.137166941154069$
+\item Commit your code with the new test.
+\end{itemize}
 
 
 \subsection{Jenkins setup}
@@ -958,11 +978,11 @@ $radius=1.5$ where $volume=14.137166941154069$.
 Log into the project's \texttt{Jenkins} instance~:
 
 \begin{enumerate}
-\item Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/}.
+\item Connect to the INRIA Continuous Integration \texttt{Web} portal~: \url{https://ci.inria.fr/}.
 
 \item Log in and click \textbf{\texttt{Dashboard}} in the top menu
 \item You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button.
-You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the ci portal.
+You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the \texttt{ci.inria.fr} portal.
 \end{enumerate}
 
 Running your first test on CI~:
@@ -1016,9 +1036,9 @@ http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/an
 
 \subsubsection{Exercise 6}
 
-Add a new build step using \emph{Virtualenv Builder}.
+Add a new build step using \textbf{\texttt{Virtualenv Builder}}.
 
-Using a \texttt{virtualenv} puts the code execution in a separated python
+Using a \texttt{virtualenv} puts the code execution in a separated \texttt{Python}
 environment. This will allow installing packages for this build.
 
 Now in this field, you inform \texttt{Jenkins} how to build and test the project.
@@ -1029,7 +1049,7 @@ sudo -H pip install --upgrade  nosetests nose-xcover
 # Go in source directory
 cd python
 
-# Run tests and generate 'xml' test results
+# Run tests and generate \texttt{XML} test results
 nosetests -v --with-xunit
 \end{lstlisting}
 
@@ -1055,9 +1075,9 @@ at each \texttt{volume} call.
 
 \subsubsection{Exercise 7}
 
-Move it in a class variable and use it in the \texttt{volume} method.
-
-Run the tests again. It should fail~:
+\begin{itemize}
+\item Move it in a class variable and use it in the \texttt{volume} method.
+\item Run the tests again. It should fail~:
 
 \begin{lstlisting}
 $ nosetests -v
@@ -1087,7 +1107,8 @@ However, let's assume it's successfull and commit your modifications.
 $ git commit -m "Precompute 4pi/3"
 $ git push
 \end{lstlisting}
-The test should now fail on \texttt{Jenkins}. See the Console output.
+\item The test should now fail on \texttt{Jenkins}. See the Console output.
+\end{itemize}
 
 Even if you didn't test it on your computer before committing, at least it is
 tested somewhere and the error can be detected.
@@ -1125,7 +1146,7 @@ Commit, push and verify \texttt{Jenkins} result.
 When running tests, the information of what part of the code has been tested is
 also meaningful. It is often refered as "code coverage".
 
-With Python it can be generated with the \texttt{coverage} package, but also
+With \texttt{Python} it can be generated with the \texttt{coverage} package, but also
 directly with \texttt{nosetests} and \texttt{nose-xcover}.
 
 To get the coverage output, run
@@ -1256,15 +1277,15 @@ You can click on the report to see per-file coverage infos.
 
 \subsection{Code static analysis and style}
 
-Python is a dynamic language where many things are evaluated at run-time,
+\texttt{Python} is a dynamic language where many things are evaluated at run-time,
 more than compiled languages. It means that if you do typos, errors may only
 occur when running the program. Using a static analysis program can detect
 errors without executing your program.
 
 With the same goal, using coding standards for formatting your code can increase
 readability. It make all your code look the same and ease comprehension.
-For python there is even an official coding style guide defined in the
-Python Enhancement Proposal 8 (PEP8\footnote{\url{https://www.python.org/dev/peps/pep-0008/}}).
+For \texttt{Python} there is even an official coding style guide defined in the
+\texttt{Python} Enhancement Proposal 8 (PEP8\footnote{\url{https://www.python.org/dev/peps/pep-0008/}}).
 
 
 \paragraph{}In this section you will use two tools~:
@@ -1330,9 +1351,9 @@ Is it enough?
 Do you remember to tell to install the tests dependencies?
 And if you want to add another test tool? You must inform all developers to
 run the new command.
-And if you want to test with Python3 ?
+And if you want to test with \texttt{Python}3 ?
 
-Adding a bash script to do it would work but as we are working with Python,
+Adding a bash script to do it would work but as we are working with \texttt{Python},
 let's use the right tool.
 
 
@@ -1358,7 +1379,7 @@ coverage-python-3.2.txt  pylint-python-2.6_3.2.txt  test-requirements.txt
 Look into these files.
 
 All tests dependencies are described in the \texttt{test-requirements.txt} file.
-The two other files are specific versions for python 2.6 and 3.2.
+The two other files are specific versions for \texttt{Python} 2.6 and 3.2.
 
 
 Now copy the \texttt{tox.ini} file from \texttt{raw/third} file.
@@ -1372,7 +1393,7 @@ The file content is the following~:
 
 The different part of the file are~:
 \begin{itemize}
-\item \texttt{envlist}~: is the list of python version you want to run on. Here only Python2.7 for the moment.
+\item \texttt{envlist}~: is the list of \texttt{Python} version you want to run on. Here only \texttt{Python}2.7 for the moment.
 \item \texttt{deps}~: the test dependencies. With specific packages versions for \texttt{python2.6 python3.2}.
 \item \texttt{commands}~: the list of test commands. The front dash \texttt{-} means don't fail on execution error.
 \end{itemize}
@@ -1398,10 +1419,10 @@ Re-run the build.
 
 \paragraph{Other versions}
 If everything succeeds, and you have \texttt{python3} installed add it to the environment
-to see the result (\texttt{py32} for python3.2). Re-run \texttt{tox}.
+to see the result (\texttt{py32} for \texttt{Python}3.2). Re-run \texttt{tox}.
 I think it will fail, at least with the 'print' statement.
 
-However, you see how easy it is to test your code on different python versions.
+However, you see how easy it is to test your code on different \texttt{Python} versions.
 Making a code working for \texttt{python2} and \texttt{python3} requires some time, but at least
 it's easy to test!
 
@@ -1499,19 +1520,9 @@ There is a plugin for that. It's called \texttt{Embeddable Build Status},
 however it requires the project to have at least 'ViewStatus' to allow everyone
 to see it. And it's not configured in this project.
 
-But you will set it on your own Jenkins for your project!
+But you will set it on your own \texttt{Jenkins} for your project !
 
 Always verify on a non-authenticated browser.
-
-
-%%\lipsum[1]
-
-%%Listing \ref{Sphere} shows a Java program.
-%%\javascript{Sphere}{Sample Java program with Highlighting}
-
-%%Another program example for Python
-%%Listing \ref{Python_example} shows a Python program.
-%%\pythonscript{Python_example}{Sample Python program with highlighting}
 
 
 \end{homeworkProblem}
@@ -1527,11 +1538,11 @@ Always verify on a non-authenticated browser.
 
 \section{Preamble}
 
-In this exercise, we will focus on the configuration of Jenkins for~:
+In this exercise, we will focus on the configuration of \texttt{Jenkins} for~:
 \begin{enumerate}
-\item a simple aspect of c++ unit testing,
-\item an aspect of dynamic testing~: source coverage,
-\item a demonstration of static analysis with \texttt{cppcheck}.
+\item A simple aspect of \texttt{C++} unit testing
+\item An aspect of dynamic testing~: source coverage
+\item A demonstration of static analysis with \texttt{cppcheck}.
 \end{enumerate}
 
 To perform this \texttt{C++} exercise, we rely on these development tools~:
@@ -1544,16 +1555,18 @@ To perform this \texttt{C++} exercise, we rely on these development tools~:
 \item Coverage analysis tools~: \texttt{gcov}, \texttt{lcov} \texttt{gcvor}.
 \end{itemize}
 
-On Linux, BSD, MACOS X systems, suitable versions may simply be installed with the package manager (\texttt{yum, apt, etc}).
+On \texttt{Linux}, \texttt{BSD}, \texttt{MACOS X} systems, suitable versions may simply be installed with the package manager (\texttt{yum, apt, ...}).
 
 For example~:
 \begin{itemize}
-\item on Fedora systems, one may use the command~: \texttt{sudo yum install cmake gcc-c++ cppunit cppcheck gcov lcov}
-\item on recent Debian or Ubuntu systems~:
+\item On \texttt{Fedora} systems, one may use the command~:\\
+\texttt{sudo yum install cmake gcc-c++ cppunit cppcheck gcov lcov}
+\item On recent \texttt{Debian} or \texttt{Ubuntu} systems~:\\
 \texttt{sudo apt-get install cmake gcc-c++ cppunit cppcheck gcov lcov}
 \end{itemize}
 
-For \texttt{gcovr}, use \texttt{sudo pip install gcovr}.
+For \texttt{gcovr}, use~:\\
+ \texttt{sudo pip install gcovr}.
 
 \section{Unit testing}
 \subsection{Local setup}
@@ -1599,12 +1612,12 @@ A minimal \texttt{CMake} project is present under the file tree~:\\
 
 
 This \texttt{CMake} project provides the framework needed to build and test a
-dynamic shared and versioned \textbf{\texttt{TP}} \footnote{\textbf{\texttt{TP}} for \textbf{\texttt{Travaux Pratiques}}
-  in french} library. The \texttt{CMake} configuration is specified in two
+versionized, dynamic shared library named \textbf{\texttt{TP}} \footnote{\textbf{\texttt{TP}} for \textbf{\texttt{Travaux Pratiques}}
+  in french}. The \texttt{CMake} configuration is specified in two
 \texttt{CMakeLists.txt} files~:
 \begin{itemize}
-\item one under the main directory~: the main \texttt{CMakeLists.txt}
-\item one under the \texttt{tests} directory.
+\item One under the main directory~: the main \texttt{CMakeLists.txt}
+\item One under the \texttt{tests} directory.
 \end{itemize}
 
 The API provided by this library is at this level composed by a single \texttt{Sphere} class. The \texttt{Sphere} class offers an object constructor with the \texttt{radius} as parameter and a \texttt{volume} method.
@@ -1617,10 +1630,10 @@ be used to compare the influence of some compiler optimization flags.
 
 On a Unix system~:
 \begin{itemize}
-\item Create a build directory
+\item Create a \texttt{build} directory
 \item Create the build environment with \texttt{CMake}
 \item Build the project
-\item Run the test
+\item Run the test.
 \end{itemize}
 
 
@@ -1636,20 +1649,19 @@ $ make test
 
 \subsubsection{Run the benchmark}
 
-\texttt{CMake} provides pre-defined build configuration that may be chosen
+\texttt{CMake} provides pre-defined build configurations that may be chosen
 with the \texttt{CMAKE\_BUILD\_TYPE} variable. Among them we are going to
 consider~:
-
 \begin{itemize}
-\item the \texttt{Debug} build type which sets the debug flags (\texttt{-g} with \texttt{GNU C++})
-\item the \texttt{Release} build type which sets some optimization flags (\texttt{-O3 -DNDEBUG} with \texttt{GNU C++})
+\item \texttt{Debug} build type which sets the debug flags (\texttt{-g} with \texttt{GNU C++})
+\item \texttt{Release} build type which sets some optimization flags (\texttt{-O3 -DNDEBUG} with \texttt{GNU C++})
 \end{itemize}
 
 Once a directory has been given as argument to \texttt{CMake} it remains in a
 cache, the \texttt{CMakeCache.txt} file in your build directory. This cache
 file is a text file and may be edited by hand.
 
-So for next calls to \texttt{CMake}, we can use the dot directory as argument~:
+So for next calls to \texttt{CMake}, we can use the \texttt{dot} directory as argument~:
 
 \begin{lstlisting}
 $ cmake .
@@ -1663,16 +1675,16 @@ arguments~:
 $ cmake . -D<VARIABLE\_NAME>=<VALUE>
 \end{lstlisting}
 
-The value remains in the cache file, so when a variable has been modified once with a call to cmake, it is not necessary to define its value anymore on the command line.
+The value remains in the cache file, so when a variable has been modified once with a call to \texttt{CMake}, it is not necessary to define its value anymore on the command line.
 
-Let's configure our build to a debug build~:
+To configure our build to produce a \texttt{Debug} type build~:
 \begin{lstlisting}
 $ cmake . -DCMAKE_BUILD_TYPE=Debug
 $ make
 $ ./bench
 \end{lstlisting}
 
-For an optimized build, we do~:
+For an optimized build, we change its configuration to~:
 \begin{lstlisting}
 $ cmake . -DCMAKE_BUILD_TYPE=Release
 $ make
@@ -1681,8 +1693,7 @@ $ ./bench
 
 %$
 
-Over this very simple computation, the benchmark difference between Debug and
-Release is not dramatic.
+Over this very simple computation, the benchmark difference between \texttt{Debug} and \texttt{Release} is not dramatic.
 
 With \texttt{GNU C++} compiler, we can go beyond \texttt{-O3} optimization flag with the
 \texttt{fast-math} option, which implies \texttt{-funsafe-math-optimizations}
@@ -1691,8 +1702,7 @@ standards.
 
 To pass a specific argument to the \texttt{GNU C++} compiler, we use the variable \texttt{CMAKE\_CXX\_FLAGS}. The arguments passed on the command line to this
 variable are added to the other compiler arguments. In doubt with the
-generated specification, one can use the argument \texttt{VERBOSE=1} to make,
-in order to see the flags passed to the compiler.
+generated specification, one can use the argument \texttt{VERBOSE=1} with \texttt{make} tool, in order to see all the flags passed to the compiler.
 
 \begin{lstlisting}
 $ cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-ffast-math
@@ -1704,7 +1714,7 @@ $ ./bench
 
 You should see a difference on time.
 
-Now, let's keep this configuration in our build directory.
+Now, let's keep this configuration in our \texttt{build} directory.
 
 \clearpage
 \subsection{Jenkins setup}
@@ -1712,14 +1722,14 @@ Now, let's keep this configuration in our build directory.
 Log into the project's \texttt{Jenkins} instance~:
 
 \begin{enumerate}
-\item Connect to the INRIA Continuous Integration web portal~: \url{https://ci.inria.fr/}.
+\item Connect to the INRIA Continuous Integration \texttt{Web} portal~: \url{https://ci.inria.fr/}.
 
 \item Log in and click \textbf{\texttt{Dashboard}} in the top menu
-\item You should have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button.
-You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the ci portal.
+\item As you have been added to project \textbf{\texttt{TPCISedRa}}, click on the \textbf{\texttt{Jenkins}} button.
+You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the \texttt{ci.inria.fr} portal.
 \end{enumerate}
 
-Running your first test on CI~:
+Running your first test with Jenkins~:
 \begin{itemize}
 \item From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/}), click \textbf{\texttt{New Item}} in the menu on the left
 \item Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Freestyle project}}
@@ -1737,13 +1747,13 @@ https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
 \end{itemize}
 
 An important step for the continuous integration setup is the build trigger.
-
-A simple possibility is to choose to build periodically, this is
+\\
+A simple option is to choose to build periodically~: this is
 suitable for some nightly or weekly tests that may be time consuming
 and are not meant to be launched after each commit, but this should be
-avoided for short periods.  In our case, we want the results to be
-displayed as soon as possible so we choose to launch the build after a
-post-commit hook~:
+avoided for short periods.
+\\
+In our case, we want the results to be displayed as soon as possible, so we choose to launch the build after a \texttt{post-commit} hook~:
 
 \begin{itemize}
 \item Click on \textbf{\texttt{Poll SCM}}
@@ -1760,7 +1770,7 @@ $ touch post-receive
 $ chmod +x post-receive
 \end{lstlisting}
 
-And then create the executable file \texttt{post-receive}~:
+And then create the executable file \texttt{post-receive} which content is~:
 \begin{lstlisting}[breaklines=true]
 #!/bin/sh
 wget --auth-no-challenge --no-check-certificate -q -O -
@@ -1768,16 +1778,15 @@ http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/an
 \end{lstlisting}
 
 %$
-For this, you can copy 
-\begin{lstlisting}
-/gitroot/tpcisedra/users/bremond.git/hooks/post-receive
+For this, you can copy the following file, and simply modify the login~:
+\begin{lstlisting}[breaklines=true]
+$ cp /gitroot/tpcisedra/users/bremond.git/hooks/post-receive /gitroot/tpcisedra/users/<your gforge login>.git/hooks
 \end{lstlisting}
 
-and simply modify the login.
 
 \subsubsection{Exercise 1}
 
-Add a new build step using \texttt{Execute shell}, where you inform \texttt{Jenkins} how to build and test the project.
+Add a new build step using \textbf{\texttt{Execute shell}}, where you inform \texttt{Jenkins} how to build and test the project~:
 
 \begin{itemize}
 \item You have to choose the \texttt{Debug} configuration for this build, this will be needed for coverage as we will see later.\\
@@ -1785,8 +1794,8 @@ In the shell working directory (the result of the command \texttt{/bin/pwd} in
 this shell) \texttt{Jenkins} has cloned your source directory.
 \item Then save the project and verify the configuration with a click on \textbf{\texttt{Build
 Now}} in the menu on the left.
-\item In the \texttt{Build History} on the left, click on the last build (hopefully \#1), then select \texttt{Console Output}.\\
-You can also check the \texttt{Test Result}.
+\item In the \textbf{\texttt{Build History}} on the left, click on the last build (hopefully $\#1$), then select \texttt{Console Output}.
+\item You can also check the \textbf{\texttt{Test Result}}.
 \end{itemize}
 
 \subsubsection{Exercise 2}
@@ -1812,13 +1821,13 @@ method by pre-computing the value \verb?4 * Math.PI / 3?
 TODO~:
 \begin{itemize}
 \item Extract this value into a class data member.
-\item Run the benchmark. This may shows only a very, very minimal improvement!
+\item Run the benchmark. This may show only a very, very minimal improvement !
 \item Run the test.
 \end{itemize}
 
-The test may still be successful (this may depends on your hardware and compiler).
+The test may still be successful~: this may depend on your hardware and compiler.
 
-Let's assume it is successful and commit your modifications.
+Let's assume it is successful~: do not forget to commit your modifications.
 
 \begin{lstlisting}
 $ git commit -m "precomputation of 4pi/3"
@@ -1850,7 +1859,7 @@ allows for reordering of floating points operations and this may lead to
 different results.
 
 The direct check of equality of floating point numbers with the \texttt{==}
-operator should be avoided, we first add a warning (only if understood by the
+operator should be avoided~: so we can add a warning (only if understood by the
 compiler) in order not to reproduce this kind of error.
 
 Since version $4.6$, \texttt{GNU C++} provides this warning \texttt{-Wfloat-equal}.
@@ -1878,7 +1887,7 @@ To load this \texttt{TP} module, you need to modify the \texttt{CMakelists.txt} 
 \begin{lstlisting}
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 \end{lstlisting}
-\item Load the module \texttt{TP}; this should be done before using the macro~:
+\item Load the module \texttt{TP}. Beware~: this should be done before using the macro~:
 \begin{lstlisting}
 include(TP)
 \end{lstlisting}
@@ -1890,13 +1899,14 @@ On \texttt{Jenkins} side, compiler warnings can be checked in the \textbf{\textt
 
 TODO~:
 \begin{itemize}
-\item In the \texttt{CMake} configuration file, \texttt{CMakeLists.txt}, include the TP module.
+\item In the \texttt{CMake} configuration file, \texttt{CMakeLists.txt}, include the \texttt{TP} module.
 \item With the provided \texttt{CMake TP} macro, add the compiler warning to the \texttt{CMake} configuration,
 \item Verify that the warning is printed during compilation.
 \item Commit the code in order to check the parsing done by \texttt{Jenkins}.
 \item In \texttt{Jenkins}, add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project.
 \item Modify the appropriate test in \texttt{TestTP.cpp} so small rounding
-  differences do not cause errors, \texttt{cppunit} provides a macro for this~:
+  differences do not cause errors.\\
+  \texttt{cppunit} provides a macro for this~:
   \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
 \item Once it is OK and the warning has gone, commit.
 \item Rebuild on \texttt{Jenkins} to check.
@@ -1909,9 +1919,8 @@ TODO~:
 %--------------------------------------
 \section{Code coverage}
 
-This is a demonstration of some dynamics analysis. After the tests are
-executed, the code coverage tools shows which lines of code have been involved
-in the execution.
+Here we get a taste of some dynamics analysis. After the tests are
+executed, the code coverage tools (mainly \texttt{gcov}) show which lines of code have been involved in the execution.
 
 \subsection{Installation}
 
@@ -1927,8 +1936,9 @@ A \texttt{CMake} function \texttt{add\_test\_with\_coverage} is provided in the
 
 This function, when used in place of the standard \texttt{CMake} function
 \texttt{add\_test} function, provides coverage support through a new
-\texttt{make coverage} target (You can see all \texttt{make} targets with the help
-target~: \texttt{make help})
+\texttt{make coverage} target.
+\\
+Remark~: You can see all \texttt{make} targets usign~: \texttt{make help}.
 %$
 
 \subsubsection{Exercise 3}
@@ -1937,9 +1947,11 @@ TODO~:
 \begin{itemize}
 \item Install coverage for the test routine \texttt{TestVolume}. In the \texttt{CMake} configurations files, you need to set the coverage flags for the build of the library and the test file with the \texttt{add\_cxx\_compiler\_flag}.
 \item Run a test with \texttt{make coverage}
-\item With a Web browser, open the file \texttt{index.html} under \texttt{TestTP\_\_testVolume} directory.
-\item On the \texttt{Jenkins} side, modify the build process in \textbf{\texttt{Execute shell}}. And in \textbf{\texttt{Post-Build Actions}}, add \textbf{\texttt{Publish Cobertura Report}} with the \texttt{Cobertura xml} report pattern set to \texttt{**/coverage.xml}
-\item Commit
+\item Open the file \texttt{index.html} under \texttt{TestTP\_\_testVolume} directory with a \texttt{Web} browser to see the result
+\item On the \texttt{Jenkins} side, modify the build process in \textbf{\texttt{Execute shell}} to add coverage target
+\item And in \textbf{\texttt{Post-Build Actions}}, add \textbf{\texttt{Publish Cobertura Report}} with the \texttt{Cobertura xml} report pattern set to~:\\
+\texttt{**/coverage.xml}
+\item Commit.
 \end{itemize}
 
 Let's test if it works with more than one class.
@@ -1954,15 +1966,14 @@ $ git merge alpha-cxx
 
 \subsubsection{Exercise 4}
 \begin{itemize}
-\item Generate and visualize the corresponding coverage report.
+\item Generate and visualize the corresponding coverage report
 \item Improve the test coverage and commit.
 \end{itemize}
 
 %--------------------------------------
 \section{Static analysis}
 
-With our library, one can check that the following code is valid but it may not be
-what the programmer intended:
+With our library, one can check that the following code is valid but it may not be what the programmer intended~:
 
 \begin{lstlisting}
  Sphere s1(.1);
@@ -1970,16 +1981,16 @@ what the programmer intended:
  std::pair<Sphere, Sphere> p(s1,2);
 \end{lstlisting}
 
-With the implicit conversion allowed on the Sphere constructor, the pair of
-spheres \texttt{p} is constitued of the sphere \texttt{s1} and the Sphere
+As the implicit conversion is allowed on the \texttt{Sphere} constructor, the pair of
+\texttt{Sphere} objects \texttt{p} is constitued of the \texttt{Sphere} \texttt{s1} and the \texttt{Sphere} 
 \texttt{Sphere(2)} which is not the same as the pair of \texttt{s1} and \texttt{s2}.
-In the case of a typo, this may certainly lead to bugs.
+In the case of a typo in the code source, this may certainly lead to bugs.
 
 A static code analysis may help in the discovery of those potentials bugs.
 
-\paragraph{Let's use cppcheck}
+\paragraph{Use of cppcheck}
 
-On our project, one can simply have a report with the command~:
+With \texttt{cppcheck} tool applied on our project, one can simply get a report using the command~:
 
 \begin{lstlisting}
 $ cppcheck <your source directory> -f -q --enable=style
@@ -1989,14 +2000,13 @@ $ cppcheck <your source directory> -f -q --enable=style
 
 The results we obtain depends on the version of \texttt{cppcheck}!
 
-On the virtual machine, the latest (\texttt{1.71}) \texttt{cppcheck} is installed.
+On the virtual machine configured for \texttt{ci.inria.fr/tpcisedra}, the latest (\texttt{1.71}) \texttt{cppcheck} is installed.
 
 \subsubsection{Exercise 5}
 \begin{itemize}
-\item Install the check on Jenkins. One have to generate an \texttt{XML} output
-  (\texttt{--xml} option) and to redirect standard error to a file name
-  \texttt{cppcheck-result.xml}). Jenkins read this file if configured properly
-  in the ``Post-Build'' Action of your build project.
+\item Install this check on \texttt{Jenkins}. One have to generate an \texttt{XML} output
+  (\texttt{--xml} option) and to redirect standard error to a file named
+  \texttt{cppcheck-result.xml}. \texttt{Jenkins} can read this file if configured properly using the \textbf{\texttt{Post-Build}} section of your build project.
 \item Fix some warnings and commit.
 \end{itemize}
 
