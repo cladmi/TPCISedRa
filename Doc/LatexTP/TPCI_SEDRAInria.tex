@@ -1640,7 +1640,7 @@ On a Unix system~:
 
 
 \begin{lstlisting}
-$ mkdir build
+$ mkdir -p build
 $ cd build
 $ cmake ..
 $ make
@@ -1787,6 +1787,7 @@ For this, you can copy the following file, and simply modify the login~:
 $ cp /gitroot/tpcisedra/users/bremond.git/hooks/post-receive /gitroot/tpcisedra/users/<your gforge login>.git/hooks
 \end{lstlisting}
 
+%$
 
 \subsubsection{Exercise 1}
 
@@ -1834,7 +1835,7 @@ The test may still be successful~: this may depend on your hardware and compiler
 Let's assume it is successful~: do not forget to commit your modifications.
 
 \begin{lstlisting}
-$ git commit -m "precomputation of 4pi/3"
+$ git commit -a -m "precomputation of 4pi/3"
 $ git push
 \end{lstlisting}
 
@@ -1906,8 +1907,8 @@ TODO~:
 \item In the \texttt{CMake} configuration file, \texttt{CMakeLists.txt}, include the \texttt{TP} module.
 \item With the provided \texttt{CMake TP} macro, add the compiler warning to the \texttt{CMake} configuration,
 \item Verify that the warning is printed during compilation.
-\item Commit the code in order to check the parsing done by \texttt{Jenkins}.
-\item In \texttt{Jenkins}, add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project.
+\item In \texttt{Jenkins}, add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project. In the \textbf{\texttt{Execute shell}} section, comment the line \texttt{make test}. This is necessary because as the test is failing, the parsing won't be done by Jenkins.
+\item Commit the code in order to check the parsing done by \texttt{Jenkins}, then uncomment the \texttt{make test} line.
 \item Modify the appropriate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors.\\
   \texttt{cppunit} provides a macro for this~:
@@ -1942,7 +1943,7 @@ This function, when used in place of the standard \texttt{CMake} function
 \texttt{add\_test} function, provides coverage support through a new
 \texttt{make coverage} target.
 \\
-Remark~: You can see all \texttt{make} targets usign~: \texttt{make help}.
+Remark~: You can see all \texttt{make} targets using~: \texttt{make help}.
 %$
 
 \subsubsection{Exercise 3}
@@ -1958,7 +1959,7 @@ TODO~:
 \item Commit.
 \end{itemize}
 
-Let's test if it works with more than one class.
+Let's test if it works with more than one class. This is optional, if you prefer go directly to the Static analysis section.
 
 Thanks to another development branch, we add a new class \texttt{Alphabet} to
 our project~:
