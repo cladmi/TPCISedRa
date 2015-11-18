@@ -479,9 +479,7 @@ Hint~: Have you commited and pushed your changes ?
 
 \section{Exercise 2}
 
-Why does the test in \texttt{SphereTest.java} fail ?
-
-This is because of floating point arithmetics \emph{rounding errors}.
+Why does the test in \texttt{SphereTest.java} fail ?\footnote{This is because of floating point arithmetics \emph{rounding errors}}.
 
 Our response to this issue strongly depends on what kind of application we are working on~:
 \begin{itemize}
@@ -529,8 +527,7 @@ $ firefox target/site/cobertura/index.html &
 \subsubsection{TODO~:}
 
 \begin{itemize}
-\item Populate your tests to achieve 100\% test coverage.\\
-Hint~: you may not need any additional tests ;)
+\item Populate your tests to achieve 100\% test coverage.
 \end{itemize}
 
 
@@ -563,7 +560,7 @@ $ mvn site
 
 \item Use your favorite \texttt{Web} browser (\texttt{firefox}, \texttt{chrome}, \texttt{iceweasel}, ...) to visualize the generated report~:
 \begin{lstlisting}
-iceweasel target/site/project-reports.html &
+$ firefox target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
@@ -576,7 +573,7 @@ The tools we used to run tests and code quality checks have been selected based 
 \subsection{Add coverage report}
 \begin{itemize}
 \item Go back to your item's configuration page (use the menu on the left)
-\item Replace your build's \textbf{\texttt{Goals and options}} with~: \\
+\item In the \textbf{\texttt{Build}} section, add to the \textbf{\texttt{Goals and options}} field~: \\
 \texttt{cobertura:cobertura -Dcobertura.report.format=xml}
 \item Click on \textbf{\texttt{Add post-build action}} and select \textbf{\texttt{Publish Cobertura Coverage Report}} from the drop-down menu
 \item The \textbf{\texttt{Cobertura xml report pattern}} is~:\\
@@ -591,7 +588,7 @@ The tools we used to run tests and code quality checks have been selected based 
 
 Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project~:
 \begin{lstlisting}
-$ git merge alpha
+$ git merge origin/alpha
 \end{lstlisting}
 
 
@@ -613,24 +610,35 @@ $ pwd
 yourpath/tpcisedra/java
 $ mvn checkstyle:checkstyle
 \end{lstlisting}
-We get plenty of errors with the default style \verb?sun_checks.xml?.
 
-Our coding style is closer to \texttt{Google} style than it is to \texttt{Sun} style.
+Then use your favorite \texttt{Web} browser (\texttt{firefox}, \texttt{chrome}, \texttt{iceweasel}, ...) to visualize the generated checkstyle report~:
+\begin{lstlisting}
+$ firefox target/site/checkstyle.html
+\end{lstlisting}
+
+We get plenty of errors with the default style \texttt{sun\_checks.xml}.
+Indeed, our coding style is closer to \texttt{Google} style than it is to \texttt{Sun} style.
 
 \subsection{Run Google style checker}
 
-Try running with \texttt{Google} checks (provided by the plugin)
+\begin{itemize}
+\item Retrieve a local copy of \texttt{Google} checks
+\begin{lstlisting}[breaklines=true]
+$ wget https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml mygoogle_checks.xml
+\end{lstlisting}
+\item Try running \texttt{Google} style checker
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
-$ mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
+$ mvn checkstyle:checkstyle -Dcheckstyle.config.location=mygoogle_checks.xml
 \end{lstlisting}
-NOTE~: this can also be achieved by adding the following lines to your \texttt{pom.xml}~:
-\begin{lstlisting}
-  <properties>
-    <checkstyle.config.location>checkstyle-test.xml</checkstyle.config.location>
-  </properties>
-\end{lstlisting}
+%NOTE~: this can also be achieved by adding the following lines to your \texttt{pom.xml}~:
+%\begin{lstlisting}
+%  <properties>
+%    <checkstyle.config.location>mygoogle_checks.xml</checkstyle.config.location>
+%  </properties>
+%\end{lstlisting}
+\end{itemize}
 
 It is getting better but we might want to make a few changes to this default behaviour.
 
@@ -639,11 +647,7 @@ It is getting better but we might want to make a few changes to this default beh
 \subsubsection{TODO~:}
 
 \begin{itemize}
-\item Retrieve a local copy of \texttt{Google} checks
-\begin{lstlisting}[breaklines=true]
-$ wget https://raw.githubusercontent.com/checkstyle/checkstyle/18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
-\end{lstlisting}
-\item  Modify the file \texttt{google\_checks.xml} so that it accepts single character parameter names.
+\item  Modify the file \texttt{mygoogle\_checks.xml} so that it accepts single character parameter names.
 \item You may also consider removing trailing underscores from data members or amending \texttt{checkstyle.xml}
 \end{itemize}
 
@@ -657,6 +661,9 @@ Add the following to the file \texttt{pom.xml}
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.16</version>
+        <configuration>
+          <configLocation>mygoogle_checks.xml</configLocation>
+        </configuration>
       </plugin>
     </plugins>
   </reporting>
@@ -684,8 +691,8 @@ $ firefox target/site/project-reports.html &
 \subsubsection{TODO~:}
 \begin{itemize}
 \item Go back to your item's \textbf{\texttt{configuration}} page.
-\item In the \textbf{\texttt{Build}} section, set the \texttt{Goals and options} field to~:\\
-\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=google\_checks.xml}
+\item In the \textbf{\texttt{Build}} section, add to the \texttt{Goals and options} field~:\\
+\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=mygoogle\_checks.xml}
 \item In the \textbf{\texttt{Build Settings}} section, check the \textbf{\texttt{Publish Checkstyle analysis results}} box.
 \item Save and run the test.
 \item Check the output~: in the \textbf{\texttt{Build History}} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Checkstyle Warnings}}. Have a look at it.
@@ -1614,7 +1621,7 @@ A minimal \texttt{CMake} project is present under the file tree~:\\
 
 
 This \texttt{CMake} project provides the framework needed to build and test a
-versionized, dynamic shared library named \textbf{\texttt{TP}} \footnote{\textbf{\texttt{TP}} for \textbf{\texttt{Travaux Pratiques}}
+versionized, dynamic shared library named \textbf{\texttt{TP}}\footnote{\textbf{\texttt{TP}} for \textbf{\texttt{Travaux Pratiques}}
   in french}. The \texttt{CMake} configuration is specified in two
 \texttt{CMakeLists.txt} files~:
 \begin{itemize}
@@ -1755,8 +1762,7 @@ suitable for some nightly or weekly tests that may be time consuming
 and are not meant to be launched after each commit, but this should be
 avoided for short periods.
 \\
-In our case, we want the results to be displayed as soon as possible, so we choose to launch the build after a \texttt{post-commit} hook~:
-\footnote{It is explained in \url{ci.inria.fr} documentation in the FAQ}
+In our case, we want the results to be displayed as soon as possible, so we choose to launch the build after a \texttt{post-commit} hook\footnote{It is explained in \url{ci.inria.fr} documentation in the FAQ}~:
 
 
 \begin{itemize}
@@ -1911,7 +1917,7 @@ TODO~:
 \item Commit the code in order to check the parsing done by \texttt{Jenkins}, then uncomment the \texttt{make test} line.
 \item Modify the appropriate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors.\\
-  \texttt{cppunit} provides a macro for this~:
+  \texttt{cppnit} provides a macro for this~:\\
   \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
 \item Once it is OK and the warning has gone, commit.
 \item Rebuild on \texttt{Jenkins} to check.
@@ -1964,7 +1970,8 @@ Let's test if it works with more than one class. This is optional, if you prefer
 Thanks to another development branch, we add a new class \texttt{Alphabet} to
 our project~:
 \begin{lstlisting}
-$ git merge alpha-cxx
+%%% to be verified !!!
+$ git merge tpcisedmain/alpha-cxx
 \end{lstlisting}
 
 %$
@@ -2003,18 +2010,17 @@ $ cppcheck <your source directory> -f -q --enable=style
 
 %$
 
-The results we obtain depends on the version of \texttt{cppcheck}!
+The results we obtain depends on the version of \texttt{cppcheck} !
 
 On the virtual machine configured for \texttt{ci.inria.fr/tpcisedra}, the latest (\texttt{1.71}) \texttt{cppcheck} is installed.
 
 \subsubsection{Exercise 5}
 \begin{itemize}
-\item Install this check on \texttt{Jenkins}. One have to generate an \texttt{XML} output
-  (\texttt{--xml} option) and to redirect standard error to a file named
-  \texttt{cppcheck-result.xml}. \texttt{Jenkins} can read this file if configured properly using the \textbf{\texttt{Post-Build}} section of your build project.
+\item Install this check on \texttt{Jenkins} (modify the \textbf{\texttt{Build}}section \textbf{\texttt{Execute shell}} field plus add a \textbf{\texttt{Post-build Action}} for publishing \texttt{cppcheck} results). Beware~: change the \texttt{cppcheck} command argument so it generates an \texttt{XML} output with (\texttt{--xml} option and redirect the standard error to a file named
+  \texttt{cppcheck-result.xml}.\\
+\texttt{Jenkins} can read this file if configured properly if the appropriate \textbf{\texttt{post-build}} action is set.
 \item Fix some warnings and commit.
 \end{itemize}
-
 
 \end{homeworkProblem}
 %----------------------------------------------------------------------------------------
