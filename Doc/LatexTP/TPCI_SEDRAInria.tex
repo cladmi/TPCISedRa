@@ -781,10 +781,11 @@ nice \verb=build|passing= icon on \texttt{github}~: \includegraphics[height=10pt
 Your goal is to create a package, named \texttt{tp\_ci\_sed}, with a \texttt{sphere} submodule
 and a command line interface (or \texttt{cli}) script to run it.
 
+
 \subsubsection{Exercise 1}
 
 \begin{itemize}
-\item Try the \texttt{sphere} script.
+\item Try the \texttt{sphere} script with a \texttt{radius} as argument.
 \end{itemize}
 
 \subsubsection{Exercise 2}
@@ -792,7 +793,7 @@ and a command line interface (or \texttt{cli}) script to run it.
 \begin{itemize}
 \item Write the \texttt{Sphere.volume} method.\\
 For that, use \texttt{math} module and remember volume formula you learned in school~:\\
-$ 4 * \Pi * R^3 / 3 $ 
+$ 4 * \Pi * R^3 / 3 $
 \footnote{Volume of a $1.5$ radius sphere is around $14.137$}.
 \item  Commit your code with a meaningfull message and push.
 \end{itemize}
@@ -946,7 +947,7 @@ execute them with \texttt{nosetests} tool.
 
 Install the \texttt{nose} tools dependencies~:
 \begin{lstlisting}
-$ sudo -H pip install --upgrade  nosetests nose-xcover
+$ sudo -H pip install --upgrade  nose nosexcover
 \end{lstlisting}
 
 The test \texttt{test\_volume\_0} has already been written as an example. Run it with \texttt{nosetests}
@@ -1000,10 +1001,17 @@ Running your first test on CI~:
 \item Provide a name for this new item (avoid spaces since it is likely to lead to errors) and select \textbf{\texttt{Freestyle project}}
 \end{itemize}
 
+\subsubsection{Jenkins Job Configuration}
+
+\includegraphics[height=20pt]{configure}
+
+In the new item's \textbf{\texttt{Configure}} page (which you will be redirected
+to after clicking \textbf{\texttt{OK}}).
+
 
 \texttt{Git} configuration~:
 \begin{itemize}
-\item In the new item's configuration page (which you will be redirected to after clicking \textbf{\texttt{OK}}), choose \texttt{Git} as your \textbf{\texttt{Source Code Manager}}
+\item Choose \texttt{Git} as your \textbf{\texttt{Source Code Manager}}
 \item Copy the \emph{anonymous} URL to your personal repository into the appropriate field~:
 
 \begin{lstlisting}
@@ -1026,6 +1034,11 @@ post-commit hook~: \footnote{It is explained in \url{ci.inria.fr} documentation 
 \texttt{\# Leave empty. We don't poll periodically, but need polling enabled to let HTTP trigger work}
 \end{itemize}
 
+
+Click on \textbf{\texttt{Apply}}
+
+\subsubsection{Gforge server git hook configuration}
+
 Then on the INRIA gforge server, create the post-commit hook \texttt{post-receive}~:
 
 \begin{lstlisting}
@@ -1036,11 +1049,6 @@ $ chmod +x post-receive
 \end{lstlisting}
 
 And then create the executable file \texttt{post-receive}~:
-\begin{lstlisting}[breaklines=true]
-#!/bin/sh
-wget --auth-no-challenge --no-check-certificate -q -O -
-http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your gforge login>.git
-\end{lstlisting}
 
 %%
 For this, you can copy the following file, and simply modify the login in the script:
@@ -1048,18 +1056,32 @@ For this, you can copy the following file, and simply modify the login in the sc
 $ cp /gitroot/tpcisedra/users/bremond.git/hooks/post-receive /gitroot/tpcisedra/users/<your gforge login>.git/hooks
 \end{lstlisting}
 
+Content should look like
 
-\subsubsection{Exercise 6}
+\begin{lstlisting}[breaklines=true]
+#!/bin/sh
+wget --auth-no-challenge --no-check-certificate -q -O -
+http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your gforge login>.git
+\end{lstlisting}
 
-Add a new build step using \textbf{\texttt{Virtualenv Builder}}.
+After every commit, gforge git server with contact ci.inria.fr and tell it to
+build the projects that use your repository. And so trigger your project Build.
 
-Using a \texttt{virtualenv} puts the code execution in a separated \texttt{Python}
-environment. This will allow installing packages for this build.
+\subsubsection{Exercise 6 - Jenkins Configuration}
+
+Add a new build step using \textbf{\texttt{Virtualenv Builder}},
+in the job configuration on Jenkins.
+
+\begin{description}
+  \item[Note] Using Virtualenv Builder will put the code execution in a separated
+    \texttt{Python} \texttt{virtualenv} environment.  This will give a clean
+    python installation and allow installing packages for this build .
+\end{description}
 
 Now in this field, you inform \texttt{Jenkins} how to build and test the project.
 \begin{lstlisting}
 # Install dependencies
-sudo -H pip install --upgrade  nosetests nose-xcover
+pip install --upgrade  nose nosexcover
 
 # Go in source directory
 cd python
@@ -1262,7 +1284,7 @@ Now running the tests with \texttt{python setup.py nosetests} also generates the
 coverage report.
 
 
-\subsubsection{Coverage on Jenkins}
+\subsubsection{Exercise 9 - Coverage on Jenkins}
 
 \begin{itemize}
     \item First change the \verb=nosetests -v --with-xunit= build action with
@@ -1277,10 +1299,11 @@ coverage report.
 As source files are not located at root directory, \texttt{Cobertura} plugin fails to find them correctly.
 A solution is to create a symbolic link to the source directory.
 \begin{itemize}
-  \item Add a build step \texttt{Execute shell} with~:
+  \item In the build step, put at the beginning:
 \begin{lstlisting}
 # Hack to help cobertura find source files
 $ ln  -nfs python/tp_ci_sed  tp_ci_sed
+
 \end{lstlisting}
 \item Commit your code and push
 \item Manually re-run a build to get \texttt{Cobertura} plugin graph (it needs more than one build)
@@ -1322,17 +1345,32 @@ $ python setup.py pep8
 
 You should get a lot of errors and warnings.
 
-\subsubsection{Exercise 9}
+\subsubsection{Exercise 10 - Pylint/Pep8 on Jenkins}
+
+You will now run \texttt{pylint} and \texttt{pep8} on \texttt{Jenkins}.
+However the problem with \texttt{lint} and \texttt{pep8} commands are that they
+return a non zero value when there is a warning.
+
+To prevent that, the return value
+will be hidden, because, in this case, it should not be fatal.
 
 \begin{itemize}
-\item Add \texttt{lint} and \texttt{pep8} in \texttt{Jenkins} build step
+\item Add \texttt{lint} and \texttt{pep8} in \texttt{Jenkins} VirtualenvBuilder
+  build step as:
+\begin{lstlisting}
+python setup.py lint | true
+python setup.py pep8 | true
+\end{lstlisting}
+The \verb=' | true'= will silent the return value as they are not fatal steps.
+(It's a choice, I have projects where Pylint errors are considered failures).
+
 \item To get the reports use \textbf{\texttt{Post build Actions}} named
 \texttt{Scan for compiler warnings} and in \texttt{Scan console log} add
 \texttt{Pep8} and \texttt{Pylint}
 \item Re-run the build manually.
 \end{itemize}
 
-\subsubsection{Exercise 10}
+\subsubsection{Exercise 11}
 
 \begin{itemize}
 \item Fix some of the errors, but do not spend too much time.
@@ -1406,7 +1444,7 @@ From now, executing your tests simply means running \texttt{tox} and the only re
 \item Commit and push.
 \end{itemize}
 \
-\subsubsection{Exercise 11}
+\subsubsection{Exercise 12 - Tox on Jenkins}
 
 \begin{itemize}
 \item Update \texttt{Jenkins} main build step.
@@ -1414,6 +1452,9 @@ You can replace all dependencies installation with only \texttt{tox} and replace
 the \texttt{setup.py} execution with \texttt{tox}.
 
 \begin{lstlisting}
+# Hack to help cobertura find source files
+$ ln  -nfs python/tp_ci_sed  tp_ci_sed
+
 pip install --quiet --upgrade tox
 cd pthon
 tox
@@ -1421,14 +1462,20 @@ tox
 \item Re-run the build.
 \end{itemize}
 
+\textbf{For me, \texttt{tox} is the most important step of this session.}
+
+It really solves common problems and simplify testing by doing test dependency
+management, document in a script the test procedure(s)
+and that it also handles many tests environments in one command for the user.
+
 \paragraph{Other versions}
 If everything succeeds, and you can test using \texttt{python3} (\texttt{Python}3 is installed in the virtual machine related to \texttt{ci.inria.fr/tpcisedra}
 ).
 \begin{itemize}
-\item Use \texttt{py32} (for \texttt{Python}3.2)
+\item Use \texttt{envlist = py27,py32} (for \texttt{Python}3.2)
 \item Re-run \texttt{tox}.
 \end{itemize}
-Tests should fail, at least for the \texttt{print} statement.
+Tests should fail for python3, at least for the \texttt{print} statement.
 
 However, you see how easy it is to test your code on different \texttt{Python} versions.
 Making a code working for \texttt{python2} and \texttt{python3} requires some time, but at least it is easy to test.
@@ -1436,19 +1483,31 @@ Making a code working for \texttt{python2} and \texttt{python3} requires some ti
 
 \subsection{Advanced tests writing~: mocking}
 
-
 \begin{description}
     \item[mock] \url{http://www.voidspace.org.uk/python/mock/index.html}
 \end{description}
 
-When testing, it is useful to replace some part of your application to handle
-a special behavior, like raising an exception, or to prevent its side effect,
-like connection to an external service. It is also easier to be able to know how
-an object has been used or a function been called.
+When testing, it is useful to replace some part of your application under test.
+to prevent its side effect, like connection to an external service, or
+make an \texttt{open} call raise an exception,
 
-In this section you will see \texttt{mock} to test the \texttt{main} function
+It's possible to fill your whole hard-drive to get an \texttt{IOError: No space left on device}
+but it might be better to just modify \texttt{open} to simulate it to test your code.
+
+It is also useful to be able to know how an object has been used or a function been called.
+Like testing what has been printed by your program.
+
+\paragraph{}In this section you will see \texttt{mock} to test the \texttt{main} function
 and verify the printed output.
 
+\paragraph{Testing main} In this case testing the \texttt{main} function which
+is like calling the \texttt{sphere} script from command line, means:
+\begin{itemize}
+  \item Set the command line arguments to some values: \texttt{sys.argv}
+  \item Verify the printed text: in files \texttt{sys.stdout} and \texttt{sys.stderr}
+\end{itemize}
+
+Testing
 
 \begin{itemize}
 \item  Install the dependency on your system. It will be installed by
