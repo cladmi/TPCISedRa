@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Programming/Coding Assignment
+% Programmin/Coding Assignment
 % LaTeX Template
 %
 % This template has been downloaded from:
@@ -274,9 +274,9 @@
 
 To go through this exercise, you will need to install~:
 \begin{itemize}
-\item \texttt{Git} (apt-get install git | yum install git)
-\item A JDK (apt-get install openjdk-7-jdk | yum install java-1.7.0-openjdk)
-\item \texttt{Maven} (apt-get install maven | yum install apache-maven)
+\item \texttt{Git} (\texttt{apt-get install git} | \texttt{yum install git})
+\item A JDK (\texttt{apt-get install openjdk-7-jdk} | \texttt{yum install java-1.7.0-openjdk})
+\item \texttt{Maven} (\texttt{apt-get install maven} | \texttt{yum install apache-maven})
 \end{itemize}
 
 You also need an account on both \url{gforge.inria.fr} and \url{ci.inria.fr} and to be a member of the \texttt{tpcisedra} project on both platforms.
@@ -477,7 +477,7 @@ Hint~: Have you commited and pushed your changes ?
 
 \subsection{Exercise 2}
 
-Why does the test in \texttt{SphereTest.java} fail ?\footnote{This is because of floating point arithmetics \emph{rounding errors}}.
+Why does the test in \texttt{SphereTest.java} fail ?\footnote{This is because of floating point \emph{arithmetics rounding errors}}.
 
 Our response to this issue strongly depends on what kind of application we are working on~:
 \begin{itemize}
@@ -589,6 +589,30 @@ Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest}
 $ git merge origin/alpha
 \end{lstlisting}
 
+You should have the following file tree~:\\
+{\centering\small
+            \begin{minipage}[t]{0.3\linewidth}
+\dirtree{%
+.1 tpcisedra/java.
+.2 pom.xml.
+.2 src.
+.3 main.
+.4 java.
+.5 fr.
+.6 inria.
+.7 sed.
+.8 Alphabet.java.
+.8 Sphere.java.
+.3 tst.
+.4 java.
+.5 fr.
+.6 inria.
+.7 sed.
+.8 AlphabetTest.java.
+.8 SphereTest.java.
+}
+\end{minipage}
+}
 
 \subsection{Exercise 4}
 \begin{itemize}
@@ -638,7 +662,7 @@ $ mvn checkstyle:checkstyle -Dcheckstyle.config.location=mygoogle_checks.xml
 %\end{lstlisting}
 \end{itemize}
 
-It is getting better but we might want to make a few changes to this default behaviour.
+It is getting better but we might want to make a few changes to this default behavior.
 
 \subsection{Exercise 5}
 
@@ -722,15 +746,15 @@ plugins for their output on it.
 \subsubsection{Tools presentation}
 
 For this you will use the following tools~:
-
-\texttt{setuptools} packages your project,
-\texttt{unittest} to write tests (standard library),
-\texttt{nose} tools run tests and format the results,
-\texttt{mock} allow replacing function or objects during tests,
-\texttt{pylint} provide static code analysis and style checking,
-\texttt{pep8} verifies code compliancy to \texttt{Python} PEP8 style convention
-and \texttt{tox} is a virtual environment based test automation tool.
-
+\begin{itemize}
+\item \texttt{setuptools} packages your project
+\item \texttt{unittest} to write tests (standard library)
+\item \texttt{nose} tools run tests and format the results
+\item \texttt{mock} allow replacing function or objects during tests
+\item \texttt{pylint} provide static code analysis and style checking
+\item \texttt{pep8} verifies code compliancy to \texttt{Python} PEP8 style convention
+\item \texttt{tox} is a virtual environment based test automation tool.
+\end{itemize}
 
 \subsection{Setup}
 
@@ -1037,13 +1061,13 @@ post-commit hook~: \footnote{It is explained in \url{ci.inria.fr} documentation 
 
 Click on \textbf{\texttt{Apply}}
 
-\subsubsection{Gforge server git hook configuration}
+\subsubsection{Inria forge server git hook configuration}
 
-Then on the INRIA gforge server, create the post-commit hook \texttt{post-receive}~:
+Then on the INRIA forge server, create the post-commit hook \texttt{post-receive}~:
 
 \begin{lstlisting}
-$ ssh <your gforge login>@scm.gforge.inria.fr
-$ cd /gitroot/tpcisedra/users/<your gforge login>.git/hooks
+$ ssh <yourforgelogin>@scm.gforge.inria.fr
+$ cd /gitroot/tpcisedra/users/<yourforgelogin>.git/hooks
 $ touch post-receive
 $ chmod +x post-receive
 \end{lstlisting}
@@ -1053,7 +1077,7 @@ And then create the executable file \texttt{post-receive}~:
 %%
 For this, you can copy the following file, and simply modify the login in the script:
 \begin{lstlisting}[breaklines=true]
-$ cp /gitroot/tpcisedra/users/bremond.git/hooks/post-receive /gitroot/tpcisedra/users/<your gforge login>.git/hooks
+$ cp /gitroot/tpcisedra/users/bremond.git/hooks/post-receive /gitroot/tpcisedra/users/<yourforgelogin>.git/hooks
 \end{lstlisting}
 
 Content should look like
@@ -1061,11 +1085,10 @@ Content should look like
 \begin{lstlisting}[breaklines=true]
 #!/bin/sh
 wget --auth-no-challenge --no-check-certificate -q -O -
-http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your gforge login>.git
+http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourforgelogin>.git
 \end{lstlisting}
 
-After every commit, gforge git server with contact ci.inria.fr and tell it to
-build the projects that use your repository. And so trigger your project Build.
+After every commit, INRIA forge git server will contact \texttt{ci.inria.fr} and tell it to build the projects that use your repository. And so trigger your project build.
 
 \subsubsection{Exercise 6 - Jenkins Configuration}
 
@@ -1139,7 +1162,7 @@ FAILED (failures=1)
 \item[Note] If it does not fail, ask for help, magic numbers technique failed.
 \end{description}
 
-However, let's assume it is successfull and commit your modifications.
+However, let's assume it is successful and commit your modifications.
 \begin{lstlisting}
 $ git commit -m "Precompute 4pi/3"
 $ git push
@@ -1153,10 +1176,10 @@ tested somewhere and the error can be detected.
 \paragraph{Version} Did you remember to increase the package version?
 
 
-\subsubsection{Refactoring error}
+\subsubsection{Re-factoring error}
 Why does the test fail?
 
-Because of floating point arithmetics \emph{rounding errors}.
+Because of floating point \emph{arithmetic rounding errors}.
 
 Our response to this issue strongly depends on what kind of application we are
 working on~:
@@ -1183,7 +1206,7 @@ Here, the code result is correct, so it should pass.
 \subsection{Code coverage}
 
 When running tests, the information of what part of the code has been tested is
-also meaningful. It is often refered as "code coverage".
+also meaningful. It is often referred to as "code coverage".
 
 With \texttt{Python} it can be generated with the \texttt{coverage} package, but also
 directly with \texttt{nosetests} and \texttt{nose-xcover}.
@@ -1307,7 +1330,7 @@ $ ln  -nfs python/tp_ci_sed  tp_ci_sed
 \end{lstlisting}
 \item Commit your code and push
 \item Manually re-run a build to get \texttt{Cobertura} plugin graph (it needs more than one build)
-\item You can click on the report to see per-file coverage infos.
+\item You can click on the report to see per-file coverage info.
 \end{itemize}
 
 
@@ -1452,7 +1475,7 @@ You can replace all dependencies installation with only \texttt{tox} and replace
 the \texttt{setup.py} execution with \texttt{tox}.
 
 \begin{lstlisting}
-# Hack to help cobertura find source files
+# Hack to help \texttt{Cobertura} find source files
 $ ln  -nfs python/tp_ci_sed  tp_ci_sed
 
 pip install --quiet --upgrade tox
@@ -1519,7 +1542,7 @@ $ sudo -H pip install --upgrade  mock
 
 \texttt{mock} class provides mainly two important things~:
 \begin{itemize}
-    \item \texttt{Mock} class which is an object whose behaviour can be
+    \item \texttt{Mock} class which is an object whose behavior can be
         configured and that records all action on it.
     \item \texttt{patch} function that dynamically replaces one
         function/method/object with a \texttt{Mock} object.
@@ -1561,7 +1584,7 @@ cleaning it with \texttt{patch.stopall()} in \texttt{tearDown}.
 Both method are valid, it is just for presenting alternatives.
 
 
-\paragraph{Hints~:} Some advices on patch~:
+\paragraph{Hints~:} Some advises on patch~:
 
 \begin{itemize}
 \item When ``patching'' always verify that the mock has been called by your
@@ -1579,7 +1602,7 @@ For every other problems, look at the documentation.
 \subsubsection{Code review by ChuckNorris}
 
 \begin{itemize}
-\item Add ChuckNorris post build action. It will make your code famous and better.
+\item Add \texttt{ChuckNorris} post build action. It will make your code famous and better.
 \end{itemize}
 It displays Chuck Norris facts and a picture of Chuck adapted to your build
 result (seems like the picture is not displayed but why ?)
@@ -1832,11 +1855,11 @@ In our case, we want the results to be displayed as soon as possible, so we choo
 \texttt{\# Leave empty. We don't poll periodically, but need polling enabled to let HTTP trigger work}
 \end{itemize}
 
-Then on the INRIA gforge server, create the post-commit hook \texttt{post-receive}~:
+Then on the INRIA forge server, create the post-commit hook \texttt{post-receive}~:
 
 \begin{lstlisting}
-$ ssh <your gforge login>@scm.gforge.inria.fr
-$ cd /gitroot/tpcisedra/users/<your gforge login>.git/hooks
+$ ssh <yourforgelogin>@scm.gforge.inria.fr
+$ cd /gitroot/tpcisedra/users/<yourforgelogin>.git/hooks
 $ touch post-receive
 $ chmod +x post-receive
 \end{lstlisting}
@@ -1845,13 +1868,13 @@ And then create the executable file \texttt{post-receive} which content is~:
 \begin{lstlisting}[breaklines=true]
 #!/bin/sh
 wget --auth-no-challenge --no-check-certificate -q -O -
-http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<your gforge login>.git
+http://ci.inria.fr/tpcisedra/git/notifyCommit?url=https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourforgelogin>.git
 \end{lstlisting}
 
 %$
 For this, you can copy the following file, and simply modify the login~:
 \begin{lstlisting}[breaklines=true]
-$ cp /gitroot/tpcisedra/users/bremond.git/hooks/post-receive /gitroot/tpcisedra/users/<your gforge login>.git/hooks
+$ cp /gitroot/tpcisedra/users/bremond.git/hooks/post-receive /gitroot/tpcisedra/users/<yourforgelogin>.git/hooks
 \end{lstlisting}
 
 %$
@@ -1983,7 +2006,7 @@ TODO~:
 \item If it goes well, then uncomment the \texttt{make test} line.
 \item Modify the appropriate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors.\\
-  \texttt{cppnit} provides a macro for this~:\\
+  \texttt{cppunit} provides a macro for this~:\\
   \texttt{CPPUNIT\_ASSERT\_DOUBLES\_EQUAL(expected, actual, delta)}.
 \item Once it is OK and the warning has gone, commit.
 \item Rebuild on \texttt{Jenkins} to check.
@@ -2006,7 +2029,7 @@ Coverage with \texttt{gcov} needs the \texttt{GNU C++} compiler and the
 
 \texttt{gcov} generates raw output. We are going to use the \texttt{lcov} utility for the
 post-processing and the generation of \texttt{html} pages and the \texttt{gcovr} utility in
-order to present parsable results to \texttt{Jenkins}.
+order to present parseable results to \texttt{Jenkins}.
 
 A \texttt{CMake} function \texttt{add\_test\_with\_coverage} is provided in the
 \texttt{TP} module to simplify the whole setup.
@@ -2038,7 +2061,7 @@ TODO~:
 \item Generate and visualize the corresponding coverage report.
 \end{itemize}
 
-\subsection{Exercice 3bis (optional)}
+\subsection{Exercise 3bis (optional)}
 
 This is optional, if you prefer, go directly to the static analysis section in page ~\pageref{sec:staticanalysis}.
 
@@ -2050,11 +2073,34 @@ Use another development branch to add a new class \texttt{Alphabet} to our proje
 $ git merge origin/alpha-cxx
 \end{lstlisting}
 
+You should retrieve the following file tree~:
+tree~:\\
+{\centering\small
+            \begin{minipage}[t]{0.3\linewidth}
+\dirtree{%
+  .1 tpcisedra/cxx.
+  .2 CMakeLists.txt.
+  .2 cmake.
+  .3 TP.cmake.
+  .2 Alphabet.hpp.
+  .2 Alphabet.cpp.
+  .2 Sphere.hpp.
+  .2 Sphere.cpp.
+  .2 bench.cpp.
+  .2 tests.
+  .3 CMakeLists.txt.
+  .3 TestTP.hpp.
+  .3 TestTP.cpp.
+  .3 TestMain.cpp.
+}
+\end{minipage}
+}
+
 %$
 
 TODO~:
 \begin{itemize}
-\item Resolve git merge conflits (keep the flags you added, use the new library generation dependency)
+\item Resolve git merge conflicts (keep the flags you added, use the new library generation dependency)
 \item Generate and visualize the corresponding coverage report
 \item Improve the test coverage and commit.
 \end{itemize}
@@ -2072,7 +2118,7 @@ With our library, one can check that the following code is valid but it may not 
 \end{lstlisting}
 
 As the implicit conversion is allowed on the \texttt{Sphere} constructor, the pair of
-\texttt{Sphere} objects \texttt{p} is constitued of the \texttt{Sphere} \texttt{s1} and the \texttt{Sphere} 
+\texttt{Sphere} objects \texttt{p} is composed of the \texttt{Sphere} \texttt{s1} and the \texttt{Sphere} 
 \texttt{Sphere(2)} which is not the same as the pair of \texttt{s1} and \texttt{s2}.
 In the case of a typo in the code source, this may certainly lead to bugs.
 
@@ -2092,7 +2138,7 @@ $ cppcheck <your source directory> -f -q --enable=style
 Beware~: The results we obtain depend on the version of \texttt{cppcheck} !
 
 On the virtual machine configured for \texttt{ci.inria.fr/tpcisedra}, the latest (\texttt{1.71}) \texttt{cppcheck} is installed.
-
+\clearpage
 \subsection{Exercise 4}
 TODO~:
 \begin{itemize}
