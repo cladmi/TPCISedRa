@@ -351,9 +351,11 @@ You should see these lines (among others)~:
 
 
 %--------------------------------------
-\section{Testing your code locally}
+\section{Unit testing}
 
-\subsection{Run the (single) test}
+\subsection{Testing your code locally}
+
+\subsubsection{Run the (single) test}
 \begin{lstlisting}
 $ mvn test
 \end{lstlisting}
@@ -378,9 +380,9 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 
 
 %--------------------------------------
-\section{Testing your code remotely on ci.inria.fr}
+\subsection{Testing your code remotely on ci.inria.fr}
 
-\subsection{Log into the project's Jenkins instance}
+\subsubsection{Log into the project's Jenkins instance}
 \begin{itemize}
 \item Connect to the INRIA Continuous Integration \texttt{Web} portal~: \url{https://ci.inria.fr/}
 \item Log in and click \textbf{\texttt{Dashboard}} in the top menu
@@ -388,7 +390,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 You may be prompted to log into \texttt{Jenkins}, use the same login/passwd as for the \texttt{ci.inria.fr} portal.
 \end{itemize}
 
-\subsection{Create a new Jenkins item}
+\subsubsection{Create a new Jenkins item}
 From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/})~:
 \begin{itemize}
 \item Click \textbf{\texttt{New Item}} in the menu on the left
@@ -396,7 +398,7 @@ From our \texttt{Jenkins} dashboard page (\url{https://ci.inria.fr/tpcisedra/})~
 \item Select \textbf{\texttt{Maven project}}.
 \end{itemize}
 
-\subsection{Git configuration}
+\subsubsection{Git configuration}
 In the \textbf{\texttt{Configuration}} page (which you will be redirected to after clicking \textbf{\texttt{OK}} on the \textbf{\texttt{New Item}} page)~:
 \begin{itemize}
 \item Choose \texttt{git} as your \textbf{\texttt{Source Code Manager}}
@@ -407,20 +409,20 @@ https://scm.gforge.inria.fr/anonscm/git/tpcisedra/users/<yourlogin>.git
 \end{itemize}
 \end{homeworkProblem}
 
-\subsection{Build configuration}
+\subsubsection{Build configuration}
 In the \textbf{\texttt{Build}} section~:
 \begin{itemize}
 \item Change the root \texttt{POM} path to \texttt{java/pom.xml}
 \item Type \texttt{test} in \textbf{\texttt{Goals and options}} section.
 \end{itemize}
 
-\subsection{Save and run}
+\subsubsection{Save and run}
 \begin{itemize}
 \item Click \textbf{\texttt{Save}} at the bottom of the page
 \item Click \textbf{\texttt{Build Now}} in the menu on the left.
 \end{itemize}
 
-\subsection{Check the output}
+\subsubsection{Check the output}
 In the \textbf{\texttt{Build History}} on the left~:
 \begin{itemize}
 \item Click on the last build (hopefully $\#1$)
@@ -430,7 +432,7 @@ In the \textbf{\texttt{Build History}} on the left~:
 
 
 %--------------------------------------
-\section{Exercise 1}
+\subsection{Exercise 1}
 
 Have a look at the code of the method \texttt{Sphere::computeVolume()}.\\
 To do so, edit \texttt{tpcisedra/java/src/main/java/fr/inria/sed/Sphere.java}.
@@ -445,14 +447,12 @@ public double computeVolume1() {
 
 We might want the value~: \verb?4 * Math.PI / 3? to be computed once and for all.
 
-\subsubsection{TODO~:}
+\subsubsection{TODO}
 \begin{itemize}
 \item Extract this value into a class data member
 \item Run the test again. It should fail.
-\end{itemize}
-
 Here is the output you should get~:
-\begin{lstlisting}
+\begin{lstlisting}[breaklines=true]
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -471,13 +471,11 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 [INFO] ------------------------------------------------------------------------
 \end{lstlisting}
 
-\subsubsection{TODO~:}
-\begin{itemize}
 \item Check that tests fail on \texttt{Jenkins} instance.\\
 Hint~: Have you commited and pushed your changes ?
 \end{itemize}
 
-\section{Exercise 2}
+\subsection{Exercise 2}
 
 Why does the test in \texttt{SphereTest.java} fail ?\footnote{This is because of floating point arithmetics \emph{rounding errors}}.
 
@@ -487,7 +485,7 @@ Our response to this issue strongly depends on what kind of application we are w
 \item In other cases, we need not worry about such a small difference and hence do not want to be bothered by tests complaining.
 \end{itemize}
 
-\subsubsection{TODO~:}
+\subsubsection{TODO}
 \begin{itemize}
 \item Find a way to modify the appropriate test in \texttt{SphereTest.java}
 so small rounding differences do not cause errors.
@@ -496,7 +494,7 @@ so small rounding differences do not cause errors.
 
 
 %--------------------------------------
-\section{Test Coverage}
+\section{Code Coverage}
 
 At this stage, all our tests pass. But what does that mean regarding our application ?
 
@@ -522,9 +520,9 @@ Use your favorite \texttt{Web} browser (\texttt{firefox}, \texttt{chrome}, \text
 $ firefox target/site/cobertura/index.html &
 \end{lstlisting}
 
-\section{Exercise 3}
+\subsection{Exercise 3}
 
-\subsubsection{TODO~:}
+\subsubsection{TODO}
 
 \begin{itemize}
 \item Populate your tests to achieve 100\% test coverage.
@@ -548,7 +546,7 @@ Add the following to the file  \texttt{pom.xml}
 
 The report generation is now included in the build life cycle (\textbf{\texttt{site}} phase).
 
-\subsubsection{TODO~:}
+\subsubsection{TODO}
 
 \begin{itemize}
 \item Generate the report~:
@@ -564,13 +562,13 @@ $ firefox target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
-\section{Exercise 3bis - Coverage Report on Jenkins}
+\subsection{Exercise 3bis - Coverage Report on Jenkins}
 
-\subsection{Adding build feedback}
+\subsubsection{Adding build feedback}
 One of the good things with \texttt{Jenkins} is its ability to nicely present your test results. \\
 The tools we used to run tests and code quality checks have been selected based on the availability of the corresponding \texttt{Jenkins} plugins.
 
-\subsection{Add coverage report}
+\subsubsection{Add coverage report}
 \begin{itemize}
 \item Go back to your item's configuration page (use the menu on the left)
 \item In the \textbf{\texttt{Build}} section, add to the \textbf{\texttt{Goals and options}} field~: \\
@@ -584,7 +582,7 @@ The tools we used to run tests and code quality checks have been selected based 
 
 
 
-\section{Add a new class to our project}
+\subsection{Add a new class to our project}
 
 Let's add a new class \texttt{Alphabet} and its test class \texttt{AlphabetTest} to our project~:
 \begin{lstlisting}
@@ -592,7 +590,7 @@ $ git merge origin/alpha
 \end{lstlisting}
 
 
-\section{Exercise 4}
+\subsection{Exercise 4}
 \begin{itemize}
 \item Generate and visualize the corresponding coverage report
 \item Make what changes are necessary to achieve 100\% test coverage
@@ -642,16 +640,16 @@ $ mvn checkstyle:checkstyle -Dcheckstyle.config.location=mygoogle_checks.xml
 
 It is getting better but we might want to make a few changes to this default behaviour.
 
-\section{Exercise 5}
+\subsection{Exercise 5}
 
-\subsubsection{TODO~:}
+\subsubsection{TODO}
 
 \begin{itemize}
 \item  Modify the file \texttt{mygoogle\_checks.xml} so that it accepts single character parameter names.
 \item You may also consider removing trailing underscores from data members or amending \texttt{checkstyle.xml}
 \end{itemize}
 
-\section{Integrate checkstyle to your reporting local Website}
+\subsection{Integrate checkstyle to your reporting local Website}
 
 Add the following to the file \texttt{pom.xml}
 \begin{lstlisting}
@@ -671,7 +669,7 @@ Add the following to the file \texttt{pom.xml}
 
 The check style report is now included in the build life cycle (\textbf{\texttt{site}} phase).
 
-\subsubsection{TODO~:}
+\subsubsection{TODO}
 
 \begin {itemize}
 \item Generate the report~:
@@ -686,9 +684,9 @@ $ firefox target/site/project-reports.html &
 \end{lstlisting}
 \end{itemize}
 
-\section{Exercise 5bis - Checkstyle Report on Jenkins}
+\subsection{Exercise 5bis - Checkstyle Report on Jenkins}
 
-\subsubsection{TODO~:}
+\subsubsection{TODO}
 \begin{itemize}
 \item Go back to your item's \textbf{\texttt{configuration}} page.
 \item In the \textbf{\texttt{Build}} section, add to the \texttt{Goals and options} field~:\\
@@ -1913,8 +1911,13 @@ TODO~:
 \item In the \texttt{CMake} configuration file, \texttt{CMakeLists.txt}, include the \texttt{TP} module.
 \item With the provided \texttt{CMake TP} macro, add the compiler warning to the \texttt{CMake} configuration,
 \item Verify that the warning is printed during compilation.
-\item In \texttt{Jenkins}, add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project. In the \textbf{\texttt{Execute shell}} section, comment the line \texttt{make test}. This is necessary because as the test is failing, the parsing won't be done by Jenkins.
-\item Commit the code in order to check the parsing done by \texttt{Jenkins}, then uncomment the \texttt{make test} line.
+\item In \texttt{Jenkins}~:
+\begin{itemize}
+\item Add the scan for compiler warnings in the \textbf{\texttt{Post build Action}} of your project.
+\item In the \textbf{\texttt{Execute shell}} section, comment the line \texttt{make test}. This is necessary because as the test is failing, the parsing will not be done by \texttt{Jenkins}.
+\end{itemize}
+\item Commit the code in order to check the parsing done by \texttt{Jenkins}
+\item If it goes well, then uncomment the \texttt{make test} line.
 \item Modify the appropriate test in \texttt{TestTP.cpp} so small rounding
   differences do not cause errors.\\
   \texttt{cppnit} provides a macro for this~:\\
@@ -1933,7 +1936,7 @@ TODO~:
 Here we get a taste of some dynamics analysis. After the tests are
 executed, the code coverage tools (mainly \texttt{gcov}) show which lines of code have been involved in the execution.
 
-\subsection{Installation}
+\subsection{Gcov, lcov, gcovr}
 
 Coverage with \texttt{gcov} needs the \texttt{GNU C++} compiler and the
 \texttt{-fprofile-arcs} and \texttt{-ftest-coverage} options.
@@ -1949,34 +1952,44 @@ This function, when used in place of the standard \texttt{CMake} function
 \texttt{add\_test} function, provides coverage support through a new
 \texttt{make coverage} target.
 \\
-Remark~: You can see all \texttt{make} targets using~: \texttt{make help}.
-%$
+Remark~:
+\begin{itemize}
+\item You can see all \texttt{make} targets using~: \texttt{make help}.
+\end{itemize}
+% $
 
-\subsubsection{Exercise 3}
+\subsection{Exercise 3}
 
 TODO~:
 \begin{itemize}
 \item Install coverage for the test routine \texttt{TestVolume}. In the \texttt{CMake} configurations files, you need to set the coverage flags for the build of the library and the test file with the \texttt{add\_cxx\_compiler\_flag}.
 \item Run a test with \texttt{make coverage}
 \item Open the file \texttt{index.html} under \texttt{TestTP\_\_testVolume} directory with a \texttt{Web} browser to see the result
-\item On the \texttt{Jenkins} side, modify the build process in \textbf{\texttt{Execute shell}} to add coverage target
-\item And in \textbf{\texttt{Post-Build Actions}}, add \textbf{\texttt{Publish Cobertura Report}} with the \texttt{Cobertura xml} report pattern set to~:\\
+\item On the \texttt{Jenkins} side~:
+\begin{itemize}
+\item Modify the build process in \textbf{\texttt{Execute shell}} to add coverage target
+\item In \textbf{\texttt{Post-Build Actions}}, add \textbf{\texttt{Publish Cobertura Report}} with the \texttt{Cobertura xml} report pattern set to~:\\
 \texttt{**/coverage.xml}
-\item Commit.
+\end{itemize}
+\item Commit
+\item Generate and visualize the corresponding coverage report.
 \end{itemize}
 
-Let's test if it works with more than one class. This is optional, if you prefer go directly to the Static analysis section.
+\subsection{Exercice 3bis (optional)}
 
-Thanks to another development branch, we add a new class \texttt{Alphabet} to
-our project~:
-\begin{lstlisting}
+This is optional, if you prefer, go directly to the static analysis section in page ~\pageref{sec:staticanalysis}.
+
+Let's check if it works with more than one \texttt{C++} class.
+
+Use another development branch to add a new class \texttt{Alphabet} to our project~:
 %%% to be verified !!!
-$ git merge tpcisedmain/alpha-cxx
+\begin{lstlisting}
+$ git merge origin/alpha-cxx
 \end{lstlisting}
 
 %$
 
-\subsubsection{Exercise 4}
+TODO~:
 \begin{itemize}
 \item Generate and visualize the corresponding coverage report
 \item Improve the test coverage and commit.
@@ -1984,6 +1997,7 @@ $ git merge tpcisedmain/alpha-cxx
 
 %--------------------------------------
 \section{Static analysis}
+\label{sec:staticanalysis}
 
 With our library, one can check that the following code is valid but it may not be what the programmer intended~:
 
@@ -2000,25 +2014,34 @@ In the case of a typo in the code source, this may certainly lead to bugs.
 
 A static code analysis may help in the discovery of those potentials bugs.
 
-\paragraph{Use of cppcheck}
+\subsection{cppcheck}
 
-With \texttt{cppcheck} tool applied on our project, one can simply get a report using the command~:
+\texttt{cppcheck} is a command-line tool dedicated to static \texttt{C/C++} code analysis. It tries to detect bugs that your \texttt{C/C++} compiler does not see. It is versatile, and can check non-standard code including various compiler extensions, inline assembly code, etc. Its internal preprocessor can handle includes, macros, and several preprocessor commands.
 
+
+Applying this tool on our project, we get an analysis report using the command~:
 \begin{lstlisting}
 $ cppcheck <your source directory> -f -q --enable=style
 \end{lstlisting}
 
 %$
 
-The results we obtain depends on the version of \texttt{cppcheck} !
+Beware~: The results we obtain depend on the version of \texttt{cppcheck} !
 
 On the virtual machine configured for \texttt{ci.inria.fr/tpcisedra}, the latest (\texttt{1.71}) \texttt{cppcheck} is installed.
 
-\subsubsection{Exercise 5}
+\subsection{Exercise 4}
+TODO~:
 \begin{itemize}
-\item Install this check on \texttt{Jenkins} (modify the \textbf{\texttt{Build}}section \textbf{\texttt{Execute shell}} field plus add a \textbf{\texttt{Post-build Action}} for publishing \texttt{cppcheck} results). Beware~: change the \texttt{cppcheck} command argument so it generates an \texttt{XML} output with (\texttt{--xml} option and redirect the standard error to a file named
+\item Test the command given below on your project locally
+\item Install this check on \texttt{Jenkins}~:
+\begin{itemize}
+\item Modify the \textbf{\texttt{Build}} section \textbf{\texttt{Execute shell}} field to call \texttt{cppcheck}
+\item Add a \textbf{\texttt{Post-build Action}} for publishing \texttt{cppcheck} results. 
+\end{itemize}
+Beware~: change the \texttt{cppcheck} command argument so it generates an \texttt{XML} output (use \texttt{--xml} option) and redirect the standard error to a file named
   \texttt{cppcheck-result.xml}.\\
-\texttt{Jenkins} can read this file if configured properly if the appropriate \textbf{\texttt{post-build}} action is set.
+\texttt{Jenkins} can read this file if configured properly and if the appropriate \textbf{\texttt{post-build}} action is set.
 \item Fix some warnings and commit.
 \end{itemize}
 
