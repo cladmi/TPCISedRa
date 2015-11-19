@@ -2023,7 +2023,6 @@ A static code analysis may help in the discovery of those potentials bugs.
 
 \texttt{cppcheck} is a command-line tool dedicated to static \texttt{C/C++} code analysis. It tries to detect bugs that your \texttt{C/C++} compiler does not see. It is versatile, and can check non-standard code including various compiler extensions, inline assembly code, etc. Its internal preprocessor can handle includes, macros, and several preprocessor commands.
 
-
 Applying this tool on our project, we get an analysis report using the command~:
 \begin{lstlisting}
 $ cppcheck <your source directory> -f -q --enable=style
