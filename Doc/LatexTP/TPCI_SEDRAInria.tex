@@ -288,7 +288,7 @@ First, you will create your personal \texttt{git} repository on the INRIA forge 
 \begin{itemize}
 \item Go to \url{https://gforge.inria.fr/projects/tpcisedra/}
 \item Click on the \textbf{\texttt{CODE SOURCE}} or \textbf{\texttt{SCM}} tab
-\item Click on \textbf{\texttt{Create a personal repository}}
+\item Click on \textbf{\texttt{Request a personal repository}}
 \item Back to the \textbf{\texttt{SCM}} tab, look for the command to access your personal repository.
 \end{itemize}
 
@@ -620,9 +620,9 @@ Indeed, our coding style is closer to \texttt{Google} style than it is to \textt
 \subsection{Run Google style checker}
 
 \begin{itemize}
-\item Retrieve a local copy of \texttt{Google} checks
+\item Retrieve a local copy of \texttt{Google} checks into file \texttt{mygoogle\_checks.xml}~:
 \begin{lstlisting}[breaklines=true]
-$ wget https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml mygoogle_checks.xml
+$ wget -O mygoogle_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
 \end{lstlisting}
 \item Try running \texttt{Google} style checker
 \begin{lstlisting}
@@ -689,8 +689,12 @@ $ firefox target/site/project-reports.html &
 \subsubsection{TODO}
 \begin{itemize}
 \item Go back to your item's \textbf{\texttt{configuration}} page.
-\item In the \textbf{\texttt{Build}} section, add to the \texttt{Goals and options} field~:\\
+\item In the \textbf{\texttt{Build}} section, 
+\begin{itemize}
+\item Add to the \texttt{Goals and options} field~:\\
 \texttt{checkstyle:checkstyle -Dcheckstyle.config.location=mygoogle\_checks.xml}
+\item Or change all the \texttt{Goals and options} field to ~: \texttt{site}
+\end{itemize}
 \item In the \textbf{\texttt{Build Settings}} section, check the \textbf{\texttt{Publish Checkstyle analysis results}} box.
 \item Save and run the test.
 \item Check the output~: in the \textbf{\texttt{Build History}} on the left, click on the last build, you should have a new entry named \textbf{\texttt{Checkstyle Warnings}}. Have a look at it.
@@ -735,7 +739,7 @@ First, you will create your personal \texttt{git} repository on the INRIA forge 
 \begin{itemize}
 \item Go to \url{https://gforge.inria.fr/projects/tpcisedra/}
 \item Click on the \textbf{\texttt{CODE SOURCE}} or \textbf{\texttt{SCM}} tab
-\item Click on \textbf{\texttt{Create a personal repository}}
+\item Click on \textbf{\texttt{Request a personal repository}}
 \item Back to the \textbf{\texttt{SCM}} tab, look for the command to access your personal repository.
 \end{itemize}
 
@@ -1583,7 +1587,7 @@ First, you will create your personal \texttt{git} repository on the INRIA forge 
 \begin{itemize}
 \item Go to \url{https://gforge.inria.fr/projects/tpcisedra/}
 \item Click on the \textbf{\texttt{CODE SOURCE}} or \textbf{\texttt{SCM}} tab
-\item Click on \textbf{\texttt{Create a personal repository}}
+\item Click on \textbf{\texttt{Request a personal repository}}
 \item Back to the \textbf{\texttt{SCM}} tab, look for the command to access your personal repository.
 \end{itemize}
 
@@ -1991,6 +1995,7 @@ $ git merge origin/alpha-cxx
 
 TODO~:
 \begin{itemize}
+\item Resolve git merge conflits (keep the flags you added, use the new library generation dependency)
 \item Generate and visualize the corresponding coverage report
 \item Improve the test coverage and commit.
 \end{itemize}
