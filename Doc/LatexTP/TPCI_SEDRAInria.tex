@@ -805,7 +805,6 @@ nice \verb=build|passing= icon on \texttt{github}~: \includegraphics[height=10pt
 Your goal is to create a package, named \texttt{tp\_ci\_sed}, with a \texttt{sphere} submodule
 and a command line interface (or \texttt{cli}) script to run it.
 
-
 \subsubsection{Exercise 1}
 
 \begin{itemize}
@@ -1056,10 +1055,9 @@ post-commit hook~: \footnote{It is explained in \url{ci.inria.fr} documentation 
 \item Click on \textbf{\texttt{Poll SCM}}
 \item In the \textbf{\texttt{Schedule}} field, cut and paste~:\\
 \texttt{\# Leave empty. We don't poll periodically, but need polling enabled to let HTTP trigger work}
+\item Click on \textbf{\texttt{Apply}}
 \end{itemize}
 
-
-Click on \textbf{\texttt{Apply}}
 
 \subsubsection{Inria forge server git hook configuration}
 
@@ -1073,15 +1071,13 @@ $ chmod +x post-receive
 \end{lstlisting}
 
 And then create the executable file \texttt{post-receive}~:
-
 %%
 For this, you can copy the following file, and simply modify the login in the script:
 \begin{lstlisting}[breaklines=true]
 $ cp /gitroot/tpcisedra/users/bremond.git/hooks/post-receive /gitroot/tpcisedra/users/<yourforgelogin>.git/hooks
 \end{lstlisting}
 
-Content should look like
-
+Content should look like~:
 \begin{lstlisting}[breaklines=true]
 #!/bin/sh
 wget --auth-no-challenge --no-check-certificate -q -O -
@@ -1098,7 +1094,7 @@ in the job configuration on Jenkins.
 \begin{description}
   \item[Note] Using Virtualenv Builder will put the code execution in a separated
     \texttt{Python} \texttt{virtualenv} environment.  This will give a clean
-    python installation and allow installing packages for this build .
+    \texttt{Python} installation and allow installing packages for this build .
 \end{description}
 
 Now in this field, you inform \texttt{Jenkins} how to build and test the project.
@@ -1326,7 +1322,6 @@ A solution is to create a symbolic link to the source directory.
 \begin{lstlisting}
 # Hack to help cobertura find source files
 $ ln  -nfs python/tp_ci_sed  tp_ci_sed
-
 \end{lstlisting}
 \item Commit your code and push
 \item Manually re-run a build to get \texttt{Cobertura} plugin graph (it needs more than one build)
@@ -1476,10 +1471,9 @@ the \texttt{setup.py} execution with \texttt{tox}.
 
 \begin{lstlisting}
 # Hack to help \texttt{Cobertura} find source files
-$ ln  -nfs python/tp_ci_sed  tp_ci_sed
-
+ln  -nfs python/tp_ci_sed  tp_ci_sed
 pip install --quiet --upgrade tox
-cd pthon
+cd python
 tox
 \end{lstlisting}
 \item Re-run the build.
@@ -1498,7 +1492,7 @@ If everything succeeds, and you can test using \texttt{python3} (\texttt{Python}
 \item Use \texttt{envlist = py27,py32} (for \texttt{Python}3.2)
 \item Re-run \texttt{tox}.
 \end{itemize}
-Tests should fail for python3, at least for the \texttt{print} statement.
+Tests should fail for \texttt{Python}3, at least for the \texttt{print} statement.
 
 However, you see how easy it is to test your code on different \texttt{Python} versions.
 Making a code working for \texttt{python2} and \texttt{python3} requires some time, but at least it is easy to test.
@@ -1510,28 +1504,27 @@ Making a code working for \texttt{python2} and \texttt{python3} requires some ti
     \item[mock] \url{http://www.voidspace.org.uk/python/mock/index.html}
 \end{description}
 
-When testing, it is useful to replace some part of your application under test.
-to prevent its side effect, like connection to an external service, or
-make an \texttt{open} call raise an exception,
+When testing, it is useful to replace some part of your application under test 
+to prevent its side effect, like connection to an external service, or 
+make an \texttt{open} call raise an exception.
 
-It's possible to fill your whole hard-drive to get an \texttt{IOError: No space left on device}
+It is possible to fill your whole hard-drive to get an \texttt{IOError: No space left on device}
 but it might be better to just modify \texttt{open} to simulate it to test your code.
 
-It is also useful to be able to know how an object has been used or a function been called.
-Like testing what has been printed by your program.
+It is also useful to be able to know how an object has been used or a function been called,
+the same way as testing what has been printed by your program.
 
 \paragraph{}In this section you will see \texttt{mock} to test the \texttt{main} function
 and verify the printed output.
 
-\paragraph{Testing main} In this case testing the \texttt{main} function which
-is like calling the \texttt{sphere} script from command line, means:
+\paragraph{Testing main} In this case, testing the \texttt{main} function ie 
+calling the \texttt{sphere} script from command line, means~:
 \begin{itemize}
-  \item Set the command line arguments to some values: \texttt{sys.argv}
-  \item Verify the printed text: in files \texttt{sys.stdout} and \texttt{sys.stderr}
+  \item Set the command line arguments to some values~: \texttt{sys.argv}
+  \item Verify the printed text~: in files \texttt{sys.stdout} and \texttt{sys.stderr}
 \end{itemize}
 
-Testing
-
+Install \texttt{mock} dependency~: 
 \begin{itemize}
 \item  Install the dependency on your system. It will be installed by
 \texttt{tox} in the test environment.
@@ -2068,13 +2061,11 @@ This is optional, if you prefer, go directly to the static analysis section in p
 Let's check if it works with more than one \texttt{C++} class.
 
 Use another development branch to add a new class \texttt{Alphabet} to our project~:
-%%% to be verified !!!
 \begin{lstlisting}
 $ git merge origin/alpha-cxx
 \end{lstlisting}
 
-You should retrieve the following file tree~:
-tree~:\\
+You should retrieve the following file tree~:\\
 {\centering\small
             \begin{minipage}[t]{0.3\linewidth}
 \dirtree{%
