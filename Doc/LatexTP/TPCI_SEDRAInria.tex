@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Programmin/Coding Assignment
+% Programming/Coding Assignment
 % LaTeX Template
 %
 % This template has been downloaded from:
@@ -223,7 +223,7 @@
 %----------------------------------------------------------------------------------------
 
 \newcommand{\hmwkTitle}{Java/C++/Python Exercises} % Assignment title
-\newcommand{\hmwkDueDate}{Tuesday,\ November\ 17,\ 2015} % Due date
+\newcommand{\hmwkDueDate}{Tuesday,\ December\ 08,\ 2015} % Due date
 \newcommand{\hmwkClass}{Continuous Integration Seminar} % Course/class
 \newcommand{\hmwkClassTime}{13h30} % Class/lecture time
 \newcommand{\hmwkClassInstructor}{\url{http://sed.inrialpes.fr}} % Teacher/lecturer
@@ -303,7 +303,7 @@ $ cd <yourlogin>/java
 \end{lstlisting}
 
 \
-You should retrieve the following file tree~:\\
+You should have retrieved the following file tree~:\\
 {\centering\small
             \begin{minipage}[t]{0.3\linewidth}
 \dirtree{%
@@ -447,7 +447,6 @@ public double computeVolume1() {
 
 We might want the value~: \verb?4 * Math.PI / 3? to be computed once and for all.
 
-\subsubsection{TODO}
 \begin{itemize}
 \item Extract this value into a class data member
 \item Run the test again. It should fail.
@@ -477,7 +476,7 @@ Hint~: Have you commited and pushed your changes ?
 
 \subsection{Exercise 2}
 
-Why does the test in \texttt{SphereTest.java} fail ?\footnote{This is because of floating point \emph{arithmetics rounding errors}}.
+Why does the test in \texttt{SphereTest.java} fail ?\footnote{This is because of \emph{floating point arithmetics rounding errors}}.
 
 Our response to this issue strongly depends on what kind of application we are working on~:
 \begin{itemize}
@@ -485,7 +484,6 @@ Our response to this issue strongly depends on what kind of application we are w
 \item In other cases, we need not worry about such a small difference and hence do not want to be bothered by tests complaining.
 \end{itemize}
 
-\subsubsection{TODO}
 \begin{itemize}
 \item Find a way to modify the appropriate test in \texttt{SphereTest.java}
 so small rounding differences do not cause errors.
@@ -522,8 +520,6 @@ $ firefox target/site/cobertura/index.html &
 
 \subsection{Exercise 3}
 
-\subsubsection{TODO}
-
 \begin{itemize}
 \item Populate your tests to achieve 100\% test coverage.
 \end{itemize}
@@ -545,8 +541,6 @@ Add the following to the file  \texttt{pom.xml}
 \end{lstlisting}
 
 The report generation is now included in the build life cycle (\textbf{\texttt{site}} phase).
-
-\subsubsection{TODO}
 
 \begin{itemize}
 \item Generate the report~:
@@ -617,7 +611,8 @@ You should have the following file tree~:\\
 \subsection{Exercise 4}
 \begin{itemize}
 \item Generate and visualize the corresponding coverage report
-\item Make what changes are necessary to achieve 100\% test coverage
+\item Make what changes are necessary to achieve 100\% test coverage\\
+Hint~: you may not need any additional tests ;)
 \item Check that you get the same results on \texttt{Jenkins}.
 \end{itemize}
 
@@ -643,33 +638,37 @@ Indeed, our coding style is closer to \texttt{Google} style than it is to \textt
 
 \subsection{Run Google style checker}
 
-\begin{itemize}
-\item Retrieve a local copy of \texttt{Google} checks into file \texttt{mygoogle\_checks.xml}~:
-\begin{lstlisting}[breaklines=true]
-$ wget -O mygoogle_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/18f6ebbcad23e88e3ae30fc79be464b8b7772a0d/google_checks.xml
-\end{lstlisting}
-\item Try running \texttt{Google} style checker
+Try running with Google checks (provided by the plugin)
 \begin{lstlisting}
 $ pwd
 yourpath/tpcisedra/java
-$ mvn checkstyle:checkstyle -Dcheckstyle.config.location=mygoogle_checks.xml
+$ mvn checkstyle:checkstyle -Dcheckstyle.config.location=google_checks.xml
 \end{lstlisting}
-%NOTE~: this can also be achieved by adding the following lines to your \texttt{pom.xml}~:
-%\begin{lstlisting}
-%  <properties>
-%    <checkstyle.config.location>mygoogle_checks.xml</checkstyle.config.location>
-%  </properties>
-%\end{lstlisting}
-\end{itemize}
+NOTE~: this can also be achieved by adding the following lines to your pom.xml~:
+\begin{lstlisting}
+  <properties>
+    <checkstyle.config.location>google_checks.xml</checkstyle.config.location>
+  </properties>
+\end{lstlisting}
 
 It is getting better but we might want to make a few changes to this default behavior.
 
 \subsection{Exercise 5}
 
-\subsubsection{TODO}
+\subsection{Make your own custom style checker}
 
 \begin{itemize}
-\item  Modify the file \texttt{mygoogle\_checks.xml} so that it accepts single character parameter names.
+\item Retrieve a local copy of google checks (name it \texttt{custom\_checks.xml})
+\begin{lstlisting}
+$ wget -O custom_checks.xml http://tinyurl.com/z9pfdlx
+\end{lstlisting}
+\item Tell maven to use this config file by changing the value of variable \texttt{checkstyle.config.location}:
+\begin{lstlisting}
+$ pwd
+yourpath/tpcisedra/java
+$ mvn checkstyle:checkstyle -Dcheckstyle.config.location=custom_checks.xml
+\end{lstlisting}
+\item Modify the file \texttt{custom\_checks.xml} so that it accepts single character parameter names.
 \item You may also consider removing trailing underscores from data members or amending \texttt{checkstyle.xml}
 \end{itemize}
 
@@ -684,7 +683,7 @@ Add the following to the file \texttt{pom.xml}
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.16</version>
         <configuration>
-          <configLocation>mygoogle_checks.xml</configLocation>
+          <configLocation>custom_checks.xml</configLocation>
         </configuration>
       </plugin>
     </plugins>
@@ -692,8 +691,6 @@ Add the following to the file \texttt{pom.xml}
 \end{lstlisting}
 
 The check style report is now included in the build life cycle (\textbf{\texttt{site}} phase).
-
-\subsubsection{TODO}
 
 \begin {itemize}
 \item Generate the report~:
@@ -710,13 +707,12 @@ $ firefox target/site/project-reports.html &
 
 \subsection{Exercise 5bis - Checkstyle Report on Jenkins}
 
-\subsubsection{TODO}
 \begin{itemize}
 \item Go back to your item's \textbf{\texttt{configuration}} page.
 \item In the \textbf{\texttt{Build}} section, 
 \begin{itemize}
 \item Add to the \texttt{Goals and options} field~:\\
-\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=mygoogle\_checks.xml}
+\texttt{checkstyle:checkstyle -Dcheckstyle.config.location=custom\_checks.xml}
 \item Or change all the \texttt{Goals and options} field to ~: \texttt{site}
 \end{itemize}
 \item In the \textbf{\texttt{Build Settings}} section, check the \textbf{\texttt{Publish Checkstyle analysis results}} box.
